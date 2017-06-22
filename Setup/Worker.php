@@ -18,8 +18,6 @@ class Worker
 
     public function activate()
     {
-        ipDb()->execute("DROP TABLE $this->trackTable;");
-        ipDb()->execute("DROP TABLE $this->courseTable;");
         $this->initTrackTable($this->trackTable);
 //        $this->initTrackOrderTable($this->trackOrderTable);
         $this->initCourseTable($this->courseTable);
@@ -27,27 +25,32 @@ class Worker
 
     public function remove()
     {
-//        ipDb()->execute("DROP TABLE $this->trackTable;");
+        ipDb()->execute("DROP TABLE $this->trackTable;");
 //        ipDb()->execute("DROP TABLE $this->trackOrderTable;");
-//        ipDb()->execute("DROP TABLE $this->courseTable;");
+        ipDb()->execute("DROP TABLE $this->courseTable;");
     }
+
 
     private function initCourseTable($table)
     {
         $sql = "
         CREATE TABLE IF NOT EXISTS $table (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `title` VARCHAR (255) NULL,
+          `course_id` int(11) NOT NULL AUTO_INCREMENT,
+          `title` VARCHAR (255) NOT NULL,
           `short_description` VARCHAR (255) NULL,
           `long_description` TEXT NULL,
           `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `thumbnail` VARCHAR(255) NULL,
+          `large_thumbnail` VARCHAR (255) NULL,
           `price` FLOAT NULL,
+          `video` VARCHAR (255) NULL,
+          `track_id` INT(11) NOT NULL,
           
           FOREIGN KEY (`track_id`)
-            REFERENCES $this->trackTable (`id`),
+            REFERENCES $this->trackTable (`track_id`),
           
-          PRIMARY KEY (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+          PRIMARY KEY (`course_id`)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
     }
 
@@ -55,15 +58,17 @@ class Worker
     {
         $sql = "
         CREATE TABLE IF NOT EXISTS $table (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `track_id` int(11) NOT NULL AUTO_INCREMENT,
           `title` VARCHAR (255) NULL,
           `short_description` VARCHAR (255) NULL,
           `long_description` TEXT NULL,
           `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `thumbnail` VARCHAR(255) NULL,
+          `large_thumbnail` VARCHAR(255) NULL,
           `price` FLOAT NULL,
           
-          PRIMARY KEY (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+          PRIMARY KEY (`track_id`)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
         ipDb()->execute($sql);
     }

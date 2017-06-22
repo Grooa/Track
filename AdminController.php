@@ -9,10 +9,112 @@ namespace Plugin\Track;
 class AdminController
 {
 
+    /**
+     * @ipSubmenu Tracks
+     */
     public function index()
     {
+        // Docs: https://www.impresspages.org/docs/grid
         $config = [
-            'table' => 'track'
+            'table' => 'track',
+            'idField' => 'track_id',
+            'fields' => [
+                [
+                    'field' => 'title',
+                    'label' => 'Title',
+                    'validators' => ['Required']
+                ],
+                [
+                    'field' => 'price',
+                    'label' => 'Price',
+                    'type' => 'Currency'
+                ],
+                [
+                    'field' => 'short_description',
+                    'label' => 'Short Description',
+                    'hint' => 'Used on listing',
+                    'type' => 'RichText'
+                ],
+                [
+                    'field' => 'long_description',
+                    'label' => 'Long Description',
+                    'type' => 'RichText',
+                    'validators' => ['Required']
+                ],
+                [
+                    'field' => 'thumbnail',
+                    'label' => 'Thumbnail',
+                    'hint' => 'Used in smaller tiles',
+                    'type' => 'RepositoryFile',
+                    'preview' => true
+                ],
+                [
+                    'field' => 'large_thumbnail',
+                    'label' => 'Large Thumbnail',
+                    'type' => 'RepositoryFile',
+                    'preview' => true
+                ]
+            ],
+            'pageSize' => 15
+        ];
+
+        return ipGridController($config);
+    }
+
+    /**
+     * @ipSubmenu Courses
+     */
+    public function courses() {
+        // Docs: https://www.impresspages.org/docs/grid
+        $config = [
+            'table' => 'course',
+            'idField' => 'course_id',
+            'fields' => [
+                [
+                    'field' => 'title',
+                    'label' => 'Title'
+                ],
+                [
+                    'field' => 'price',
+                    'label' => 'Price',
+                    'type' => 'Currency'
+                ],
+                [
+                    'field' => 'short_description',
+                    'label' => 'Short Description',
+                    'type' => 'RichText'
+                ],
+                [
+                    'field' => 'long_description',
+                    'label' => 'Long Description',
+                    'type' => 'RichText'
+                ],
+                [
+                    'field' => 'video',
+                    'label' => 'Video',
+                    'type' => 'RepositoryFile',
+                    'preview' => true
+                ],
+                [
+                    'field' => 'thumbnail',
+                    'label' => 'Thumbnail',
+                    'type' => 'RepositoryFile',
+                    'preview' => true
+                ],
+                [
+                    'field' => 'large_thumbnail',
+                    'label' => 'Large Thumbnail',
+                    'type' => 'RepositoryFile',
+                    'preview' => true
+                ],
+                [
+                    'field' => 'track_id',
+                    'label' => 'Track',
+                    'type' => 'Select',
+                    'values' => Model::findWithIdAndTitle()
+                ]
+            ],
+            'pageSize' => 15
         ];
 
         return ipGridController($config);

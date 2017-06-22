@@ -20,3 +20,14 @@ $routes['tracks/{trackId}'] = [
     'controller' => 'SiteController',
     'action' => 'retrieveTrack'
 ];
+
+/**
+ * Sends the user to the specific course site,
+ * where videos and other information are available.
+ * Page requires a user, and that the track is purchased
+ */
+$routes['tracks/{trackId}/course/{courseId}'] = [
+    'name' => 'Course_retrieve',
+    'controller' => 'SiteController',
+    'action' => 'retrieveCourse'
+];
