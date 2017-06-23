@@ -5,9 +5,10 @@
 
 namespace Plugin\Track;
 
-
 class AdminController
 {
+
+    private $fileRoot = 'file/secure/videos';
 
     /**
      * @ipSubmenu Tracks
@@ -92,7 +93,10 @@ class AdminController
                 [
                     'field' => 'video',
                     'label' => 'Video',
-                    'type' => 'RepositoryFile',
+                    'single' => true,
+                    'required' => true,
+                    'root' => $this->fileRoot, // Save course videos, in a private folder
+                    'type' => 'Plugin\Track\SecureFile',
                     'preview' => true
                 ],
                 [
@@ -114,7 +118,10 @@ class AdminController
                     'values' => Model::findWithIdAndTitle()
                 ]
             ],
-            'pageSize' => 15
+            'pageSize' => 15,
+            'beforeDelete' => function($id) {
+                CourseModel::removeVideos($id, $this->fileRoot);
+            }
         ];
 
         return ipGridController($config);

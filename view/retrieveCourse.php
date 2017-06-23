@@ -10,3 +10,8 @@
         Your device do not support video playback
     </video>
 </section>
+
+<section>
+    <h2>Resources</h2>
+
+</section>
