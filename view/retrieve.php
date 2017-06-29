@@ -4,7 +4,6 @@
  * including it's sub-courses
  */
 
-ipAddCss('../assets/retrieve.css');
 ?>
 <h1><?= $track['title'] ?></h1>
 <div class="introduction"><?= $track['long_description'] ?></div>
