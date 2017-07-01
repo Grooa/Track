@@ -1,11 +1,13 @@
 <?php
-
 namespace Plugin\Track;
 
 use Ip\Exception;
 
 class SiteController
 {
+
+    public function __construct() { }
+
     public function listTracks() {
         $tracks = Service::findAll();
 
@@ -19,7 +21,12 @@ class SiteController
             throw new Exception('No such Track ' . $trackId);
         }
 
-        $layout = new \Ip\Response\Layout(ipView('view/retrieve.php', ['track' => $track])->render());
+        $layout = new \Ip\Response\Layout(
+            ipView('view/retrieve.php',
+            [
+                'track' => $track
+            ]
+        )->render());
         $layout->setLayout('track.php');
 
         // Set background image
@@ -35,7 +42,26 @@ class SiteController
             throw new exception('Cannot find track or course');
         }
 
-        $layout = new \Ip\Response\Layout(ipView('view/retrieveCourse.php', ['track' => $track, 'course' => $track['course']])->render());
+        if (!ipUser()->isLoggedIn()) {
+            throw new Exception('You must login to view this course');
+        }
+
+        // TODO:ffl - Implement 403 Response page
+        if (!TrackProtector::canAccess(ipUser(), $track)) {
+            throw new Exception("You must pay to access this course");
+        }
+
+        $uri = AwsS3Model::getPresignedUri(
+            'courses/videos/Archer.S08E04.Ladyfingers.720p.WEB.x264-[MULVAcoded].mp4');
+
+        $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url
+
+        $layout = new \Ip\Response\Layout(ipView('view/retrieveCourse.php',
+            [
+                'track' => $track,
+                'course' => $track['course']
+            ])->render()
+        );
         $layout->setLayout('track.php');
 
         $layout->setLayoutVariable('coverImage', $track['course']['large_thumbnail']);

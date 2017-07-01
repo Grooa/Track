@@ -4,5 +4,60 @@
   "version": "1.00",
   "name": "Track",
   "description": "Track is a plugin",
-  "author": "Fredrik F. Lindhagen"
+  "author": "Fredrik F. Lindhagen",
+  "options": [
+    {
+      "label": "AWS Region",
+      "name": "region",
+      "required": true,
+      "type": "Select",
+      "values": [
+        ["us-east-2", "US East (Ohio)"],
+        ["us-east-1", "US East (N. Virginia)"],
+        ["us-west-1", "US West (N. California)"],
+        ["us-west-2", "US West (Oregon)"],
+        ["ap-south-1", "Asia Pacific (Mumbai)"],
+        ["ap-northeast-2", "Asia Pacific (Seoul)"],
+        ["ap-southeast-1", "Asia Pacific (Singapore)"],
+        ["ap-southeast-2", "Asia Pacific (Sydney)"],
+        ["ap-northeast-1", "Asia Pacific (Tokyo)"],
+        ["ca-central-1", "Canada (Central)"],
+        ["eu-central-1", "EU (Frankfurt)"],
+        ["eu-west-1", "EU (Ireland)"],
+        ["eu-west-2", "EU (London)"],
+        ["sa-east-1", "South America (São Paulo)"]
+      ]
+    },
+    {
+      "label": "AWS S3 Version",
+      "name": "version",
+      "type": "Text",
+      "default": "latest"
+    },
+    {
+      "label": "AWS S3 Bucket",
+      "name": "awsS3Bucket",
+      "type": "Text",
+      "hint": "Used as default bucket"
+    },
+    {
+      "label": "AWS S3 Credential Key",
+      "name": "awsKey",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "label": "AWS S3 Credential Secret",
+      "name": "awsSecret",
+      "type": "Text",
+      "required": true
+    },
+    {
+      "label": "AWS S3 Presigned url expiration time",
+      "name": "awsUrlExpiration",
+      "hint": "The default expiration time for presigned URIs, can also be added directly when calling getPresignedUri()",
+      "type": "Text",
+      "default": "+20 minutes"
+    }
+  ]
 }

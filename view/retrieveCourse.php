@@ -6,7 +6,7 @@
 
 <section>
     <video width="500" height="200" controls>
-        <source src="<?=ipFileUrl('file/repository/' . $course['video'])?>" type="video/mp4">
+        <source src="<?=$course['video']?>" type="video/mp4">
         Your device do not support video playback
     </video>
 </section>
