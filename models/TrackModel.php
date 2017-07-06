@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Plugin\Track;
+namespace Plugin\Track\Models;
 
-class Model {
+class TrackModel {
 
     public static
         $trackTable = 'track',
@@ -30,23 +30,23 @@ class Model {
     }
 
     public static function findAll() {
-        return ipDb()->selectAll(Model::$trackTable, '*', [], "ORDER BY `created` DESC");
+        return ipDb()->selectAll(TrackModel::$trackTable, '*', [], "ORDER BY `createdOn` DESC");
     }
 
     public static function get($trackId, $courseId = null) {
-        $track = ipDb()->selectRow(Model::$trackTable, '*', ['track_id' => $trackId]);
+        $track = ipDb()->selectRow(TrackModel::$trackTable, '*', ['trackId' => $trackId]);
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
-                Model::$courseTable,
-                '`course_id`, `title`, `short_description`, `thumbnail`',
-                ['track_id' => $trackId]
+                TrackModel::$courseTable,
+                '`courseId`, `title`, `shortDescription`, `thumbnail`',
+                ['trackId' => $trackId]
             );
         } else {
             $track['course'] = ipDb()->selectRow(
-                Model::$courseTable,
+                TrackModel::$courseTable,
                 '*',
-                ['track_id' => $trackId, 'course_id' => $courseId]
+                ['trackId' => $trackId, 'courseId' => $courseId]
             );
         }
 
@@ -63,10 +63,10 @@ class Model {
      * Where 0 is `track_id` and 'Some Title' is `title`
      */
     public static function findWithIdAndTitle() {
-        $tracks = ipDb()->selectAll('track', '`track_id`, `title`', [], "ORDER BY `created` DESC");
+        $tracks = ipDb()->selectAll('track', '`trackId`, `title`', [], "ORDER BY `createdOn` DESC");
 
         return array_map(function($t) {
-            return [$t['track_id'], $t['title']];
+            return [$t['trackId'], $t['title']];
         }, $tracks);
     }
 

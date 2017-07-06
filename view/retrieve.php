@@ -5,7 +5,7 @@
  */
 ?>
 <h1><?= $track['title'] ?></h1>
-<div class="introduction"><?= $track['long_description'] ?></div>
+<div class="introduction"><?= $track['longDescription'] ?></div>
 
 <section class="metadata">
 
@@ -47,9 +47,9 @@
                     <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
                 </div>
                 <h3><?= $course['title'] ?></h3>
-                <p><?= $course['short_description'] ?></p>
+                <p><?= $course['shortDescription'] ?></p>
                 <a class="button colored"
-                   href="/ImpressPages/tracks/<?= $track['track_id'] ?>/course/<?= $course['course_id'] ?>">
+                   href="/ImpressPages/tracks/<?= $track['trackId'] ?>/course/<?= $course['courseId'] ?>">
                     Watch course
                 </a>
             </li>
@@ -61,8 +61,8 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
 <script type="text/javascript">
-    var CREATE_PAYMENT_URL  = '<?=ipConfig()->baseUrl()?>/paypal/create-payment';
-    var EXECUTE_PAYMENT_URL = '<?=ipConfig()->baseUrl()?>/paypal/execute-payment';
+    var CREATE_PAYMENT_URL  = '<?=ipConfig()->baseUrl()?>/paypal/create-payment?track=<?=$track['trackId']?>';
+    var EXECUTE_PAYMENT_URL = '<?=ipConfig()->baseUrl()?>/paypal/execute-payment?track=<?=$track['trackId']?>';
 
     paypal.Button.render({
 

@@ -50,21 +50,21 @@ class Worker
     {
         $sql = "
         CREATE TABLE IF NOT EXISTS $table (
-          `course_id` int(11) NOT NULL AUTO_INCREMENT,
+          `courseId` int(11) NOT NULL AUTO_INCREMENT,
           `title` VARCHAR (255) NOT NULL,
-          `short_description` VARCHAR (255) NULL,
-          `long_description` TEXT NULL,
-          `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `shortDescription` VARCHAR (255) NULL,
+          `longDescription` TEXT NULL,
+          `createdOn` DATETIME DEFAULT CURRENT_TIMESTAMP,
           `thumbnail` VARCHAR(255) NULL,
-          `large_thumbnail` VARCHAR (255) NULL,
+          `largeThumbnail` VARCHAR (255) NULL,
           `price` FLOAT NULL,
           `video` VARCHAR (255) NULL,
-          `track_id` INT(11) NOT NULL,
+          `trackId` INT(11) NOT NULL,
           
-          FOREIGN KEY (`track_id`)
-            REFERENCES $this->trackTable (`track_id`),
+          FOREIGN KEY (`trackId`)
+            REFERENCES $this->trackTable (`trackId`),
           
-          PRIMARY KEY (`course_id`)
+          PRIMARY KEY (`courseId`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
     }
@@ -73,16 +73,16 @@ class Worker
     {
         $sql = "
         CREATE TABLE IF NOT EXISTS $table (
-          `track_id` int(11) NOT NULL AUTO_INCREMENT,
+          `trackId` int(11) NOT NULL AUTO_INCREMENT,
           `title` VARCHAR (255) NULL,
-          `short_description` VARCHAR (255) NULL,
-          `long_description` TEXT NULL,
-          `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `shortDescription` VARCHAR (255) NULL,
+          `longDescription` TEXT NULL,
+          `createdOn` DATETIME DEFAULT CURRENT_TIMESTAMP,
           `thumbnail` VARCHAR(255) NULL,
-          `large_thumbnail` VARCHAR(255) NULL,
+          `largeThumbnail` VARCHAR(255) NULL,
           `price` FLOAT NULL,
           
-          PRIMARY KEY (`track_id`)
+          PRIMARY KEY (`trackId`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
         ipDb()->execute($sql);
@@ -94,11 +94,11 @@ class Worker
 
         $sql = "
          CREATE TABLE IF NOT EXISTS $this->trackOrderTable (
-          `order_id` INT(11) NOT NULL AUTO_INCREMENT,
+          `orderId` INT(11) NOT NULL AUTO_INCREMENT,
           `type` VARCHAR(128),
-          `created_on` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `createdOn` DATETIME DEFAULT CURRENT_TIMESTAMP,
     	  `userId` INT(11) NOT NULL,
-		  `track_id` INT(11) NOT NULL,
+		  `trackId` INT(11) NOT NULL,
 		  `payerId` VARCHAR (255),
 		  `paymentId` VARCHAR(255),
 		  `saleId` VARCHAR (255),
@@ -112,12 +112,10 @@ class Worker
             ON UPDATE CASCADE,
             
             
-          FOREIGN KEY (`track_id`)
-            REFERENCES $this->trackTable (`track_id`),
-            
-          UNIQUE (`track_id`),
+          FOREIGN KEY (`trackId`)
+            REFERENCES $this->trackTable (`trackId`),
           
-          PRIMARY KEY (`order_id`)
+          PRIMARY KEY (`orderId`)
         
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";

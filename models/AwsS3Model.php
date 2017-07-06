@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Track;
+namespace Plugin\Track\Models;
 
 use Aws\S3\S3Client;
 use Ip\Exception;

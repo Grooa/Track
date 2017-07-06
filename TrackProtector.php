@@ -33,7 +33,7 @@ class TrackProtector {
         $row = ipDb()->selectRow(
             TrackProtector::$table,
             '*',
-            ['userId' => $user->userId(), 'track_id' => $track['track_id']]
+            ['userId' => $user->userId(), 'trackId' => $track['trackId']]
         );
 
         return !empty($row);

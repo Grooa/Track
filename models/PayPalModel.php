@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Track;
+namespace Plugin\Track\Models;
 
 use PayPal\Api\Amount;
 use PayPal\Api\Item;
@@ -10,6 +10,9 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use Plugin\Track\Config;
+use Plugin\Track\RestBadRequest;
+use Plugin\Track\RestResponseError;
 
 class PayPalModel
 {

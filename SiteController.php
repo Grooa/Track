@@ -3,6 +3,10 @@
 namespace Plugin\Track;
 
 use Ip\Exception;
+use Plugin\Track\Models\AwsS3Model;
+use Plugin\Track\Models\PayPalModel;
+use Plugin\Track\Models\TrackModel;
+use Plugin\Track\Models\TrackOrderModel;
 
 class SiteController
 {
@@ -37,14 +41,14 @@ class SiteController
         $layout->setLayout('track.php');
 
         // Set background image
-        $layout->setLayoutVariable('coverImage', ipFileUrl('file/repository/' . $track['large_thumbnail']));
+        $layout->setLayoutVariable('coverImage', ipFileUrl('file/repository/' . $track['largeThumbnail']));
 
         return $layout;
     }
 
     public function retrieveCourse($trackId, $courseId)
     {
-        $track = Model::get($trackId, $courseId);
+        $track = TrackModel::get($trackId, $courseId);
 
         if (!$track || !$track['course']) {
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
@@ -78,7 +82,7 @@ class SiteController
         );
         $layout->setLayout('track.php');
 
-        $layout->setLayoutVariable('coverImage', $track['course']['large_thumbnail']);
+        $layout->setLayoutVariable('coverImage', $track['course']['largeThumbnail']);
         $layout->setLayoutVariable('coverTitle', $track['title']);
 
         return $layout;
@@ -96,12 +100,11 @@ class SiteController
         try {
             $payment = PayPalModel::createPayment();
         } catch (\PayPal\Exception\PayPalConnectionException $pce) {
-            $res = new \Ip\Response\Json($pce->getData());
-            $res->setStatusCode($pce->getCode());
-            return $res;
+            return new RestResponseError($pce->getData(), $pce->getCode());
         }
 
         $id = $payment->getId();
+
 //        $intent = $payment->getIntent();
 //        $state = $payment->getState();
 
@@ -119,9 +122,7 @@ class SiteController
         $body = ipRequest()->getPost();
 
         if (empty($body['paymentID']) || empty($body['payerID'])) {
-            $badReq = new \Ip\Response\Json("Missing paymentID or payerID");
-            $badReq->setStatusCode(400);
-            return $badReq;
+            return new RestBadRequest(['error' => 'Missing paymentID or payerID']);
         }
 
         try {
@@ -130,8 +131,13 @@ class SiteController
             return new RestResponseError(['error' => $e->getMessage()]);
         }
 
-        var_dump($payment->getTransactions()[0]->getRelatedResources()[0]->getSale());
-        die;
+        $sale = $payment->getTransactions()[0]->getRelatedResources()[0]->getSale();
+
+        $saleId = $sale->getId();
+        $saleState = $sale->getState();
+
+
+
     }
 
     private static function respondForbidden ($msg, $data = []) {

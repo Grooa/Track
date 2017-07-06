@@ -15,8 +15,8 @@
                 </div>
                 <h3><?= $track['title'] ?></h3>
                 <strong class="price-tiled">Price: € <?=!empty($track['price']) ? $track['price'] : 0 ?></strong>
-                <div class="description"><?= $track['short_description'] ?></div>
-                <a class="button colored" href="/ImpressPages/tracks/<?= $track['track_id'] ?>">Checkout course</a>
+                <div class="description"><?= $track['shortDescription'] ?></div>
+                <a class="button colored" href="/ImpressPages/tracks/<?= $track['trackId'] ?>">Checkout course</a>
             </li>
         <?php endforeach; ?>
     </ul>
