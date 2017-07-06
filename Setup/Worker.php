@@ -103,7 +103,8 @@ class Worker
 		  `paymentId` VARCHAR(255),
 		  `saleId` VARCHAR (255),
 		  `state` VARCHAR(128),
-		  `completed` DATETIME
+		  `completed` DATETIME,
+		  `paymentExecuted` DATETIME,
           
           FOREIGN KEY (`userId`)
             REFERENCES $userTable (`id`)
