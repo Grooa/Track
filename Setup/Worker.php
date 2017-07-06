@@ -34,7 +34,7 @@ class Worker
         }
 
         $this->initTrackTable($this->trackTable);
-//        $this->initTrackOrderTable($this->trackOrderTable);
+        $this->initTrackOrderTable($this->trackOrderTable);
         $this->initCourseTable($this->courseTable);
     }
 
@@ -95,10 +95,15 @@ class Worker
         $sql = "
          CREATE TABLE IF NOT EXISTS $this->trackOrderTable (
           `order_id` INT(11) NOT NULL AUTO_INCREMENT,
-          `payment` VARCHAR(128),
-          `ordered_on` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `type` VARCHAR(128),
+          `created_on` DATETIME DEFAULT CURRENT_TIMESTAMP,
     	  `userId` INT(11) NOT NULL,
 		  `track_id` INT(11) NOT NULL,
+		  `payerId` VARCHAR (255),
+		  `paymentId` VARCHAR(255),
+		  `saleId` VARCHAR (255),
+		  `state` VARCHAR(128),
+		  `completed` DATETIME
           
           FOREIGN KEY (`userId`)
             REFERENCES $userTable (`id`)
