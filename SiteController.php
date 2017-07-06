@@ -97,6 +97,12 @@ class SiteController
             return self::respondForbidden("User not logged in");
         }
 
+        $trackId = ipRequest()->getQuery('track');
+
+        if (empty($trackId) || !is_numeric($trackId)) {
+            return new RestBadRequest(['error' => "Missing query `track` or value is not numeric"]);
+        }
+
         try {
             $payment = PayPalModel::createPayment();
         } catch (\PayPal\Exception\PayPalConnectionException $pce) {
