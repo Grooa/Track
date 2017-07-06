@@ -3,7 +3,6 @@
  * Retrieve site will display fully detailed information about a track,
  * including it's sub-courses
  */
-
 ?>
 <h1><?= $track['title'] ?></h1>
 <div class="introduction"><?= $track['long_description'] ?></div>
@@ -12,7 +11,7 @@
 
     <?php if (isset($track['price']) && $track['price'] > 0): ?>
         <em class="price">Price: <strong><?= $track['price'] ?> €</strong></em>
-        <button class="paypal">
+        <button id="paypal-button" class="paypal">
             <svg version="1.1"
                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                  width="30"
@@ -31,6 +30,7 @@
             </svg>
             Buy Track
         </button>
+
     <?php else: ?>
         <button class="continue">Continue track</button>
     <?php endif; ?>
@@ -44,11 +44,12 @@
         <?php foreach ($track['courses'] as $course): ?>
             <li>
                 <div class="thumbnail">
-                    <img src="<?=ipFileUrl('file/repository/' . $track['thumbnail'])?>" alt="">
+                    <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
                 </div>
-                <h3><?=$course['title']?></h3>
-                <p><?=$course['short_description']?></p>
-                <a href="/ImpressPages/tracks/<?=$track['track_id']?>/course/<?=$course['course_id']?>">
+                <h3><?= $course['title'] ?></h3>
+                <p><?= $course['short_description'] ?></p>
+                <a class="button colored"
+                   href="/ImpressPages/tracks/<?= $track['track_id'] ?>/course/<?= $course['course_id'] ?>">
                     Watch course
                 </a>
             </li>
@@ -56,3 +57,35 @@
     </ul>
 
 </section>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<script type="text/javascript">
+    var CREATE_PAYMENT_URL  = '<?=ipConfig()->baseUrl()?>/paypal/create-payment';
+    var EXECUTE_PAYMENT_URL = '<?=ipConfig()->baseUrl()?>/paypal/execute-payment';
+
+    paypal.Button.render({
+
+        env: 'sandbox', // Or 'sandbox'
+
+        commit: true, // Show a 'Pay Now' button
+
+        payment: function() {
+            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+                return data.paymentID; // Returned from local REST-API
+            });
+        },
+
+        onAuthorize: function(data) {
+            return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                paymentID: data.paymentID,
+                payerID:   data.payerID
+            }).then(function() {
+
+                // The payment is complete!
+                // You can now show a confirmation message to the customer
+            });
+        }
+
+    }, '#paypal-button');
+</script>

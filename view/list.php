@@ -1,23 +1,24 @@
-<?php
-/**
- * Layout is changed by creating a page with route-path `tracks`,
- * in the admin menu
- */
-?>
-<div class="ipWidget">
-    <h2>Hello Tracks</h2>
+<?php ?>
+<h1>Online Courses</h1>
+<small>
+    Accompanying our hands on and live courses, Grooa now offers online courses.
+    These are courses you can purchase and watch at your computer or mobile devices,
+    at your own convenience and time.
+</small>
 
-    <ul class="preview">
-        <?php foreach($tracks as $track): ?>
+<section>
+    <ul class="tiled">
+        <?php foreach ($tracks as $track): ?>
             <li>
                 <div class="thumbnail">
-                    <img src="<?=ipFileUrl('file/repository/' . $track['thumbnail'])?>" alt="">
+                    <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
                 </div>
-                <h3><?=$track['title']?></h3>
-                <p><?=$track['short_description']?></p>
-                <a href="tracks/<?=$track['track_id']?>">Read more</a>
+                <h3><?= $track['title'] ?></h3>
+                <strong class="price-tiled">Price: € <?=!empty($track['price']) ? $track['price'] : 0 ?></strong>
+                <div class="description"><?= $track['short_description'] ?></div>
+                <a class="button colored" href="/ImpressPages/tracks/<?= $track['track_id'] ?>">Checkout course</a>
             </li>
         <?php endforeach; ?>
     </ul>
+</section>
 
-</div>

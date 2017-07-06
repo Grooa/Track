@@ -10,6 +10,36 @@ $routes['tracks'] = [
     'action' => 'listTracks'
 ];
 
+$routes['paypal/create-payment'] = [
+    'name' => 'Track_createPayment',
+    'controller' => 'SiteController',
+    'action' => 'createPayment'
+];
+
+$routes['paypal/execute-payment'] = [
+    'name' => 'Track_executePayment',
+    'controller' => 'SiteController',
+    'action' => 'executePayment'
+];
+
+$routes['paypal/success-payment'] = [
+    'name' => 'Track_paymentSuccess',
+    'controller' => 'SiteController',
+    'action' => 'successPayment'
+];
+
+$routes['paypal/cancel-payment'] = [
+    'name' => 'Track_paymentCancel',
+    'controller' => 'SiteController',
+    'action' => 'cancelPayment'
+];
+
+//$routes['tracks/purchase/{trackId}'] = [
+//    'name' => 'Track_purchase',
+//    'controller' => 'SiteController',
+//    'action' => 'purchase'
+//];
+
 /**
  * Will display a specific track.
  * Information displayed should be based,

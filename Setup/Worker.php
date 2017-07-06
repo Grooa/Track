@@ -2,6 +2,9 @@
 
 namespace Plugin\Track\Setup;
 
+use Ip\Exception;
+use \Ip\Internal\Plugins\Service as PluginService;
+
 class Worker
 {
 
@@ -18,6 +21,18 @@ class Worker
 
     public function activate()
     {
+        $plugins = PluginService::getActivePluginNames();
+
+        if (!in_array('User', $plugins)) {
+            throw new Exception("The Track plugin requires ImpressPages's User plugin. 
+            Install and activate this first");
+        }
+
+        if (!in_array('PageAccessControl', $plugins)) {
+            throw new Exception("The Track plugin requires Grooas PageAccessControl plugin. 
+            Install and activate this first");
+        }
+
         $this->initTrackTable($this->trackTable);
 //        $this->initTrackOrderTable($this->trackOrderTable);
         $this->initCourseTable($this->courseTable);
@@ -78,10 +93,12 @@ class Worker
         $userTable = ipTable('user');
 
         $sql = "
-        CREATE TABLE IF NOT EXISTS $table (
-          `id` INT(11) NOT NULL AUTO_INCREMENT,
+         CREATE TABLE IF NOT EXISTS $this->trackOrderTable (
+          `order_id` INT(11) NOT NULL AUTO_INCREMENT,
           `payment` VARCHAR(128),
           `ordered_on` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    	  `userId` INT(11) NOT NULL,
+		  `track_id` INT(11) NOT NULL,
           
           FOREIGN KEY (`userId`)
             REFERENCES $userTable (`id`)
@@ -90,14 +107,13 @@ class Worker
             
             
           FOREIGN KEY (`track_id`)
-            REFERENCES $this->trackTable (`id`),
-            
+            REFERENCES $this->trackTable (`track_id`),
             
           UNIQUE (`track_id`),
           
-          PRIMARY KEY (`id`)
+          PRIMARY KEY (`order_id`)
         
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
 
         ipDb()->execute($sql);
