@@ -1,13 +1,18 @@
-<?php ?>
+
+<nav class="breadcrumbs">
+    <a href="<?=ipConfig()->baseUrl()?>tracks" class="currentPage">Tracks</a>
+</nav>
+
 <h1>Online Courses</h1>
-<small>
-    Accompanying our hands on and live courses, Grooa now offers online courses.
-    These are courses you can purchase and watch at your computer or mobile devices,
+<small class="description">
+    Accompanying our <em>hands on</em> and <em>live courses</em>, Grooa now offers <em>online courses</em>.
+    These are courses you can purchase and watch on your computer or mobile devices,
     at your own convenience and time.
 </small>
 
+<!--TODO:ffl - Convert to Widget -->
 <section>
-    <ul class="tiled">
+    <ul class="tiled shadowed">
         <?php foreach ($tracks as $track): ?>
             <li>
                 <div class="thumbnail">

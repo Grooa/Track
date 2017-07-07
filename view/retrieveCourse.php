@@ -1,7 +1,17 @@
+<nav class="breadcrumbs">
+    <a href="<?=ipConfig()->baseUrl()?>tracks">Tracks</a>
+    <a href="<?=ipConfig()->baseUrl()?>tracks/<?=$track['trackId']?>">
+        <?=$track['title']?>
+    </a>
+    <a href="<?=ipConfig()->baseUrl()?>tracks/<?=$track['trackId']?>/course/<?=$course['courseId']?>"
+       class="currentPage">
+        <?=$course['title']?>
+    </a>
+</nav>
 
 <section>
     <h1><?=$course['title']?></h1>
-    <div class="introduction"><?=$course['long_description']?></div>
+    <div class="introduction"><?=$course['longDescription']?></div>
 </section>
 
 <section>

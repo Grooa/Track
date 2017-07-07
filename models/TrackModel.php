@@ -9,6 +9,8 @@ class TrackModel {
         $trackTable = 'track',
         $courseTable = 'course';
 
+    const TABLE = 'track';
+
     public static function getTitle() {
 
     }

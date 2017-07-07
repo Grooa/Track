@@ -54,7 +54,7 @@ class Worker
           `title` VARCHAR (255) NOT NULL,
           `shortDescription` VARCHAR (255) NULL,
           `longDescription` TEXT NULL,
-          `createdOn` DATETIME DEFAULT CURRENT_TIMESTAMP,
+          `createdOn a` DATETIME DEFAULT CURRENT_TIMESTAMP,
           `thumbnail` VARCHAR(255) NULL,
           `largeThumbnail` VARCHAR (255) NULL,
           `price` FLOAT NULL,
