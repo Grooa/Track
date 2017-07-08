@@ -1,9 +1,8 @@
 <nav class="breadcrumbs">
-    <a href="<?=ipConfig()->baseUrl()?>tracks">Tracks</a>
-    <a href="<?=ipConfig()->baseUrl()?>tracks/<?=$track['trackId']?>" class="currentPage"><?=$track['title']?></a>
+    <a href="<?= ipConfig()->baseUrl() ?>tracks">Tracks</a>
+    <a href="<?= ipConfig()->baseUrl() ?>tracks/<?= $track['trackId'] ?>" class="currentPage"><?= $track['title'] ?></a>
 </nav>
 
-<?=ipSlot('socialshare')?>
 
 <h1><?= $track['title'] ?></h1>
 <div class="introduction"><?= $track['longDescription'] ?></div>
@@ -26,30 +25,14 @@
     <div id="paypal-button" class="paypal"></div>
 <?php endif; ?>
 
+
 <section>
     <h2>Courses</h2>
     <small class="description">Bellow is the included courses for each track</small>
 
-    <ul class="tiled shadowed">
-        <?php foreach ($track['courses'] as $course): ?>
-            <li>
-                <div class="thumbnail <?= !$hasPurchased ? 'blurred' : '' ?>">
-                    <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
-                </div>
-                <h3><?= $course['title'] ?></h3>
-                <?php if (!empty($course['shortDescription'])): ?>
-                    <div><?= $course['shortDescription'] ?></div>
-                <?php endif; ?>
-
-                <?php if ($hasPurchased): ?>
-                    <a class="button colored"
-                       href="/ImpressPages/tracks/<?= $track['trackId'] ?>/course/<?= $course['courseId'] ?>">
-                        Watch course
-                    </a>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+    <?= ipSlot('listCourses', ['track' => $track, 'hasPurchased' => $hasPurchased]) ?>
 </section>
 
-<?=!empty($payPalCheckout) ? $payPalCheckout : ''?>
+<?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
+    <?= ipSlot('paypalCheckout', ['trackId' => $track['trackId']]) ?>
+<?php endif; ?>
