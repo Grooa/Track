@@ -4,6 +4,9 @@ namespace Plugin\Track\Setup;
 
 use Ip\Exception;
 use \Ip\Internal\Plugins\Service as PluginService;
+use Plugin\GrooaPayment\Model\TrackOrder;
+use Plugin\Track\Model\Course;
+use Plugin\Track\Model\Track;
 
 class Worker
 {
@@ -11,13 +14,6 @@ class Worker
     private $trackTable;
     private $trackOrderTable;
     private $courseTable;
-
-    public function __construct()
-    {
-        $this->trackTable = ipTable('track');
-        $this->trackOrderTable = ipTable('track_order');
-        $this->courseTable = ipTable('course');
-    }
 
     public function activate()
     {
@@ -32,6 +28,10 @@ class Worker
             throw new Exception("The Track plugin requires Grooas PageAccessControl plugin. 
             Install and activate this first");
         }
+
+        $this->trackTable = ipTable(Track::TABLE);
+        $this->trackOrderTable = ipTable(TrackOrder::TABLE);
+        $this->courseTable = ipTable(Course::TABLE);
 
         $this->initTrackTable($this->trackTable);
         $this->initTrackOrderTable($this->trackOrderTable);

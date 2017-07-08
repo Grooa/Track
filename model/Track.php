@@ -6,26 +6,6 @@ class Track {
 
     const TABLE = 'track';
 
-    public static function getTitle() {
-
-    }
-
-    /**g
-     * Will fetch the tracks bought by the user
-     *
-     */
-    public static function getOrderedTracks($user) {
-
-    }
-
-    /**
-     * Will get all the tracks with only the public information
-     * (hides information which requires payment)
-     */
-    public static function getTracks($user = null) {
-
-    }
-
     public static function findAll() {
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC");
     }
