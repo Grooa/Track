@@ -1,41 +1,33 @@
 <?php
 namespace Plugin\Track;
-use Ip\Exception;
+
+use Plugin\GrooaPayment\Model\TrackOrder;
 
 /**
  * Validates that the user has bought the selected track
  */
 class TrackProtector {
 
-    private static $table = 'track_order';
-
-    public static function canAccess($user, $track) {
-        if (empty($track)) {
+    /**
+     * Ensures 
+     * @param \Ip\User $user
+     * @param $trackId
+     * @return bool
+     */
+    public static function canAccess($user, $trackId) {
+        if (empty($trackId)) {
             return false;
         }
 
         if (empty($user) || !$user->isLoggedIn()) {
-            throw new Exception(null);
+            return false;
         }
 
-        if (!TrackProtector::hasPayed($user, $track)) {
-            throw new Exception("You must pay for this course to access it");
+        if (!TrackOrder::hasPurchased($trackId, $user->userId())) {
+            return false;
         }
 
         return true;
     }
 
-    /**
-     * Ensures a payment is actually registered in
-     * our database
-     */
-    private static function hasPayed($user, $track) {
-        $row = ipDb()->selectRow(
-            TrackProtector::$table,
-            '*',
-            ['userId' => $user->userId(), 'trackId' => $track['trackId']]
-        );
-
-        return !empty($row);
-    }
 }

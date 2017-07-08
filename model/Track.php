@@ -4,17 +4,13 @@ namespace Plugin\Track\Model;
 
 class Track {
 
-    public static
-        $trackTable = 'track',
-        $courseTable = 'course';
-
     const TABLE = 'track';
 
     public static function getTitle() {
 
     }
 
-    /**
+    /**g
      * Will fetch the tracks bought by the user
      *
      */
@@ -31,21 +27,25 @@ class Track {
     }
 
     public static function findAll() {
-        return ipDb()->selectAll(Track::$trackTable, '*', [], "ORDER BY `createdOn` DESC");
+        return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC");
     }
 
     public static function get($trackId, $courseId = null) {
-        $track = ipDb()->selectRow(Track::$trackTable, '*', ['trackId' => $trackId]);
+        $track = ipDb()->selectRow(self::TABLE, '*', ['trackId' => $trackId]);
+
+        if (empty($track)) {
+            return null;
+        }
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
-                Track::$courseTable,
+                Course::TABLE,
                 '`courseId`, `title`, `shortDescription`, `thumbnail`',
                 ['trackId' => $trackId]
             );
         } else {
             $track['course'] = ipDb()->selectRow(
-                Track::$courseTable,
+                Course::TABLE,
                 '*',
                 ['trackId' => $trackId, 'courseId' => $courseId]
             );

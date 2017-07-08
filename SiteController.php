@@ -3,6 +3,7 @@
 namespace Plugin\Track;
 
 use Ip\Exception;
+use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Track;
 
@@ -73,25 +74,12 @@ class SiteController
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
         }
 
-        try {
-            TrackProtector::canAccess(ipUser(), $track);
-        } catch (Exception $e) {
-            // PageAccessControl's layout
-            $layout = new \Ip\Response\Layout(ipView('view/forbidden.php',
-                [
-                    'error' => $e->getMessage()
-                ])->render());
-            $layout->setLayout('errors.php');
-            $layout->setStatusCode(403);
-            $layout->setLayoutVariable('title', 'Forbidden');
-            $layout->setLayoutVariable('description', "You don't have access to this page");
-            return $layout;
-        }
-
         $uri = AwsS3::getPresignedUri(
             'courses/videos/Archer.S08E04.Ladyfingers.720p.WEB.x264-[MULVAcoded].mp4');
 
         $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url
+
+        ipAddJsVariable('track', $track);
 
         $layout = new \Ip\Response\Layout(ipView('view/retrieveCourse.php',
             [
@@ -105,5 +93,26 @@ class SiteController
         $layout->setLayoutVariable('coverTitle', $track['title']);
 
         return $layout;
+    }
+
+    public function retrieveCourseResources($trackId, $courseId) {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
+        if (!ipRequest()->isAjax()) {
+            return new RestError("Request must be Ajax", 401);
+        }
+
+        if (!ipUser()->isLoggedIn()) {
+            return new RestError("Request requires authenticated user", 403);
+        }
+
+        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
+            return new RestError("You must purchase this track ($trackId) first", 403);
+        }
+
+        
+
     }
 }
