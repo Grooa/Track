@@ -3,17 +3,16 @@
 namespace Plugin\Track;
 
 use Ip\Exception;
-use Plugin\GrooaPayment\Models\PayPalModel;
-use Plugin\Track\Models\AwsS3Model;
-use Plugin\Track\Models\TrackModel;
+use Plugin\Track\Model\AwsS3;
+use Plugin\Track\Model\Track;
 
-use Plugin\GrooaPayment\Models\TrackOrderModel;
+use Plugin\GrooaPayment\Model\TrackOrder;
 
 class SiteController
 {
     public function listTracks()
     {
-        $tracks = Service::findAll();
+        $tracks = Track::findAll();
 
         $layout = new \Ip\Response\Layout(
             ipView('view/list.php', ['tracks' => $tracks])->render());
@@ -30,7 +29,7 @@ class SiteController
      */
     public function retrieveTrack($trackId)
     {
-        $track = TrackModel::get($trackId);
+        $track = Track::get($trackId);
 
         if (!$track) {
             throw new Exception('No such Track ' . $trackId);
@@ -41,8 +40,8 @@ class SiteController
         if (ipUser()->loggedIn()) {
             $uid = ipUser()->userId();
 
-            $hasPurchased = TrackOrderModel::hasPurchased($trackId, $uid);
-            $order = TrackOrderModel::getByTrackAndUser($trackId, $uid);
+            $hasPurchased = TrackOrder::hasPurchased($trackId, $uid);
+            $order = TrackOrder::getByTrackAndUser($trackId, $uid);
         }
 
         $layout = new \Ip\Response\Layout(
@@ -51,11 +50,7 @@ class SiteController
                 'purchasedOn' => !empty($order) && $hasPurchased ?
                     $order['paymentExecuted'] :
                     null,
-                'hasPurchased' => $hasPurchased,
-                'payPalCheckout' =>
-                    ipUser()->isLoggedIn() && !$hasPurchased ?
-                        PayPalModel::getCheckoutView($trackId) :
-                        null
+                'hasPurchased' => $hasPurchased
             ])->render());
         $layout->setLayout('track.php');
 
@@ -72,7 +67,7 @@ class SiteController
      */
     public function retrieveCourse($trackId, $courseId)
     {
-        $track = TrackModel::get($trackId, $courseId);
+        $track = Track::get($trackId, $courseId);
 
         if (!$track || !$track['course']) {
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
@@ -93,7 +88,7 @@ class SiteController
             return $layout;
         }
 
-        $uri = AwsS3Model::getPresignedUri(
+        $uri = AwsS3::getPresignedUri(
             'courses/videos/Archer.S08E04.Ladyfingers.720p.WEB.x264-[MULVAcoded].mp4');
 
         $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url

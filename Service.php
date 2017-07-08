@@ -1,15 +1,15 @@
 <?php
 
 namespace Plugin\Track;
-use Plugin\Track\Models\TrackModel;
+use Plugin\Track\Model\Track;
 
 class Service {
 
     public static function get($trackId = null) {
-        return TrackModel::get($trackId);
+        return Track::get($trackId);
     }
 
     public static function findAll() {
-        return TrackModel::findAll();
+        return Track::findAll();
     }
 }

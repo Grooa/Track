@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\Track\Models;
+namespace Plugin\Track\Model;
 
-class CourseModel {
+class Course {
 
     const TABLE = 'course';
 
     public static function removeVideos($id, $root = 'file/secure') {
-        $video = ipDb()->selectRow(CourseModel::TABLE, '`video`', ['courseId' => $id]);
+        $video = ipDb()->selectRow(Course::TABLE, '`video`', ['courseId' => $id]);
 
         if (!empty($video) && !empty($video['video']) && $video['video'] != false) {
             return unlink("${root}/${video['video']}");
@@ -17,7 +17,7 @@ class CourseModel {
     }
 
     public static function findVideo($id) {
-        $row = ipDb()->selectRow(CourseModel::TABLE, '`video`', ['courseId' => $id]);
+        $row = ipDb()->selectRow(Course::TABLE, '`video`', ['courseId' => $id]);
 
         if (!empty($row) && !empty($row['video'])) {
             return $row['video'];

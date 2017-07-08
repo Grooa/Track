@@ -1,9 +1,8 @@
 <?php
 
+namespace Plugin\Track\Model;
 
-namespace Plugin\Track\Models;
-
-class TrackModel {
+class Track {
 
     public static
         $trackTable = 'track',
@@ -32,21 +31,21 @@ class TrackModel {
     }
 
     public static function findAll() {
-        return ipDb()->selectAll(TrackModel::$trackTable, '*', [], "ORDER BY `createdOn` DESC");
+        return ipDb()->selectAll(Track::$trackTable, '*', [], "ORDER BY `createdOn` DESC");
     }
 
     public static function get($trackId, $courseId = null) {
-        $track = ipDb()->selectRow(TrackModel::$trackTable, '*', ['trackId' => $trackId]);
+        $track = ipDb()->selectRow(Track::$trackTable, '*', ['trackId' => $trackId]);
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
-                TrackModel::$courseTable,
+                Track::$courseTable,
                 '`courseId`, `title`, `shortDescription`, `thumbnail`',
                 ['trackId' => $trackId]
             );
         } else {
             $track['course'] = ipDb()->selectRow(
-                TrackModel::$courseTable,
+                Track::$courseTable,
                 '*',
                 ['trackId' => $trackId, 'courseId' => $courseId]
             );

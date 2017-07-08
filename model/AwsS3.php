@@ -1,11 +1,11 @@
 <?php
 
-namespace Plugin\Track\Models;
+namespace Plugin\Track\Model;
 
 use Aws\S3\S3Client;
 use Ip\Exception;
 
-class AwsS3Model
+class AwsS3
 {
 
     private static $s3;
@@ -14,9 +14,9 @@ class AwsS3Model
 
     public static function init()
     {
-        AwsS3Model::$bucket = ipGetOption('Track.awsS3Bucket');
-        AwsS3Model::$expiration = ipGetOption('Track.awsUrlExpiration');
-        AwsS3Model::$s3 = new S3Client([
+        AwsS3::$bucket = ipGetOption('Track.awsS3Bucket');
+        AwsS3::$expiration = ipGetOption('Track.awsUrlExpiration');
+        AwsS3::$s3 = new S3Client([
             'region' => ipGetOption('Track.region'),
             'version' => ipGetOption('Track.version'),
             'credentials' => [
@@ -28,26 +28,26 @@ class AwsS3Model
 
     public static function getPresignedUri($item, $config = [])
     {
-        if (empty(AwsS3Model::$bucket) && empty($config['bucket'])) {
+        if (empty(AwsS3::$bucket) && empty($config['bucket'])) {
             throw new Exception("Missing default Aws S3 `bucket` in Plugin configuration");
         }
 
-        if (empty(AwsS3Model::$expiration) && empty($config['expiration'])) {
+        if (empty(AwsS3::$expiration) && empty($config['expiration'])) {
             throw new Exception("Missing default `expiration` time for Presigned Uris, for Aws S3");
         }
 
-        $cmd = AwsS3Model::$s3->getCommand('GetObject', [
-            'Bucket' => !empty($config['bucket']) ? $config['bucket'] : AwsS3Model::$bucket,
+        $cmd = AwsS3::$s3->getCommand('GetObject', [
+            'Bucket' => !empty($config['bucket']) ? $config['bucket'] : AwsS3::$bucket,
             'Key' => $item
         ]);
 
-        $request = AwsS3Model::$s3->createPresignedRequest(
+        $request = AwsS3::$s3->createPresignedRequest(
             $cmd,
-            !empty($config['expiration']) ? $config['expiration'] : AwsS3Model::$expiration
+            !empty($config['expiration']) ? $config['expiration'] : AwsS3::$expiration
         );
 
         return (string)$request->getUri();
     }
 }
 
-AwsS3Model::init(); // Workaround to init static fields
+AwsS3::init(); // Workaround to init static fields

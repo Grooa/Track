@@ -4,8 +4,8 @@
  */
 
 namespace Plugin\Track;
-use Plugin\Track\Models\TrackModel;
-use Plugin\Track\Models\CourseModel;
+use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Course;
 
 
 class AdminController
@@ -116,12 +116,12 @@ class AdminController
                     'field' => 'trackId',
                     'label' => 'Track',
                     'type' => 'Select',
-                    'values' => TrackModel::findWithIdAndTitle()
+                    'values' => Track::findWithIdAndTitle()
                 ]
             ],
             'pageSize' => 15,
             'beforeDelete' => function($id) {
-                CourseModel::removeVideos($id, $this->fileRoot);
+                Course::removeVideos($id, $this->fileRoot);
             }
         ];
 
