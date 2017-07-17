@@ -76,6 +76,7 @@ class Worker
           
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
         ";
+        ipDb()->execute($sql);
     }
 
     private function initCourseTable($table)
@@ -99,6 +100,7 @@ class Worker
           PRIMARY KEY (`courseId`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
         ";
+        ipDb()->execute($sql);
     }
 
     private function initTrackTable($table)

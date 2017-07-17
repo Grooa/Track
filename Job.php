@@ -17,6 +17,10 @@ class Job
     {
         $params = self::parseTrackReqParams($info['relativeUri']);
 
+        if (empty($params)) {
+            return null;
+        }
+
         // Let a track which doesn't exists fall through,
         // and give a 404 instead
         if (!self::trackExists($params['tracks'])) {
