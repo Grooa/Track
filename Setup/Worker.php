@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\Track\Setup;
+namespace Plugin\Track;
 
 use Ip\Exception;
 use \Ip\Internal\Plugins\Service as PluginService;
-use Plugin\GrooaPayment\Model\TrackOrder;
-use Plugin\Track\Model\Course;
-use Plugin\Track\Model\Track;
-use Plugin\Track\Model\TrackResource;
+use \Plugin\GrooaPayment\Model\TrackOrder;
+use \Plugin\Track\Model\Course;
+use \Plugin\Track\Model\Track;
+use \Plugin\Track\Model\TrackResource;
 
 class Worker
 {
@@ -30,6 +30,11 @@ class Worker
             Install and activate this first");
         }
 
+        if (!in_array('Composer', $plugins)) {
+            throw new Exception("The Track plugin requires the Composer plugin. 
+            Install and activate this first");
+        }
+
         $this->trackTable = ipTable(Track::TABLE);
         $this->trackOrderTable = ipTable(TrackOrder::TABLE);
         $this->courseTable = ipTable(Course::TABLE);
@@ -42,9 +47,9 @@ class Worker
 
     public function remove()
     {
-        ipDb()->execute("DROP TABLE $this->trackTable;");
+//        ipDb()->execute("DROP TABLE $this->trackTable;");
 //        ipDb()->execute("DROP TABLE $this->trackOrderTable;");
-        ipDb()->execute("DROP TABLE $this->courseTable;");
+//        ipDb()->execute("DROP TABLE $this->courseTable;");
     }
 
     private function initCourseResourcesTable($table)
@@ -52,12 +57,6 @@ class Worker
         $courseTable = ipTable(Course::TABLE);
         $trackTable = ipTable(Track::TABLE);
 
-        // TODO:ffl - Add option to override buttons
-        // TODO - checkbox, and a comment.
-        // TODO - Also add business and user types
-        // TODO - Business account should contact grooa on email
-        // TODO - To get pricing
-        // TODO:ffl - Business accounts can generate sharable links
         $sql = "
         CREATE TABLE IF NOT EXISTS $table (
           `id` INT(11) NOT NULL AUTO_INCREMENT,

@@ -2,8 +2,8 @@
 
 namespace Plugin\Track\Model;
 
-use Aws\S3\S3Client;
-use Ip\Exception;
+use \Aws\S3\S3Client;
+use \Ip\Exception;
 
 class AwsS3
 {
