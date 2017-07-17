@@ -1,7 +1,4 @@
-
-<nav class="breadcrumbs">
-    <a href="<?=ipConfig()->baseUrl()?>tracks" class="currentPage">Tracks</a>
-</nav>
+<?= ipSlot('xBreadcrumb', [['uri' => "tracks", 'label' => 'Tracks', 'active' => true]]) ?>
 
 <h1>Online Courses</h1>
 <small class="description">
@@ -10,7 +7,7 @@
     at your own convenience and time.
 </small>
 
-<!--TODO:ffl - Convert to Widget -->
+<!--TODO:ffl - Convert to Slot -->
 <section>
     <ul class="tiled shadowed">
         <?php foreach ($tracks as $track): ?>
@@ -21,7 +18,7 @@
                 <h3><?= $track['title'] ?></h3>
                 <strong class="price-tiled">Price: € <?=!empty($track['price']) ? $track['price'] : 0 ?></strong>
                 <div class="description"><?= $track['shortDescription'] ?></div>
-                <a class="button colored" href="/ImpressPages/tracks/<?= $track['trackId'] ?>">Checkout course</a>
+                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'tracks/' . $track['trackId'] ?>">Checkout course</a>
             </li>
         <?php endforeach; ?>
     </ul>

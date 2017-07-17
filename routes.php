@@ -4,34 +4,10 @@
  * Route to display all available tracks
  * one can buy
  */
-$routes['tracks'] = [
-    'name' => 'Track_list',
-    'controller' => 'SiteController',
-    'action' => 'listTracks'
-];
-
-//$routes['paypal/create-payment'] = [
-//    'name' => 'Track_createPayment',
+//$routes['tracks'] = [
+//    'name' => 'Track_list',
 //    'controller' => 'SiteController',
-//    'action' => 'createPayment'
-//];
-//
-//$routes['paypal/execute-payment'] = [
-//    'name' => 'Track_executePayment',
-//    'controller' => 'SiteController',
-//    'action' => 'executePayment'
-//];
-//
-//$routes['paypal/success-payment'] = [
-//    'name' => 'Track_paymentSuccess',
-//    'controller' => 'SiteController',
-//    'action' => 'successPayment'
-//];
-//
-//$routes['paypal/cancel-payment'] = [
-//    'name' => 'Track_paymentCancel',
-//    'controller' => 'SiteController',
-//    'action' => 'cancelPayment'
+//    'action' => 'listTracks'
 //];
 
 /**
@@ -40,6 +16,9 @@ $routes['tracks'] = [
  * on the users status (logged_in & bought_track)
  */
 $routes['tracks/{trackId}'] = [
+    'where' => [
+        'trackId' => '\d+'
+    ],
     'name' => 'Track_retrieve',
     'controller' => 'SiteController',
     'action' => 'retrieveTrack'
@@ -50,8 +29,26 @@ $routes['tracks/{trackId}'] = [
  * where videos and other information are available.
  * Page requires a user, and that the track is purchased
  */
+// TODO:ffl - The url does for some reason not catch a route
+// TODO:ffl - dafuq is this shit...
 $routes['tracks/{trackId}/course/{courseId}'] = [
+    'where' => [
+        'trackId' => '\d+',
+        'courseId' => '\d+'
+    ],
     'name' => 'Course_retrieve',
     'controller' => 'SiteController',
     'action' => 'retrieveCourse'
 ];
+
+$routes['tracks/{trackId}/course/{courseId}/resources'] = [
+    'where' => [
+        'trackId' => '\d+',
+        'courseId' => '\d+'
+    ],
+    'name' => 'Course_resource_retrieve',
+    'controller' => 'SiteController',
+    'action' => 'retrieveCourseResources'
+];
+
+

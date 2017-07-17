@@ -4,8 +4,10 @@
  */
 
 namespace Plugin\Track;
+
 use Plugin\Track\Model\Track;
 use Plugin\Track\Model\Course;
+use Plugin\Track\Model\TrackResource;
 
 
 class AdminController
@@ -20,7 +22,8 @@ class AdminController
     {
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
-            'table' => 'track',
+            'title' => 'Tracks',
+            'table' => Track::TABLE,
             'idField' => 'trackId',
             'fields' => [
                 [
@@ -68,10 +71,12 @@ class AdminController
     /**
      * @ipSubmenu Courses
      */
-    public function courses() {
+    public function courses()
+    {
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
-            'table' => 'course',
+            'title' => 'Course Resources',
+            'table' => Course::TABLE,
             'idField' => 'courseId',
             'fields' => [
                 [
@@ -81,7 +86,14 @@ class AdminController
                 [
                     'field' => 'price',
                     'label' => 'Price',
-                    'type' => 'Currency'
+                    'type' => 'Currency',
+                    'default' => 0.0
+                ],
+                [
+                    'field' => 'trackId',
+                    'label' => 'Track',
+                    'type' => 'Select',
+                    'values' => Track::getWithIdAndTitle()
                 ],
                 [
                     'field' => 'shortDescription',
@@ -111,16 +123,58 @@ class AdminController
                     'label' => 'Large Thumbnail',
                     'type' => 'RepositoryFile',
                     'preview' => true
+                ]
+            ],
+            'pageSize' => 15,
+            'beforeDelete' => function ($id) {
+                Course::removeVideos($id, $this->fileRoot);
+            }
+        ];
+
+        return ipGridController($config);
+    }
+
+    /**
+     * @ipSubmenu Course Resources
+     */
+    public function courseResources()
+    {
+        $config = [
+            'title' => 'Course Resources',
+            'table' => TrackResource::TABLE,
+            'idField' => 'courseId',
+            'fields' => [
+                [
+                    'field' => 'label',
+                    'label' => 'Label'
+                ],
+                [
+                    'field' => 'description',
+                    'label' => 'Description',
+                    'type' => 'RichText'
+                ],
+                [
+                    'field' => 'filename',
+                    'label' => 'Filename',
+                    'hint' => 'Use "Copy path" on Amazon S3 console and paste it here. If you want to support multiple resolutions, suffix the filename with _720px, _1080px, etc.',
+                    'required' => true,
+                    'type' => 'Text'
                 ],
                 [
                     'field' => 'trackId',
                     'label' => 'Track',
                     'type' => 'Select',
-                    'values' => Track::findWithIdAndTitle()
+                    'values' => Track::getWithIdAndTitle()
+                ],
+                [
+                    'field' => 'courseId',
+                    'label' => 'Course',
+                    'type' => 'Select',
+                    'values' => []
                 ]
             ],
             'pageSize' => 15,
-            'beforeDelete' => function($id) {
+            'beforeDelete' => function ($id) {
                 Course::removeVideos($id, $this->fileRoot);
             }
         ];

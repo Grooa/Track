@@ -1,13 +1,18 @@
-<nav class="breadcrumbs">
-    <a href="<?=ipConfig()->baseUrl()?>tracks">Tracks</a>
-    <a href="<?=ipConfig()->baseUrl()?>tracks/<?=$track['trackId']?>">
-        <?=$track['title']?>
-    </a>
-    <a href="<?=ipConfig()->baseUrl()?>tracks/<?=$track['trackId']?>/course/<?=$course['courseId']?>"
-       class="currentPage">
-        <?=$course['title']?>
-    </a>
-</nav>
+<?= ipSlot('xBreadcrumb', [
+    [
+        'uri' => "tracks",
+        'label' => 'Tracks'
+    ],
+    [
+        'uri' => "tracks/" . $track['trackId'],
+        'label' => $track['title']
+    ],
+    [
+        'uri' => "tracks/" . $track['trackId'] . '/course/' . $course['courseId'],
+        'label' => $course['title'],
+        'active' => true
+    ]
+]) ?>
 
 <section>
     <h1><?=$course['title']?></h1>
@@ -23,5 +28,5 @@
 
 <section>
     <h2>Resources</h2>
-
+    <ul id="courseResources" class="course-resources"></ul>
 </section>

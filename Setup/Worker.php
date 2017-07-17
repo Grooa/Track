@@ -7,6 +7,7 @@ use \Ip\Internal\Plugins\Service as PluginService;
 use Plugin\GrooaPayment\Model\TrackOrder;
 use Plugin\Track\Model\Course;
 use Plugin\Track\Model\Track;
+use Plugin\Track\Model\TrackResource;
 
 class Worker
 {
@@ -36,6 +37,7 @@ class Worker
         $this->initTrackTable($this->trackTable);
         $this->initTrackOrderTable($this->trackOrderTable);
         $this->initCourseTable($this->courseTable);
+        $this->initCourseResourcesTable(ipTable(TrackResource::TABLE));
     }
 
     public function remove()
@@ -45,6 +47,37 @@ class Worker
         ipDb()->execute("DROP TABLE $this->courseTable;");
     }
 
+    private function initCourseResourcesTable($table)
+    {
+        $courseTable = ipTable(Course::TABLE);
+        $trackTable = ipTable(Track::TABLE);
+
+        // TODO:ffl - Add option to override buttons
+        // TODO - checkbox, and a comment.
+        // TODO - Also add business and user types
+        // TODO - Business account should contact grooa on email
+        // TODO - To get pricing
+        // TODO:ffl - Business accounts can generate sharable links
+        $sql = "
+        CREATE TABLE IF NOT EXISTS $table (
+          `id` INT(11) NOT NULL AUTO_INCREMENT,
+          `label` VARCHAR(255),
+          `description` VARCHAR(255),
+          `filename` VARCHAR(255) NOT NULL,
+          `courseId` INT(11) NOT NULL,
+          `trackId` INT(11) NOT NULL,
+          
+          FOREIGN KEY (`courseId`)
+            REFERENCES $courseTable (`courseId`),  
+            
+          FOREIGN KEY (`trackId`)
+            REFERENCES $trackTable (`trackId`),
+            
+          PRIMARY KEY (`id`)
+          
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        ";
+    }
 
     private function initCourseTable($table)
     {

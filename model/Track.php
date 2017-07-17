@@ -34,6 +34,10 @@ class Track {
         return $track;
     }
 
+    public static function getAllLastCreated($limit = 10) {
+        return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC LIMIT " . esc($limit) . ";");
+    }
+
     /**
      * Will fetch a list with all the records form the database,
      * in the following format:
@@ -43,7 +47,7 @@ class Track {
      *
      * Where 0 is `track_id` and 'Some Title' is `title`
      */
-    public static function findWithIdAndTitle() {
+    public static function getWithIdAndTitle() {
         $tracks = ipDb()->selectAll('track', '`trackId`, `title`', [], "ORDER BY `createdOn` DESC");
 
         return array_map(function($t) {

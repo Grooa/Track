@@ -100,9 +100,9 @@ class SiteController
             return new RestError("Method Not Allowed", 405);
         }
 
-        if (!ipRequest()->isAjax()) {
-            return new RestError("Request must be Ajax", 401);
-        }
+//        if (!ipRequest()->isAjax()) {
+//            return new RestError("Request must be Ajax", 401);
+//        }
 
         if (!ipUser()->isLoggedIn()) {
             return new RestError("Request requires authenticated user", 403);
@@ -112,7 +112,6 @@ class SiteController
             return new RestError("You must purchase this track ($trackId) first", 403);
         }
 
-        
 
     }
 }

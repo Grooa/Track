@@ -2,6 +2,7 @@
 
 namespace Plugin\Track;
 
+use Plugin\GrooaPayment\Model\TrackOrder;
 use Plugin\Track\Model\Track;
 
 class Job
@@ -54,7 +55,7 @@ class Job
     private static function parseTrackReqParams($uri) {
         $paths = explode("/", $uri);
 
-        if ((count($paths) < 3) || ($paths[0] != 'tracks') || ($paths[2] != 'course')) {
+        if ((count($paths) < 4) || ($paths[0] != 'tracks') || ($paths[2] != 'course')) {
             return null;
         }
 
