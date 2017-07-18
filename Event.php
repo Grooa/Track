@@ -32,9 +32,9 @@ class Event
         }
 
         if ($success) {
-            ipLog()->notice('Track/Event.ipCronExecute()', "Removed incomplete track-orders from storage");
+            ipLog()->notice('Track/Event.ipCronExecute()', ['message' => "Removed incomplete track-orders from storage"]);
         } else {
-            ipLog()->notice('Track/Event.ipCronExecute()', "No incomplete track-orders to remove");
+            ipLog()->notice('Track/Event.ipCronExecute()', ['error' => "No incomplete track-orders to remove"]);
         }
     }
 }
