@@ -2,7 +2,6 @@
 
 namespace Plugin\Track;
 
-use Plugin\GrooaPayment\Model\TrackOrder;
 use Plugin\Track\Model\Track;
 
 class Job

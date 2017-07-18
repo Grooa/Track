@@ -5,8 +5,8 @@
 
 namespace Plugin\Track;
 
-use Plugin\Track\Model\Track;
 use Plugin\Track\Model\Course;
+use Plugin\Track\Model\Track;
 use Plugin\Track\Model\TrackResource;
 
 
