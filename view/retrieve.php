@@ -24,12 +24,9 @@
         <?php endif; ?>
     </section>
 
-
-
-
     <section>
-        <h2>Courses</h2>
-        <small class="description">Bellow is the included courses for each track</small>
+        <h2>Videos</h2>
+        <small class="description">Bellow are the included videos for this track</small>
 
         <?= ipSlot('Track_listCourses', ['track' => $track, 'hasPurchased' => $hasPurchased]) ?>
     </section>

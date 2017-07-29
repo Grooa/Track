@@ -1,3 +1,7 @@
+<?php
+// Discontinued. Uses created page and widget
+?>
+
 <?= ipSlot('xBreadcrumb', [['uri' => "tracks", 'label' => 'Tracks', 'active' => true]]) ?>
 
 <h1>Online Courses</h1>
@@ -12,11 +16,13 @@
     <ul class="tiled shadowed">
         <?php foreach ($tracks as $track): ?>
             <li>
-                <div class="thumbnail">
-                    <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
+                <div class="metadata">
+                    <div class="thumbnail">
+                        <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="">
+                    </div>
+                    <strong class="price-tiled">€ <?=!empty($track['price']) ? $track['price'] : 0 ?></strong>
                 </div>
                 <h3><?= $track['title'] ?></h3>
-                <strong class="price-tiled">Price: € <?=!empty($track['price']) ? $track['price'] : 0 ?></strong>
                 <div class="description"><?= $track['shortDescription'] ?></div>
                 <a class="button colored" href="<?= ipConfig()->baseUrl() . 'tracks/' . $track['trackId'] ?>">Checkout course</a>
             </li>
