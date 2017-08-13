@@ -20,7 +20,7 @@
                     <em>Added <time><?=$track['createdOn']?></time></em>
                 <?php endif; ?>
 
-                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'tracks/' . $track['trackId'] ?>">
+                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
                     Checkout course
                 </a>
             </li>

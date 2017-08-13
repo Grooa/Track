@@ -1,7 +1,12 @@
 <?= ipSlot('xBreadcrumb', [
-    ['uri' => "tracks", 'label' => 'Tracks'],
-    ['uri' => "tracks/" . $track['trackId'], 'label' => $track['title'], 'active' => true]
+    ['uri' => "online-courses", 'label' => 'Online Courses'],
+    ['uri' => "online-courses/" . $track['trackId'], 'label' => $track['title'], 'active' => true]
 ]) ?>
+
+<?php
+$isBusinessUser = ipUser()->isLoggedIn() ?
+    \Plugin\GrooaUser\Model\GrooaUser::isBusinessUser(ipUser()->userId()) : false;
+?>
 
     <h1><?= $track['title'] ?></h1>
     <div class="introduction"><?= $track['longDescription'] ?></div>
@@ -16,11 +21,18 @@
         <?php endif; ?>
 
         <?php if (!ipUser()->isLoggedIn()): ?>
+            <?// Notify user to login, before he purchases?>
             <a href="<?= ipConfig()->baseUrl() ?>login" class="button login">Login to purchase</a>
         <?php endif; ?>
 
         <?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
-            <div id="paypal-button" class="paypal-autorendered"></div>
+            <?// Ensure only a personal account can purchase through PayPal ?>
+            <?php if (!$isBusinessUser): ?>
+                <div id="paypal-button" class="paypal-autorendered"></div>
+            <?php else: ?>
+                <a class="button btn-business"
+                   href="<?=ipConfig()->baseUrl()?>online-courses/contact/?course=<?=$track['trackId']?>">Contact sales to purchase</a>
+            <?php endif; ?>
         <?php endif; ?>
     </section>
 
@@ -31,6 +43,7 @@
         <?= ipSlot('Track_listCourses', ['track' => $track, 'hasPurchased' => $hasPurchased]) ?>
     </section>
 
-<?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
+<?php if (ipUser()->isLoggedIn() && !$hasPurchased && !$isBusinessUser): ?>
+    <?// Only load PayPal when necessary ?>
     <?= ipSlot('paypalCheckout', ['trackId' => $track['trackId']]) ?>
 <?php endif; ?>

@@ -31,6 +31,11 @@ class Worker
             Install and activate this first");
         }
 
+        if (!in_array('GrooaUser', $plugins)) {
+            throw new Exception("The Track plugin requires the GrooaUser plugin. 
+            Install and activate this first");
+        }
+
     }
 
     public function remove()

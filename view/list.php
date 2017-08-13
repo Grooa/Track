@@ -24,7 +24,7 @@
                 </div>
                 <h3><?= $track['title'] ?></h3>
                 <div class="description"><?= $track['shortDescription'] ?></div>
-                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'tracks/' . $track['trackId'] ?>">Checkout course</a>
+                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">Checkout course</a>
             </li>
         <?php endforeach; ?>
     </ul>

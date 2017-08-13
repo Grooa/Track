@@ -11,6 +11,10 @@ class Track {
     }
 
     public static function get($trackId, $courseId = null) {
+        if (empty($trackId)) {
+            return null;
+        }
+
         $track = ipDb()->selectRow(self::TABLE, '*', ['trackId' => $trackId]);
 
         if (empty($track)) {

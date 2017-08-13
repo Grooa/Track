@@ -3,7 +3,10 @@
 namespace Plugin\Track;
 
 use Ip\Exception;
+use Ip\Response\PageNotFound;
+use Ip\Response\Redirect;
 use Plugin\GrooaPayment\Response\RestError;
+use Plugin\GrooaUser\Model\GrooaUser;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Track;
 
@@ -112,6 +115,105 @@ class SiteController
             return new RestError("You must purchase this track ($trackId) first", 403);
         }
 
+    }
 
+    public function contactSales () {
+        if (!ipUser()->isLoggedIn()) {
+            return new Redirect(ipConfig()->baseUrl() . 'home');
+        }
+
+        $user = GrooaUser::getByUserId(ipUser()->userId());
+
+        if (!empty($user['businessUser']) && $user['businessUser'] != true) {
+            return new Redirect(ipConfig()->baseUrl() . 'home');
+        }
+
+        $user['email'] = ipUser()->data()['email'];
+
+        $trackId = ipRequest()->getQuery('course');
+        $track = Track::get($trackId);
+
+        if (empty($trackId) || empty($track)) {
+            return new PageNotFound("Cannot find the selected course");
+        }
+
+        $layout = new \Ip\Response\Layout(ipView('view/contactSales.php',
+            [
+                'track' => $track,
+                'user' => $user,
+                'form' => self::createContactSalesForm($user, $track)
+            ])->render()
+        );
+        $layout->setLayout('contact.php');
+
+        return $layout;
+    }
+
+    public static function createContactSalesForm($user, $track) {
+        $form = new \Ip\Form();
+        $form->setMethod('post');
+        $form->setAction(ipConfig()->baseUrl());
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('mailgun contact');
+
+        $form->addField(new \Ip\Form\Field\Hidden([
+            'name' => 'pa',
+            'value' => 'Track.contactSales'
+        ]));
+
+        $form->addField(new \Ip\Form\Field\Hidden([
+            'name' => 'companyName',
+            'value' => $user['companyName']
+        ]));
+
+        $form->addField(new \Ip\Form\Field\Hidden([
+            'name' => 'title',
+            'value' => $track['title']
+        ]));
+
+        $form->addField(new \Ip\Form\Field\Text([
+            'name' => 'name',
+            'label' => 'Company Name',
+            'value' => $user['companyName'],
+            'attributes' => ['disabled' => 'disabled']
+        ]));
+
+        $form->addField(new \Ip\Form\Field\Email([
+            'name' => 'email',
+            'label' => 'Email',
+            'value' => $user['email'],
+            'validators' => ['Required']
+        ]));
+
+        // Just for
+        $form->addField(new \Ip\Form\Field\Text([
+            'name' => 'courseTitle',
+            'label' => 'Name of Course',
+            'value' => $track['title'],
+            'attributes' => ['disabled' => 'disabled']
+        ]));
+
+        // Used by Track.contactSales to know which course to purchase
+        $form->addField(new \Ip\Form\Field\Hidden([
+            'name' => 'trackId',
+            'value' => $track['trackId']
+        ]));
+
+
+        $form->addField(new \Ip\Form\Field\Textarea([
+            'name' => 'message',
+            'label' => 'Message',
+            'hint' => 'Hi, I am interested in x course! We are around 5 people who will take this course and is interested in a price estimate',
+            'attributes' => [
+                'placeholder' => 'Hi, I am interested in x course! We are around 5 people who will take this course and is interested in a price estimate'
+            ],
+            'validators' => ['Required']
+        ]));
+
+        $form->addField(new \Ip\Form\Field\Submit([
+            'value' => 'Send Request'
+        ]));
+
+        return $form;
     }
 }

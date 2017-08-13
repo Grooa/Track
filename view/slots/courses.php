@@ -14,7 +14,7 @@
 
             <?php if ($hasPurchased): ?>
                 <a class="button colored"
-                   href="<?= ipConfig()->baseUrl() . 'tracks/' . $track['trackId'] ?>/course/<?= $course['courseId'] ?>">
+                   href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>/course/<?= $course['courseId'] ?>">
                     Watch course
                 </a>
             <?php endif; ?>

@@ -1,21 +1,17 @@
 <?php
 
-/**
- * Route to display all available tracks
- * one can buy
- */
-//$routes['tracks'] = [
-//    'name' => 'Track_list',
-//    'controller' => 'SiteController',
-//    'action' => 'listTracks'
-//];
+$routes['online-courses/contact'] = [
+    'name' => 'Contact_sales',
+    'controller' => 'SiteController',
+    'action' => 'contactSales'
+];
 
 /**
  * Will display a specific track.
  * Information displayed should be based,
  * on the users status (logged_in & bought_track)
  */
-$routes['tracks/{trackId}'] = [
+$routes['online-courses/{trackId}'] = [
     'where' => [
         'trackId' => '\d+'
     ],
@@ -31,7 +27,7 @@ $routes['tracks/{trackId}'] = [
  */
 // TODO:ffl - The url does for some reason not catch a route
 // TODO:ffl - dafuq is this shit...
-$routes['tracks/{trackId}/course/{courseId}'] = [
+$routes['online-courses/{trackId}/course/{courseId}'] = [
     'where' => [
         'trackId' => '\d+',
         'courseId' => '\d+'
@@ -41,7 +37,7 @@ $routes['tracks/{trackId}/course/{courseId}'] = [
     'action' => 'retrieveCourse'
 ];
 
-$routes['tracks/{trackId}/course/{courseId}/resources'] = [
+$routes['online-courses/{trackId}/course/{courseId}/resources'] = [
     'where' => [
         'trackId' => '\d+',
         'courseId' => '\d+'
