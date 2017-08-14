@@ -1,27 +1,32 @@
 <?= ipSlot('xBreadcrumb', [
     [
-        'uri' => "tracks",
+        'uri' => "online-courses",
         'label' => 'Tracks'
     ],
     [
-        'uri' => "tracks/" . $track['trackId'],
+        'uri' => "online-courses/" . $track['trackId'],
         'label' => $track['title']
     ],
     [
-        'uri' => "tracks/" . $track['trackId'] . '/course/' . $course['courseId'],
+        'uri' => "online-courses/" . $track['trackId'] . '/course/' . $course['courseId'],
         'label' => $course['title'],
         'active' => true
     ]
 ]) ?>
 
 <section>
-    <h1><?=$course['title']?></h1>
-    <div class="introduction"><?=$course['longDescription']?></div>
+    <h2>Video - <?= $course['title'] ?></h2>
+    <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' . $course['longDescription'] . '</div>']) ?>
 </section>
 
 <section>
+    <?//= ipSlot('VideoJs_player', [
+//        'sources' => [
+//            'video/mp4' => $course['video']
+//        ]
+//    ]) ?>
     <video width="500" height="200" controls>
-        <source src="<?=$course['video']?>" type="video/mp4">
+        <source src="<?= $course['video'] ?>" type="video/mp4">
         Your device do not support video playback
     </video>
 </section>

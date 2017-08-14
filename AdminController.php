@@ -34,7 +34,8 @@ class AdminController
                 [
                     'field' => 'price',
                     'label' => 'Price',
-                    'type' => 'Currency'
+                    'type' => 'Text',
+                    'value' => '0.0'
                 ],
                 [
                     'field' => 'shortDescription',
@@ -86,8 +87,8 @@ class AdminController
                 [
                     'field' => 'price',
                     'label' => 'Price',
-                    'type' => 'Currency',
-                    'default' => 0.0
+                    'type' => 'Text',
+                    'value' => '0.0'
                 ],
                 [
                     'field' => 'trackId',

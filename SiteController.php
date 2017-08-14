@@ -86,8 +86,10 @@ class SiteController
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
         }
 
-        $uri = AwsS3::getPresignedUri( // TODO:ffl - set dynamic url
-            'courses/videos/Archer.S08E04.Ladyfingers.720p.WEB.x264-[MULVAcoded].mp4');
+        $uri = null;
+        if (!empty($track['course']['video'])) {
+            $uri = AwsS3::getPresignedUri($track['course']['video']);
+        }
 
         $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url
 
