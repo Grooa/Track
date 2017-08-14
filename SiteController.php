@@ -27,6 +27,10 @@ class SiteController
     }
 
     /**
+     * @controller
+     * Present the specific Track,
+     * and allows users and businesses to purchase it.
+     *
      * @param $trackId
      * @return \Ip\Response\Layout
      * @throws Exception
@@ -65,6 +69,11 @@ class SiteController
     }
 
     /**
+     * @controller
+     * Page where the specific course video is presented.
+     * Cannot be access if not purchased.
+     * See Job.php for the filter which handles this
+     *
      * @param $trackId
      * @param $courseId
      * @return \Ip\Response\Layout|\Ip\Response\PageNotFound
@@ -77,7 +86,7 @@ class SiteController
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
         }
 
-        $uri = AwsS3::getPresignedUri(
+        $uri = AwsS3::getPresignedUri( // TODO:ffl - set dynamic url
             'courses/videos/Archer.S08E04.Ladyfingers.720p.WEB.x264-[MULVAcoded].mp4');
 
         $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url
@@ -98,14 +107,15 @@ class SiteController
         return $layout;
     }
 
+    /**
+     * @controller
+     * @rest
+     * Will fetch all the courses-video resources in JSON format
+     */
     public function retrieveCourseResources($trackId, $courseId) {
         if (!ipRequest()->isGet()) {
             return new RestError("Method Not Allowed", 405);
         }
-
-//        if (!ipRequest()->isAjax()) {
-//            return new RestError("Request must be Ajax", 401);
-//        }
 
         if (!ipUser()->isLoggedIn()) {
             return new RestError("Request requires authenticated user", 403);
@@ -117,6 +127,16 @@ class SiteController
 
     }
 
+    /**
+     * @controller
+     * Renders the contact sale form, which allows business users to request
+     * pricing for a specific course.
+     *
+     * Business accounts are not allowed to purchase through PayPal,
+     * as courses purchased by businesses, is assumed to be shared across multiple employees.
+     *
+     * Requires query param `course`, which is the trackId of the requested course
+     */
     public function contactSales () {
         if (!ipUser()->isLoggedIn()) {
             return new Redirect(ipConfig()->baseUrl() . 'home');
