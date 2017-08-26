@@ -257,6 +257,12 @@ class AdminController
 
         // Register fields to form
         $form->addField($field); // Keep at top
+        $form->addField(new \Ip\Form\Field\Select([
+            'name' => 'trackId',
+            'label' => 'Course',
+            'values' => Track::getWithIdAndTitle(),
+            'value' => !empty($widgetData['trackId']) ? $widgetData['trackId'] : null
+        ]));
 
         return $form;
     }
