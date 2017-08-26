@@ -25,7 +25,7 @@
 //            'video/mp4' => $course['video']
 //        ]
 //    ]) ?>
-    <video width="500" height="200" controls>
+    <video id="courseVid" width="500" height="200" controls controlsList="nodownload">
         <source src="<?= $course['video'] ?>" type="video/mp4">
         Your device do not support video playback
     </video>
@@ -35,3 +35,13 @@
     <h2>Resources</h2>
     <ul id="courseResources" class="course-resources"></ul>
 </section>
+
+<script type="text/javascript">
+    var courseVid = document.getElementById('courseVid');
+
+    // Disable right click (simple solution)
+    courseVid.oncontextmenu = function(evt) {
+        evt.preventDefault();
+        return false;
+    }
+</script>
