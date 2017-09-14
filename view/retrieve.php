@@ -15,7 +15,7 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
         <?php if (!$hasPurchased): ?>
             <em class="price">Price: <strong><?= !empty($track['price']) ? $track['price'] : 0.0 ?> €</strong></em>
         <?php else: ?>
-            <div class="continue">Course Purchased</div>
+            <div class="continue">Course Added</div>
         <?php endif; ?>
 
         <?php if (!ipUser()->isLoggedIn()): ?>
