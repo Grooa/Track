@@ -62,6 +62,9 @@ class SiteController
             ])->render());
         $layout->setLayout('track.php');
 
+        $layout->setTitle("Grooa | ${track['title']}");
+        $layout->setDescription($track['shortDescription']);
+
         // Set background image
         $layout->setLayoutVariable('coverImage', ipFileUrl('file/repository/' . $track['largeThumbnail']));
 
@@ -103,8 +106,12 @@ class SiteController
         );
         $layout->setLayout('track.php');
 
-        $layout->setLayoutVariable('coverImage', $track['course']['largeThumbnail']);
-        $layout->setLayoutVariable('coverTitle', $track['title']);
+        $layout->setTitle("Grooa | ${track['title']}");
+        $layout->setDescription(!empty($track['course']['shortDescription']) ?
+            $track['course']['shortDescription'] : $track['shortDescription']);
+
+        //$layout->setLayoutVariable('coverImage', ipFileUrl('file/repository/' . $track['course']['largeThumbnail']));
+        //$layout->setLayoutVariable('coverTitle', $track['title']);
 
         return $layout;
     }

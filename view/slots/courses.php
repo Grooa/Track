@@ -9,7 +9,7 @@
             </div>
             <h3><?= $course['title'] ?></h3>
             <?php if (!empty($course['shortDescription'])): ?>
-                <div><?= $course['shortDescription'] ?></div>
+                <div class="description"><?= $course['shortDescription'] ?></div>
             <?php endif; ?>
 
             <?php if ($hasPurchased): ?>
@@ -18,6 +18,7 @@
                     Watch course
                 </a>
             <?php endif; ?>
+
         </li>
     <?php endforeach; ?>
 </ul>
