@@ -12,6 +12,8 @@ section > h2 {
 }
 
 video {
+    background-color: #FFF;
+
     display: block;
 
     height: auto;

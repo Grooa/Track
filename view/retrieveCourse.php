@@ -26,7 +26,7 @@
 //            'video/mp4' => $course['video']
 //        ]
 //    ]) ?>
-    <video id="courseVid" width="500" height="200" 
+    <video id="courseVid" class="object" width="500" height="200"
 		poster="<?= !empty($course['largeThumbnail']) ? ipFileUrl('file/repository/' . $course['largeThumbnail']) : ''?>"	
 		controls controlsList="nodownload">
         <source src="<?= $course['video'] ?>" type="video/mp4">
