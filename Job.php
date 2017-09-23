@@ -7,7 +7,7 @@ use Plugin\Track\Model\Track;
 class Job
 {
     /**
-     * Expect path: tracks/<trackId>/course/<courseId>,
+     * Expect path: online-courses/<trackId>/v/<courseId>,
      * Everything else is automatically approved.
      *
      * If a track is found, then ensure the user actually has purchased the course
@@ -22,11 +22,11 @@ class Job
 
         // Let a track which doesn't exists fall through,
         // and give a 404 instead
-        if (!self::trackExists($params['tracks'])) {
+        if (empty($params['online-courses']) || !self::trackExists($params['online-courses'])) {
             return null;
         }
 
-        if (empty($params) || TrackProtector::canAccess(ipUser(), $params['tracks'])) {
+        if (empty($params) || TrackProtector::canAccess(ipUser(), $params['online-courses'])) {
             return null;
         }
 
@@ -58,7 +58,7 @@ class Job
     private static function parseTrackReqParams($uri) {
         $paths = explode("/", $uri);
 
-        if ((count($paths) < 4) || ($paths[0] != 'tracks') || ($paths[2] != 'course')) {
+        if ((count($paths) < 4) || ($paths[0] != 'online-courses') || ($paths[2] != 'v')) {
             return null;
         }
 

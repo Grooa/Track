@@ -21,7 +21,7 @@
                 <?php endif; ?>
 
                 <a class="button colored" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
-                    Checkout course
+                    Checkout module
                 </a>
             </li>
         <?php endforeach; ?>

@@ -91,6 +91,12 @@ class AdminController
             'idField' => 'courseId',
             'fields' => [
                 [
+                    'field' => 'courseId',
+                    'label' => 'ID',
+                    'allowCreate' => false,
+                    'allowUpdate' => false
+                ],
+                [
                     'field' => 'title',
                     'label' => 'Title'
                 ],
@@ -109,11 +115,13 @@ class AdminController
                 [
                     'field' => 'shortDescription',
                     'label' => 'Short Description',
+                    'note' => 'Used on the preview card. Should be short',
                     'type' => 'RichText'
                 ],
                 [
                     'field' => 'longDescription',
                     'label' => 'Long Description',
+                    'hint' => 'Used on the Video page. Should be around 255-400 characters',
                     'type' => 'RichText'
                 ],
                 [
@@ -136,10 +144,7 @@ class AdminController
                     'preview' => true
                 ]
             ],
-            'pageSize' => 15,
-            'beforeDelete' => function ($id) {
-                Course::removeVideos($id, $this->fileRoot);
-            }
+            'pageSize' => 15
         ];
 
         return ipGridController($config);
@@ -156,8 +161,17 @@ class AdminController
             'idField' => 'courseId',
             'fields' => [
                 [
+                    'field' => 'id',
+                    'label' => 'ID',
+                    'allowCreate' => false,
+                    'allowUpdate' => false
+                ],
+                [
                     'field' => 'label',
-                    'label' => 'Label'
+                    'label' => 'Label',
+                    'attributes' => [
+                        'required' => 'required'
+                    ],
                 ],
                 [
                     'field' => 'description',
@@ -169,25 +183,32 @@ class AdminController
                     'label' => 'Filename',
                     'hint' => 'Use "Copy path" on Amazon S3 console and paste it here. If you want to support multiple resolutions, suffix the filename with _720px, _1080px, etc.',
                     'required' => true,
-                    'type' => 'Text'
+                    'type' => 'Text',
+                    'attributes' => [
+                        'required' => 'required'
+                    ],
                 ],
                 [
                     'field' => 'trackId',
                     'label' => 'Track',
                     'type' => 'Select',
+                    'attributes' => [
+                        'required' => 'required'
+                    ],
                     'values' => Track::getWithIdAndTitle()
                 ],
                 [
                     'field' => 'courseId',
-                    'label' => 'Course',
-                    'type' => 'Select',
-                    'values' => []
+                    'label' => 'Video Id',
+                    'type' => 'Integer',
+                    'value' => '0',
+                    'attributes' => [
+                      'required' => 'required'
+                    ],
+                    'default' => 0
                 ]
             ],
-            'pageSize' => 15,
-            'beforeDelete' => function ($id) {
-                Course::removeVideos($id, $this->fileRoot);
-            }
+            'pageSize' => 15
         ];
 
         return ipGridController($config);

@@ -8,7 +8,7 @@
         'label' => $track['title']
     ],
     [
-        'uri' => "online-courses/" . $track['trackId'] . '/course/' . $course['courseId'],
+        'uri' => "online-courses/" . $track['trackId'] . '/v/' . $course['courseId'],
         'label' => $course['title'],
         'active' => true
     ]
@@ -46,5 +46,13 @@
     courseVid.oncontextmenu = function(evt) {
         evt.preventDefault();
         return false;
+    };
+
+    var courseResources = $('#coursesResources');
+
+    if (courseResources) {
+        $.ajax({
+
+        })
     }
 </script>

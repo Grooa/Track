@@ -36,7 +36,7 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
 
     <section>
         <h2>Videos</h2>
-        <small class="description">Bellow are the included videos for this track</small>
+        <small class="description">Bellow are the included videos for this module</small>
 
         <?= ipSlot('Track_listCourses', ['track' => $track, 'hasPurchased' => $hasPurchased]) ?>
     </section>

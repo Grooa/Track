@@ -25,9 +25,17 @@ $routes['online-courses/{trackId}'] = [
  * where videos and other information are available.
  * Page requires a user, and that the track is purchased
  */
-// TODO:ffl - The url does for some reason not catch a route
-// TODO:ffl - dafuq is this shit...
-$routes['online-courses/{trackId}/course/{courseId}'] = [
+//$routes['online-courses/{trackId}/course/{courseId}'] = [
+//    'where' => [
+//        'trackId' => '\d+',
+//        'courseId' => '\d+'
+//    ],
+//    'name' => 'Course_retrieve',
+//    'controller' => 'SiteController',
+//    'action' => 'retrieveCourse'
+//];
+
+$routes['online-courses/{trackId}/v/{courseId}'] = [
     'where' => [
         'trackId' => '\d+',
         'courseId' => '\d+'
