@@ -16,7 +16,7 @@ class AdminController
     private $fileRoot = 'file/secure/videos';
 
     /**
-     * @ipSubmenu Tracks
+     * @ipSubmenu Master Class Module
      */
     public function index()
     {
@@ -25,6 +25,16 @@ class AdminController
             'title' => 'Tracks',
             'table' => Track::TABLE,
             'idField' => 'trackId',
+            'actions' => [
+                [
+                    'type' => 'Html',
+                    'html' => '<a class="button" style="margin: auto 1em;" href="'. ipConfig()->baseUrl(). 'online-courses">To Master Class</a>'
+                ],
+                [
+                    'type' => 'Html',
+                    'html' => '<a class="button" style="margin: auto 1em;" href="'. ipConfig()->baseUrl(). '?aa=GrooaPayment">To Payment Manager</a>'
+                ]
+            ],
             'fields' => [
                 [
                     'field' => 'title',
@@ -70,7 +80,7 @@ class AdminController
     }
 
     /**
-     * @ipSubmenu Courses
+     * @ipSubmenu Videos
      */
     public function courses()
     {
@@ -136,7 +146,7 @@ class AdminController
     }
 
     /**
-     * @ipSubmenu Course Resources
+     * @ipSubmenu Video Resources
      */
     public function courseResources()
     {
