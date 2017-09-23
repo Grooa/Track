@@ -45,7 +45,7 @@ $routes['online-courses/{trackId}/v/{courseId}'] = [
     'action' => 'retrieveCourse'
 ];
 
-$routes['online-courses/{trackId}/course/{courseId}/resources'] = [
+$routes['online-courses/{trackId}/v/{courseId}/resources'] = [
     'where' => [
         'trackId' => '\d+',
         'courseId' => '\d+'

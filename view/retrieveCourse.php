@@ -1,7 +1,7 @@
 <?= ipSlot('xBreadcrumb', [
     [
         'uri' => "online-courses",
-        'label' => 'Tracks'
+        'label' => 'Master Class'
     ],
     [
         'uri' => "online-courses/" . $track['trackId'],
@@ -34,12 +34,16 @@
     </video>
 </section>
 
-<section>
+<section class="object" style="margin: 2em auto">
     <h2>Resources</h2>
+    <p id="loader" class="centered">Loading ...</p>
     <ul id="courseResources" class="course-resources"></ul>
 </section>
 
 <script type="text/javascript">
+    var trackId = '<?=$track['trackId']?>';
+    var courseId = '<?=$course['courseId']?>';
+
     var courseVid = document.getElementById('courseVid');
 
     // Disable right click (simple solution)
@@ -48,11 +52,35 @@
         return false;
     };
 
-    var courseResources = $('#coursesResources');
+    document.addEventListener("DOMContentLoaded", function() {
+        var courseResources = $('#courseResources');
 
-    if (courseResources) {
-        $.ajax({
+        if (courseResources) {
+            $.ajax({
+                type: "GET",
+                url: ip.baseUrl + 'online-courses/' + trackId + '/v/' + courseId + '/resources',
+                dataType: 'json',
+                success: function(data) {
+                    if (!data) {
+                        $('#loader').html('This module has no resources');
+                        return;
+                    }
 
-        })
-    }
+                    $('#loader').remove();
+
+                    data.forEach(function(d) {
+                        courseResources
+                            .append(
+                                '<li><a href="' + (d.url || '#') +'" target="_blank" title="' + d.filename + '">' + d.label + '</a></li>'
+                            );
+                    });
+                },
+                error: function (err) {
+                    console.error('Could not load resources for the video');
+                    console.error(err);
+                }
+            });
+        }
+    });
+
 </script>

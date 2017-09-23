@@ -9,7 +9,10 @@ class TrackResource {
     const TABLE = "course_resource";
 
     public static function getAll($trackId, $courseId) {
-
+        return ipDb()->selectAll('course_resource', '*', [
+            'trackId' => $trackId,
+            'courseId' => $courseId
+        ]);
     }
 
     public static function get($trackId, $courseId, $resourceId) {

@@ -11,6 +11,7 @@ use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Track;
 
 use Plugin\GrooaPayment\Model\TrackOrder;
+use Plugin\Track\Model\TrackResource;
 
 class SiteController
 {
@@ -131,9 +132,20 @@ class SiteController
         }
 
         if (!TrackProtector::canAccess(ipUser(), $trackId)) {
-            return new RestError("You must purchase this track ($trackId) first", 403);
+            return new RestError("You must purchase this module ($trackId) first", 403);
         }
 
+        $resources = TrackResource::getAll($trackId, $courseId);
+
+        // Create valid presigned urls
+        if (!empty($resources)) {
+            $resources = array_map(function($r) {
+                $r['url'] = AwsS3::getPresignedUri($r['filename']);
+                return $r;
+            }, $resources);
+        }
+
+        return new \Ip\Response\Json($resources);
     }
 
     /**

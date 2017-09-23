@@ -2,7 +2,7 @@
 // Discontinued. Uses created page and widget
 ?>
 
-<?= ipSlot('xBreadcrumb', [['uri' => "tracks", 'label' => 'Tracks', 'active' => true]]) ?>
+<?= ipSlot('xBreadcrumb', [['uri' => "tracks", 'label' => 'Master Class', 'active' => true]]) ?>
 
 <h1>Online Courses</h1>
 <small class="description">
