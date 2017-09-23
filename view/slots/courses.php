@@ -2,7 +2,7 @@
 
 <?php if ($hasPurchased && !empty($track['courses']) && count($track['courses']) < 2): ?>
     <a
-            class="button centered"
+            class="button lonely"
             href="<?=ipConfig()->baseUrl()?>online-courses/<?=$track['trackId']?>/v/<?=$track['courses'][0]['courseId']?>">
         Watch Video
     </a>

@@ -37,7 +37,7 @@
 <section class="object" style="margin: 2em auto">
     <h2>Resources</h2>
     <p id="loader" class="centered">Loading ...</p>
-    <ul id="courseResources" class="course-resources"></ul>
+    <ul id="courseResources" class="course-resources dashed"></ul>
 </section>
 
 <script type="text/javascript">
