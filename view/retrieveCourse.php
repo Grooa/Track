@@ -61,7 +61,7 @@
                 url: ip.baseUrl + 'online-courses/' + trackId + '/v/' + courseId + '/resources',
                 dataType: 'json',
                 success: function(data) {
-                    if (!data) {
+                    if (!data || data.length < 1) {
                         $('#loader').html('This module has no resources');
                         return;
                     }

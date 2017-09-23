@@ -51,7 +51,7 @@ $routes['online-courses/{trackId}/v/{courseId}/resources'] = [
         'courseId' => '\d+'
     ],
     'name' => 'Course_resource_retrieve',
-    'controller' => 'SiteController',
+    'controller' => 'PublicController',
     'action' => 'retrieveCourseResources'
 ];
 

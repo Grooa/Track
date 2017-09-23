@@ -156,15 +156,13 @@ class AdminController
     public function courseResources()
     {
         $config = [
-            'title' => 'Course Resources',
+            'title' => 'Video Resources',
             'table' => TrackResource::TABLE,
-            'idField' => 'courseId',
+            'idField' => 'id',
             'fields' => [
                 [
                     'field' => 'id',
-                    'label' => 'ID',
-                    'allowCreate' => false,
-                    'allowUpdate' => false
+                    'label' => 'ID'
                 ],
                 [
                     'field' => 'label',
@@ -200,7 +198,7 @@ class AdminController
                 [
                     'field' => 'courseId',
                     'label' => 'Video Id',
-                    'type' => 'Integer',
+                    'type' => 'Text',
                     'value' => '0',
                     'attributes' => [
                       'required' => 'required'

@@ -4,7 +4,9 @@ namespace Plugin\Track;
 
 use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
+use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Course;
+use Plugin\Track\Model\TrackResource;
 
 class PublicController
 {
@@ -88,6 +90,37 @@ class PublicController
         return new \Ip\Response\Json($res);
     }
 
+
+    /**
+     * @controller
+     * @rest
+     * Will fetch all the courses-video resources in JSON format
+     */
+    public function retrieveCourseResources($trackId, $courseId) {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
+        if (!ipUser()->isLoggedIn()) {
+            return new RestError("Request requires authenticated user", 403);
+        }
+
+        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
+            return new RestError("You must purchase this module ($trackId) first", 403);
+        }
+
+        $resources = TrackResource::getAll($trackId, $courseId);
+
+        // Create valid presigned urls
+        if (!empty($resources)) {
+            $resources = array_map(function($r) {
+                $r['url'] = AwsS3::getPresignedUri($r['filename']);
+                return $r;
+            }, $resources);
+        }
+
+        return new \Ip\Response\Json($resources);
+    }
 
     /**
      * Retrieves a list of courses for the selected track.
