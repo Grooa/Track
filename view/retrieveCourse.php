@@ -43,44 +43,4 @@
 <script type="text/javascript">
     var trackId = '<?=$track['trackId']?>';
     var courseId = '<?=$course['courseId']?>';
-
-    var courseVid = document.getElementById('courseVid');
-
-    // Disable right click (simple solution)
-    courseVid.oncontextmenu = function(evt) {
-        evt.preventDefault();
-        return false;
-    };
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var courseResources = $('#courseResources');
-
-        if (courseResources) {
-            $.ajax({
-                type: "GET",
-                url: ip.baseUrl + 'online-courses/' + trackId + '/v/' + courseId + '/resources',
-                dataType: 'json',
-                success: function(data) {
-                    if (!data || data.length < 1) {
-                        $('#loader').html('This module has no resources');
-                        return;
-                    }
-
-                    $('#loader').remove();
-
-                    data.forEach(function(d) {
-                        courseResources
-                            .append(
-                                '<li><a href="' + (d.url || '#') +'" target="_blank" title="' + d.filename + '">' + d.label + '</a></li>'
-                            );
-                    });
-                },
-                error: function (err) {
-                    console.error('Could not load resources for the video');
-                    console.error(err);
-                }
-            });
-        }
-    });
-
 </script>

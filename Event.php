@@ -12,8 +12,8 @@ class Event
     {
         ipAddCss('assets/tracks.css');
 
-        if ($data['controller'] == 'AdminController' && $data['action'] == 'courseResources') {
-//            ipAddJs('assets/courseResources.js', ['async' => 'async', 'defer' => 'defer']);
+        if ($data['action'] == 'retrieveCourse' && $data['plugin'] == 'Track') {
+            ipAddJs('assets/courseResources.js');
         }
 
         ipAddJs('assets/tracks.js', ['async'=>'async', 'defer'=>'defer']);

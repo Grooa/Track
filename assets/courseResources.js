@@ -1,114 +1,46 @@
-function CourseResources() {
 
-    var reqUrl = 'pa=Track.listCourses';
+document.addEventListener("DOMContentLoaded", function() {
+    disableVideoDownload(document.getElementById('courseVid'));
 
-    function buildReqUrl(trackId) {
-        return ip.baseUrl + '?' + reqUrl + '&trackId=' + trackId;
-    }
+    var courseResources = $('#courseResources');
+    var loader = $('#loader');
 
-    function generateSelectList(courses) {
-        if (!(courses instanceof Array)) {
-            return "";
-        }
+    if (courseResources) {
+        $.ajax({
+            type: "GET",
+            url: ip.baseUrl + 'online-courses/' + trackId + '/v/' + courseId + '/resources',
+            dataType: 'json',
+            success: function(data) {
+                if (!data || data.length < 1) {
+                    loader.html('This module has no resources');
+                    return;
+                }
 
-        return courses.map(function (c) {
-            return '<option value="' + c[0] + '">' + c[1] + '</option>';
-        }).join(' ');
-    }
+                loader.remove();
 
-    function getHelpError(sibling) {
-        var siblings = sibling.parentNode.childNodes;
-
-        for (var i = 0; i < siblings.length; i++) {
-            if (siblings[i].className === 'help-error') {
-                return siblings[i];
-            }
-        }
-
-        return null;
-    }
-
-    function fetchCourses(id) {
-        return new Promise(function (rsv, rr) {
-            if (!id) {
-                return rsv(null);
-            }
-
-            var url = buildReqUrl(id);
-
-            $.ajax({
-                dataType: 'json',
-                url: url
-            })
-                .done(function (data) {
-                    if (!data) {
-                        return rr(new Error('No Courses Available for this track'));
-                    }
-                    return rsv(data);
-                })
-                .fail(function (err) {
-                    return rr(err);
+                data.forEach(function(d) {
+                    courseResources
+                        .append(
+                            '<li><a href="' + (d.url || '#') +'" target="_blank" title="' + d.filename + '">' + d.label + '</a></li>'
+                        );
                 });
+            },
+            error: function (err) {
+                console.error('Could not load resources for the video');
+                console.error(err);
+            }
         });
     }
+});
 
-    function courseUpdateHandler(fetcher, course, helpError) {
-        fetcher
-            .then(function (data) {
-                course.value = null;
-                course.innerHTML = generateSelectList(data);
-            })
-            .catch(function (err) {
-                helpError.innerHTML = err.message;
-                helpError.style.display = 'block'
-            });
-    }
-
-    /**
-     * Handles
-     * */
-    function trackUpdateHandler(track, course) {
-        if (!track || !course) {
-            return;
-        }
-        var helpError = getHelpError(course);
-        helpError.innerHTML = '';
-        helpError.style.display = 'none';
-
-        courseUpdateHandler(fetchCourses(track.value), course, helpError);
-
-        track.addEventListener('change', function (evt) {
-            var value = evt.target.value || null;
-            courseUpdateHandler(fetchCourses(value), course, helpError);
-        });
-    }
-
-    return {
-        trackUpdateHandler: trackUpdateHandler
+/**
+ * Remove right click and eventual other items
+ *
+ * */
+function disableVideoDownload (video) {
+    // Disable right click (simple solution)
+    video.oncontextmenu = function(evt) {
+        evt.preventDefault();
+        return false;
     };
 }
-
-$(document).ready(function () {
-    var resources = new CourseResources();
-
-    $('.ipsGrid').on('createModalOpen.ipGrid', function (evt) {
-        var track = document.getElementsByName('trackId');
-        track = !!track ? track[0] : null;
-
-        var course = document.getElementsByName('courseId');
-        course = !!course ? course[0] : null;
-
-        resources.trackUpdateHandler(track, course);
-    }).on('updateModalOpen.ipGrid', function (evt) {
-        var track = document.getElementsByName('trackId');
-        track = !!track ? track[0] : null;
-
-        var course = document.getElementsByName('courseId');
-        course = !!course ? course[0] : null;
-
-        console.log(course);
-
-        resources.trackUpdateHandler(track, course);
-    });
-
-});
