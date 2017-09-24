@@ -5,7 +5,7 @@
             class="button lonely"
             data-track-content
             data-content-name="Course Link"
-            data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
+            data-content-piece="<?=$track['title'] . '-' . $track['courses'][0]['title']?>"
             href="<?=ipConfig()->baseUrl()?>online-courses/<?=$track['trackId']?>/v/<?=$track['courses'][0]['courseId']?>">
         Watch Video
     </a>
