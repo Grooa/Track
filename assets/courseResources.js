@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 data.forEach(function(d) {
                     courseResources
                         .append(
-                            '<li><a href="' + (d.url || '#') +'" target="_blank" title="' + d.filename + '">' + d.label + '</a></li>'
+                            '<li><a href="' + (d.url || '#') +'" target="_blank" data-content-piece="' + d.label + '" title="' + d.filename + '">' + d.label + '</a></li>'
                         );
                 });
             },

@@ -26,9 +26,18 @@
 //            'video/mp4' => $course['video']
 //        ]
 //    ]) ?>
-    <video id="courseVid" class="object" width="500" height="200"
-		poster="<?= !empty($course['largeThumbnail']) ? ipFileUrl('file/repository/' . $course['largeThumbnail']) : ''?>"	
-		controls controlsList="nodownload">
+    <video
+            id="courseVid"
+            class="object"
+            width="500"
+            height="200"
+            data-track-content
+            data-content-name="Track Video"
+            data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
+            poster="<?= !empty($course['largeThumbnail']) ? ipFileUrl('file/repository/' . $course['largeThumbnail']) : ''?>"
+            controls
+            controlsList="nodownload">
+
         <source src="<?= $course['video'] ?>" type="video/mp4">
         Your device do not support video playback
     </video>
@@ -37,7 +46,11 @@
 <section class="object" style="margin: 2em auto">
     <h2>Resources</h2>
     <p id="loader" class="centered">Loading ...</p>
-    <ul id="courseResources" class="course-resources dashed"></ul>
+    <ul
+            id="courseResources"
+            class="course-resources dashed"
+            data-track-content
+            data-content-name="Track Resources"></ul>
 </section>
 
 <script type="text/javascript">

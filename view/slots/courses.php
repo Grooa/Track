@@ -3,6 +3,9 @@
 <?php if ($hasPurchased && !empty($track['courses']) && count($track['courses']) < 2): ?>
     <a
             class="button lonely"
+            data-track-content
+            data-content-name="Course Link"
+            data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
             href="<?=ipConfig()->baseUrl()?>online-courses/<?=$track['trackId']?>/v/<?=$track['courses'][0]['courseId']?>">
         Watch Video
     </a>
@@ -24,7 +27,10 @@
 
                 <?php if ($hasPurchased): ?>
                     <a class="button colored"
-                    href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>/v/<?= $course['courseId'] ?>">
+                       data-track-content
+                       data-content-name="Course List"
+                       data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
+                       href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>/v/<?= $course['courseId'] ?>">
                         Watch video
                     </a>
                 <?php endif; ?>

@@ -20,16 +20,26 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
 
         <?php if (!ipUser()->isLoggedIn()): ?>
             <?// Notify user to login, before he purchases?>
-            <a href="<?= ipConfig()->baseUrl() ?>login" class="button login">Login to purchase</a>
+            <a href="<?= ipConfig()->baseUrl() ?>login"
+               class="button login"
+               data-track-content
+               data-content-name="Master Class purchase login">
+                Login to purchase</a>
         <?php endif; ?>
 
         <?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
             <?// Ensure only a personal account can purchase through PayPal ?>
             <?php if (!$isBusinessUser): ?>
-                <div id="paypal-button" class="paypal-autorendered"></div>
+                <div id="paypal-button" class="paypal-autorendered"
+                     data-track-content
+                     data-content-name="Master Class PayPal purchase"
+                     data-content-piece="[PayPal] <?=$track['title']?>" ></div>
             <?php else: ?>
                 <a class="button btn-business"
-                   href="<?=ipConfig()->baseUrl()?>online-courses/contact/?course=<?=$track['trackId']?>">Contact sales to purchase</a>
+                   href="<?=ipConfig()->baseUrl()?>online-courses/contact/?course=<?=$track['trackId']?>"
+                   data-track-content
+                   data-content-name="Master Class sales contact"
+                >Contact sales to purchase</a>
             <?php endif; ?>
         <?php endif; ?>
     </section>
