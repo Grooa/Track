@@ -13,7 +13,7 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
 
     <section class="metadata">
         <?php if (!$hasPurchased): ?>
-            <em class="price">Price: <strong><?= !empty($track['price']) ? $track['price'] : 0.0 ?> €</strong></em>
+            <strong class="price"><?= !empty($track['price']) ? $track['price'] : 0.0 ?> €</strong>
         <?php else: ?>
             <div class="continue">Course Added</div>
         <?php endif; ?>
@@ -24,7 +24,7 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
                class="button login"
                data-track-content
                data-content-name="Master Class purchase login">
-                Login to purchase</a>
+                Login to access module</a>
         <?php endif; ?>
 
         <?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
