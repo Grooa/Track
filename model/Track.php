@@ -31,6 +31,10 @@ class Track {
         return ipDb()->selectAll(self::TABLE, '*', $were, "ORDER BY `createdOn` DESC");
     }
 
+    public static function isFree($trackId) {
+        return !empty(ipDb()->selectRow(self::TABLE, 'trackId', ['trackId' => $trackId, 'isFree' => true]));
+    }
+
     public static function get($trackId, $courseId = null) {
         if (empty($trackId)) {
             return null;

@@ -42,6 +42,8 @@ class Slot
 
         $purchasedTracks = TrackOrder::getByUserId($params['userId'], $courseId);
 
+//        die(json_encode($purchasedTracks));
+
         if (!empty($purchasedTracks)) {
             $params['tracks'] = $purchasedTracks;
         } else {

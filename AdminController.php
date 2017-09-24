@@ -99,6 +99,12 @@ class AdminController
                     'default' => '0.0'
                 ],
                 [
+                    'field' => 'isFree',
+                    'label' => 'Is Free',
+                    'type' => 'Checkbox',
+                    'default' => false
+                ],
+                [
                     'field' => 'shortDescription',
                     'label' => 'Short Description',
                     'hint' => 'Used on listing',
