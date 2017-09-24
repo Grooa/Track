@@ -16,9 +16,40 @@ class AdminController
     private $fileRoot = 'file/secure/videos';
 
     /**
-     * @ipSubmenu Master Class Module
+     * @ipSubmenu Grooa Courses
      */
-    public function index()
+    public function index() {
+        $config = [
+            'title' => '',
+            'table' => 'grooa_course',
+            'idField' => 'id',
+            'fields' => [
+                [
+                    'field' => 'id',
+                    'label' => 'ID',
+                    'allowCreate' => false,
+                    'allowUpdate' => false
+                ],
+                [
+                    'field' => 'name',
+                    'label' => 'Name'
+                ],
+                [
+                    'field' => 'createdOn',
+                    'label' => 'Created On',
+                    'allowCreate' => false
+                ]
+            ],
+            'pageSize' => 15
+        ];
+
+        return ipGridController($config);
+    }
+
+    /**
+     * @ipSubmenu All Course Modules
+     */
+    public function masterClass()
     {
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
@@ -42,21 +73,38 @@ class AdminController
                     'validators' => ['Required']
                 ],
                 [
+                    'field' => 'grooaCourseId',
+                    'label' => 'Grooa Course',
+                    'validators' => ['Required'],
+                    'type' => 'Select',
+                    'values' => Track::getGrooaCourseWithIdAndName()
+                ],
+                [
+                    'field' => 'state',
+                    'label' => 'State',
+                    'validators' => ['Required'],
+                    'type' => 'Select',
+                    'values' => ['draft', 'published', 'withdrawn']
+                ],
+                [
                     'field' => 'price',
                     'label' => 'Price',
                     'type' => 'Text',
-                    'value' => '0.0'
+                    'value' => '0.0',
+                    'default' => '0.0'
                 ],
                 [
                     'field' => 'shortDescription',
                     'label' => 'Short Description',
                     'hint' => 'Used on listing',
-                    'type' => 'RichText'
+                    'type' => 'RichText',
+                    'preview' => false
                 ],
                 [
                     'field' => 'longDescription',
                     'label' => 'Long Description',
                     'type' => 'RichText',
+                    'preview' => false,
                     'validators' => ['Required']
                 ],
                 [
@@ -64,13 +112,13 @@ class AdminController
                     'label' => 'Thumbnail',
                     'hint' => 'Used in smaller tiles',
                     'type' => 'RepositoryFile',
-                    'preview' => true
+                    'preview' => false
                 ],
                 [
                     'field' => 'largeThumbnail',
                     'label' => 'Large Thumbnail',
                     'type' => 'RepositoryFile',
-                    'preview' => true
+                    'preview' => false
                 ]
             ],
             'pageSize' => 15

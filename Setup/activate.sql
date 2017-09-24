@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS ip_grooa_course (
+  `id` INT (11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `createdOn` DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS ip_track (
   `trackId` int(11) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR (255) NULL,
@@ -7,6 +15,12 @@ CREATE TABLE IF NOT EXISTS ip_track (
   `thumbnail` VARCHAR(255) NULL,
   `largeThumbnail` VARCHAR(255) NULL,
   `price` FLOAT NULL,
+  `state` ENUM('draft', 'published', 'withdrawn') DEFAULT 'draft',
+
+  `grooaCourseId` INT(11) NOT NULL,
+
+  FOREIGN KEY (`grooaCourseId`)
+    REFERENCES `ip_grooa_course` (`id`),
 
   PRIMARY KEY (`trackId`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

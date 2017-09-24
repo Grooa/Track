@@ -2,11 +2,28 @@
 
 namespace Plugin\Track\Model;
 
+use Ip\Exception;
+
 class Track {
 
     const TABLE = 'track';
+    const GROOA_COURSE_TABLE = 'grooa_course';
 
-    public static function findAll() {
+    public static function findAllPublished () {
+        return self::findAll('published');
+    }
+
+    public static function findAll($state = null) {
+        $were = [];
+
+        if (!empty($state)) {
+            if (!in_array($state, ['draft', 'published', 'withdrawn'])) {
+                throw new Exception("Unknown Track state: $state");
+            }
+
+            $were['state'] = $state;
+        }
+
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC");
     }
 
@@ -38,6 +55,12 @@ class Track {
         return $track;
     }
 
+    public static function getGrooaCourseIdByTrackId($trackId) {
+        $row = ipDb()->selectRow(self::TABLE, ['grooaCourseId'], ['trackId' => $trackId]);
+
+        return !empty($row) && !empty($row['grooaCourseId']) ? $row['grooaCourseId'] : null;
+    }
+
     public static function getAllLastCreated($limit = 10) {
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC LIMIT " . esc($limit) . ";");
     }
@@ -57,6 +80,14 @@ class Track {
         return array_map(function($t) {
             return [$t['trackId'], $t['title']];
         }, $tracks);
+    }
+
+    public static function getGrooaCourseWithIdAndName() {
+        $courses = ipDb()->selectAll(self::GROOA_COURSE_TABLE, ['id', 'name'], [], 'ORDER BY `name` DESC');
+
+        return array_map(function($t) {
+            return [$t['id'], $t['name']];
+        }, $courses);
     }
 
     /**
