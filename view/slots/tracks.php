@@ -25,5 +25,5 @@
     </ul>
 
 <?php else: ?>
-    <p class="centered">You don't have access to any Master Class Modules</p>
+    <p class="centered">You don't have access to any Modules</p>
 <?php endif; ?>
