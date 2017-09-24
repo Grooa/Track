@@ -24,7 +24,7 @@ class Track {
             $were['state'] = $state;
         }
 
-        return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC");
+        return ipDb()->selectAll(self::TABLE, '*', $were, "ORDER BY `createdOn` DESC");
     }
 
     public static function get($trackId, $courseId = null) {

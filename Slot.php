@@ -15,7 +15,7 @@ class Slot
 
     public static function Track_listTracks($params)
     {
-        $params['tracks'] = Track::findAll();
+        $params['tracks'] = Track::findAllPublished();
         return ipView('view/slots/tracks.php', $params)->render();
     }
 
