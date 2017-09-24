@@ -15,14 +15,22 @@ class Slot
 
     public static function Track_listTracks($params)
     {
-        $params['tracks'] = Track::findAllPublished();
+        $courseId = null;
+
+        if (!empty($params['course'])) {
+            $course = Track::getGrooaCourseByLabel($params['course']);
+            $courseId = !empty($course) ? $course['id'] : null;
+        }
+
+        $params['tracks'] = Track::findAllPublished($courseId);
         return ipView('view/slots/tracks.php', $params)->render();
     }
 
     public static function Track_userTracks($params)
     {
         if (empty($params['userId'])) {
-            return 'You must login to access your courses';
+            $params['error'] = 'You must login to access your courses';
+            return ipView('view/slots/tracks.php', $params)->render();
         }
 
         $courseId = null;
@@ -34,7 +42,12 @@ class Slot
 
         $purchasedTracks = TrackOrder::getByUserId($params['userId'], $courseId);
 
-        $params['tracks'] = $purchasedTracks;
+        if (!empty($purchasedTracks)) {
+            $params['tracks'] = $purchasedTracks;
+        } else {
+            $params['error'] = "You don't have access to any Modules";
+        }
+
         $params['hasPurchased'] = true;
         return ipView('view/slots/tracks.php', $params)->render();
     }

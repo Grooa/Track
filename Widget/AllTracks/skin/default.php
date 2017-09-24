@@ -1,1 +1,1 @@
-<?= ipSlot('Track_listTracks') ?>
+<?= ipSlot('Track_listTracks', ['course' => 'the-clear-master-class']) ?>

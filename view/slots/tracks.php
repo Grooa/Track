@@ -1,4 +1,4 @@
-<?php if (!empty($tracks)): ?>
+<?php if (empty($error)): ?>
 
     <ul class="tiled shadowed">
         <?php foreach ($tracks as $track): ?>
@@ -25,5 +25,5 @@
     </ul>
 
 <?php else: ?>
-    <p class="centered">You don't have access to any Modules</p>
+    <p class="centered"><?=$error?></p>
 <?php endif; ?>
