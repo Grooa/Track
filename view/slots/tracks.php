@@ -24,4 +24,6 @@
         <?php endforeach; ?>
     </ul>
 
+<?php else: ?>
+    <p class="centered">You don't have access to any Master Class Modules</p>
 <?php endif; ?>

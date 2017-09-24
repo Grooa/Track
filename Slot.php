@@ -22,10 +22,17 @@ class Slot
     public static function Track_userTracks($params)
     {
         if (empty($params['userId'])) {
-            return '';
+            return 'You must login to access your courses';
         }
 
-        $purchasedTracks = TrackOrder::getByUserId($params['userId']);
+        $courseId = null;
+
+        if (!empty($params['grooaCourse'])) {
+            $course = Track::getGrooaCourseByLabel($params['grooaCourse']);
+            $courseId = !empty($course) ? $course['id'] : $courseId;
+        }
+
+        $purchasedTracks = TrackOrder::getByUserId($params['userId'], $courseId);
 
         $params['tracks'] = $purchasedTracks;
         $params['hasPurchased'] = true;

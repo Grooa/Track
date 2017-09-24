@@ -31,6 +31,11 @@ class AdminController
                     'allowUpdate' => false
                 ],
                 [
+                    'field' => 'label',
+                    'label' => 'Label',
+                    'note' => 'No spaces, lowercase only, and only characters from 0-9 and a-z'
+                ],
+                [
                     'field' => 'name',
                     'label' => 'Name'
                 ],

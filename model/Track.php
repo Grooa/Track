@@ -9,11 +9,11 @@ class Track {
     const TABLE = 'track';
     const GROOA_COURSE_TABLE = 'grooa_course';
 
-    public static function findAllPublished () {
-        return self::findAll('published');
+    public static function findAllPublished ($courseId = null) {
+        return self::findAll('published', $courseId);
     }
 
-    public static function findAll($state = null) {
+    public static function findAll($state = null, $courseId = null) {
         $were = [];
 
         if (!empty($state)) {
@@ -22,6 +22,10 @@ class Track {
             }
 
             $were['state'] = $state;
+        }
+
+        if (!empty($courseId)) {
+            $were['grooaCourseId'] = $courseId;
         }
 
         return ipDb()->selectAll(self::TABLE, '*', $were, "ORDER BY `createdOn` DESC");
@@ -60,6 +64,11 @@ class Track {
 
         return !empty($row) && !empty($row['grooaCourseId']) ? $row['grooaCourseId'] : null;
     }
+
+    public static function getGrooaCourseByLabel($label) {
+        return ipDb()->selectRow(self::GROOA_COURSE_TABLE, '*', ['label' => $label]);
+    }
+
 
     public static function getAllLastCreated($limit = 10) {
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC LIMIT " . esc($limit) . ";");
