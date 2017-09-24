@@ -28,7 +28,7 @@ class Track {
             $were['grooaCourseId'] = $courseId;
         }
 
-        return ipDb()->selectAll(self::TABLE, '*', $were, "ORDER BY `createdOn` DESC");
+        return ipDb()->selectAll(self::TABLE, '*', $were, "ORDER BY `order` ASC");
     }
 
     public static function isFree($trackId) {

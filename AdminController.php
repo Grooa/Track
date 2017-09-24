@@ -105,6 +105,14 @@ class AdminController
                     'default' => false
                 ],
                 [
+                    'field' => 'order',
+                    'label' => 'Order',
+                    'type' => 'Integer',
+                    'note' => 'Lowest is first, highest is last',
+                    'default' => 0,
+                    'values' => 0
+                ],
+                [
                     'field' => 'shortDescription',
                     'label' => 'Short Description',
                     'hint' => 'Used on listing',

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS ip_track (
   `price` FLOAT NULL,
   `isFree` BOOL DEFAULT FALSE,
   `state` ENUM('draft', 'published', 'withdrawn') DEFAULT 'draft',
+  `order` INT(3) DEFAULT 0,
 
   `grooaCourseId` INT(11) NOT NULL,
 
