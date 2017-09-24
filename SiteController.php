@@ -63,7 +63,7 @@ class SiteController
             ])->render());
         $layout->setLayout('track.php');
 
-        $layout->setTitle("Grooa | ${track['title']}");
+        $layout->setTitle("${track['title']} | Grooa");
         $layout->setDescription($track['shortDescription']);
 
         // Set background image
@@ -107,7 +107,7 @@ class SiteController
         );
         $layout->setLayout('track.php');
 
-        $layout->setTitle("Grooa | ${track['title']}");
+        $layout->setTitle("${track['title']} | Grooa");
         $layout->setDescription(!empty($track['course']['shortDescription']) ?
             $track['course']['shortDescription'] : $track['shortDescription']);
 

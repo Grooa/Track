@@ -9,15 +9,17 @@
     ],
     [
         'uri' => "online-courses/" . $track['trackId'] . '/v/' . $course['courseId'],
-        'label' => $course['title'],
+        'label' => !empty($course['title']) ? $course['title'] : 'Video',
         'active' => true
     ]
 ]) ?>
 
 <section>
-	<h1><?=$track['title']?></h1>
-    <h2>Video - <?= $course['title'] ?></h2>
-    <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' . $course['longDescription'] . '</div>']) ?>
+	<h1><?=$track['title'] . (!empty($course['title']) ? ' - ' . $course['title'] : '')?></h1>
+    <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' .
+        (!empty($course['longDescription']) ? $course['longDescription'] : $track['longDescription'])
+        . '</div>'
+    ]) ?>
 </section>
 
 <section>
@@ -34,7 +36,7 @@
             data-track-content
             data-content-name="Track Video"
             data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
-            poster="<?= !empty($course['largeThumbnail']) ? ipFileUrl('file/repository/' . $course['largeThumbnail']) : ''?>"
+            poster="<?= ipFileUrl('file/repository/' . (!empty($course['largeThumbnail']) ? $course['largeThumbnail'] : $track['largeThumbnail']))?>"
             controls
             controlsList="nodownload">
 
