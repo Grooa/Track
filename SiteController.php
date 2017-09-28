@@ -33,7 +33,7 @@ class SiteController
      * and allows users and businesses to purchase it.
      *
      * @param $trackId
-     * @return \Ip\Response\Layout
+     * @return \Ip\Response\Layout | \Ip\Response\Redirect
      * @throws Exception
      */
     public function retrieveTrack($trackId)
@@ -51,6 +51,13 @@ class SiteController
 
             $hasPurchased = TrackOrder::hasPurchased($trackId, $uid);
             $order = TrackOrder::getByTrackAndUser($trackId, $uid);
+        }
+
+        // Redirect to the video page if the user has purchased the track, and it has videos
+        if ($hasPurchased && !empty($track['courses']) && !empty($track['courses'])) {
+            return new \Ip\Response\Redirect(
+                ipConfig()->baseUrl() . "online-courses/" . $track['trackId'] . "/v/" . $track['courses'][0]['courseId'] . "/"
+            );
         }
 
         $layout = new \Ip\Response\Layout(

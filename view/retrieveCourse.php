@@ -5,17 +5,18 @@
     ],
     [
         'uri' => "online-courses/" . $track['trackId'],
-        'label' => $track['title']
-    ],
-    [
-        'uri' => "online-courses/" . $track['trackId'] . '/v/' . $course['courseId'],
-        'label' => !empty($course['title']) ? $course['title'] : 'Video',
+        'label' => $track['title'],
         'active' => true
     ]
+//    [
+//        'uri' => "online-courses/" . $track['trackId'] . '/v/' . $course['courseId'],
+//        'label' => !empty($course['title']) ? $course['title'] : 'Video',
+//        'active' => true
+//    ]
 ]) ?>
 
 <section>
-	<h1><?=$track['title'] . (!empty($course['title']) ? ' - ' . $course['title'] : '')?></h1>
+	<h1><?=$track['title']?></h1>
     <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' .
         (!empty($course['longDescription']) ? $course['longDescription'] : $track['longDescription'])
         . '</div>'
