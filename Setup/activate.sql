@@ -20,6 +20,9 @@ CREATE TABLE IF NOT EXISTS ip_track (
   `state` ENUM('draft', 'published', 'withdrawn') DEFAULT 'draft',
   `order` INT(3) DEFAULT 0,
 
+  `type` ENUM('introduction', 'webinar', 'module') NOT NULL DEFAULT 'module',
+  `num` INT(5) DEFAULT NULL,
+
   `grooaCourseId` INT(11) NOT NULL,
 
   FOREIGN KEY (`grooaCourseId`)

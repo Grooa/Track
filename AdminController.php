@@ -92,6 +92,21 @@ class AdminController
                     'values' => ['draft', 'published', 'withdrawn']
                 ],
                 [
+                    'field' => 'type',
+                    'label' => 'Type',
+                    'validators' => ['Required'],
+                    'type' => 'Select',
+                    'values' => ['introduction', 'webinar', 'module'],
+                    'default' => 'module',
+                    'note' => 'Denotes this element can be categorized as. Will display on the preview cards'
+                ],
+                [
+                    'field' => 'num',
+                    'label' => 'Module number',
+                    'type' => 'Integer',
+                    'note' => 'Write in what number this module has. Ex. Module 10. If you don\'t have any, keep this empty'
+                ],
+                [
                     'field' => 'price',
                     'label' => 'Price',
                     'type' => 'Text',

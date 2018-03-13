@@ -7,7 +7,7 @@
                 <a href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
                     <div class="course-module-metadata">
                         <? // @todo:ffl - type could be other values, s.t. introduction, segment, webinar?>
-                        <strong class="type">Module <?= $i ?></strong>
+                        <strong class="type"><?=$track['type'] . (!empty($track['num']) ? ' ' . $track['num'] : '') ?></strong>
                         <h3 class="title"><?= $track['title'] ?></h3>
                     </div>
 

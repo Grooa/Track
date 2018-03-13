@@ -135,6 +135,8 @@ video {
 
 .course-module-metadata > .type {
   font-weight: 300;
+
+  text-transform: capitalize;
 }
 
 .course-module-metadata > .title {
