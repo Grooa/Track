@@ -45,95 +45,76 @@ video {
 .course-list {
   display: -ms-grid;
   display: grid;
-
   grid-gap: 1em;
   grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-
   list-style-type: none;
-
   margin: 0;
-
   padding: 0;
   position: relative;
 }
-
 
 /**
  * Course module item
  * todo:ffl - Remove props from Theme/Grooa3, s.t. we can remove some selector precedence
  */
-li.course-module,
-li.course-module.clickable > a:not(.button) {
+.course-module,
+.course-module.clickable > a:not(.button) {
   display: flex;
-
   flex-direction: column;
 }
 
-li.course-module {
+.course-module {
   background-color: #ffffff;
-  border: #DDD solid 1px;
-
+  border: #dddddd solid 1px;
   height: 15em;
-
   padding: 0;
   position: relative;
 }
 
-li.course-module .metadata {
+.course-module .metadata {
   overflow: hidden;
-
   height: 5em;
 }
 
-li.course-module .description {
+.course-module .description {
   box-sizing: border-box;
-
   font-weight: 400;
-
   padding: 0 0.5em;
 }
 
-li.course-module .button,
-li.course-module button {
+.course-module .button,
+.course-module button {
   align-self: flex-start;
-
   background-color: transparent;
-  border: #DDD solid 2px;
+  border: #dddddd solid 2px;
   border-radius: 3px;
   box-shadow: none;
-
-  color: #3F51B5;
-
+  color: #3f51b5;
   font-size: 0.9em;
   font-weight: 800;
-
   margin-bottom: 0.5em;
   margin-left: 0.5em;
   margin-top: auto;
-
   padding: 0.5em 1em;
 }
 
-li.course-module .button:hover,
-li.course-module button:hover {
+.course-module .button:hover,
+.course-module button:hover {
   background-color: transparent;
   border-color: #cccccc;
+  box-shadow: none;
 
-  color: #3F51B5;
+  color: #3f51b5;
 
   text-decoration: underline;
 }
 
 .course-module-metadata {
-  background-color: #3F51B5;
+  background-color: #3f51b5;
   box-sizing: border-box;
-
   color: #ffffff;
-
   font-size: 0.8em;
-
   padding: 0.5em;
-
   text-align: left;
 }
 
@@ -143,9 +124,7 @@ li.course-module button:hover {
 
 .course-module-metadata > .title {
   color: inherit;
-
   font-weight: 400;
-
   text-align: inherit;
 }
 
@@ -153,22 +132,50 @@ li.course-module button:hover {
  * A clickable module has certain properties to
  * give some affordance to the user
  */
-li.course-module.clickable {
+.course-module.clickable {
   cursor: pointer;
 }
 
-li.course-module.clickable > a:not(.button) {
-  height: 100%;
+.course-module.clickable > a:not(.button) {
+  color: rgba(26, 26, 26, 0.7);
 
+  height: 100%;
   text-decoration: none; /* Disable underline for container*/
 }
 
-li.course-module.clickable:hover .course-module-metadata {
-  background-color: #4357C2;
+.course-module.clickable:hover .course-module-metadata {
+  background-color: #4357c2;
 }
 
-li.course-module.clickable:hover .course-module-metadata > .title {
+.course-module.clickable:hover .course-module-metadata > .title {
   text-decoration: underline;
+}
+
+.course-module.inactive,
+.course-module.inactive > a:not(.button) {
+  cursor: default;
+}
+
+.course-module.inactive .course-module-metadata,
+.course-module.inactive:hover .course-module-metadata {
+  background-color: #aaaaaa;
+}
+
+.course-module.inactive:hover .course-module-metadata > .title {
+  text-decoration: none;
+}
+
+.course-module.inactive .button,
+.course-module.inactive button,
+.course-module.inactive .button:hover,
+.course-module.inactive button:hover {
+  background-color: transparent;
+  border-color: #eeeeee;
+
+  color: #555555;
+  cursor: default;
+
+  text-decoration: none;
 }
 
 .course-video > .metadata > .thumbnail {
@@ -180,11 +187,9 @@ li.course-module.clickable:hover .course-module-metadata > .title {
  * @todo:ffl - Migrate all video-specific styles for online courses, to this file
  */
 .video-player-frame {
-  background-color: #FFF;
-
+  background-color: #ffffff;
   margin: 0.5em auto;
   max-width: 50rem;
-
   width: 100%;
 }
 
@@ -193,11 +198,8 @@ video.course-video {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-
   max-width: unset;
-
   padding: 0;
-
   width: 100%;
 }
 
@@ -205,70 +207,54 @@ video.course-video {
  * Metadata connected to
  */
 .video-titles {
-  background-color: #3F51B5; /* Color extracted from Theme/Grooa3 stylesheets */
+  background-color: #3f51b5; /* Color extracted from Theme/Grooa3 stylesheets */
   box-sizing: border-box;
-
-  color: #FFF;
-
+  color: #ffffff;
   font-size: 1.0em;
-
   padding: 0.5em;
-
   text-align: left;
 }
 
 .video-titles > h1 {
   color: inherit;
-
   font-size: inherit;
-
   margin: 0;
   text-align: left;
 }
 
 .video-metadata.columns {
   align-items: flex-start;
-
   display: flex;
   flex-wrap: nowrap;
-
   justify-content: space-between;
-
   margin: 0.5em auto;
   max-width: 50rem;
-
   position: relative;
-
   width: 100%;
 }
 
 .video-metadata > .course-information {
   background-color: #ffffff;
-  border: #DDD solid 1px;
+  border: #dddddd solid 1px;
   box-sizing: border-box;
-
   flex: 1;
   flex-basis: 10em;
-
   width: 100%;
 }
 
 .video-metadata > .course-information > h2 {
-  background-color: #EEE;
-
-  color: #3F51B5;
-
+  background-color: #eeeeee;
+  color: #3f51b5;
   font-size: 1.0em;
   font-weight: 400;
 }
 
 .video-metadata > .course-information > h2.colored {
-  background-color: #3F51B5;
-
+  background-color: #3f51b5;
   color: #ffffff;
 }
 
-.course-information~.course-information {
+.course-information ~ .course-information {
   margin-left: 0.5em;
 }
 
@@ -278,7 +264,6 @@ video.course-video {
 
 .course-information > .data {
   box-sizing: border-box;
-
   padding: 0.5em;
 }
 
@@ -300,13 +285,11 @@ video.course-video {
 @media screen and (max-width: 40rem) {
   .video-metadata {
     align-items: stretch;
-
     flex-direction: column;
-
     justify-content: flex-start;
   }
 
-  .course-information~.course-information {
+  .course-information ~ .course-information {
     margin-left: 0;
     margin-top: 0.5em;
   }
