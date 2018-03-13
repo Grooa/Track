@@ -1,1 +1,1 @@
-<?= ipSlot('Track_listTracks', ['course' => 'the-clear-leadership-gym']) ?>
+<?= ipSlot('Track_listTracks', ['course' => 'the-mindful-leadership-gym']) ?>
