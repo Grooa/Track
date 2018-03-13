@@ -52,7 +52,7 @@
             <p id="loader" class="centered">Loading ...</p>
             <ul
                     id="courseResources"
-                    class="course-resources dashed"
+                    class="course-resources"
                     data-track-content
                     data-content-name="Track Resources"></ul>
         </div>

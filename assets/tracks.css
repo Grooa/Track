@@ -16,7 +16,7 @@ video {
   height: auto;
   margin: auto;
   max-height: 25em;
-  max-width: 40em;
+  max-width: unset;
   width: 100%;
 }
 
@@ -70,7 +70,7 @@ video {
   background-color: #FFF;
 
   margin: 0.5em auto;
-  max-width: 40rem;
+  max-width: 50rem;
 
   width: 100%;
 }
@@ -81,7 +81,11 @@ video.course-video {
   border-radius: 0;
   box-shadow: none;
 
+  max-width: unset;
+
   padding: 0;
+
+  width: 100%;
 }
 
 /**
@@ -118,7 +122,7 @@ video.course-video {
   justify-content: space-between;
 
   margin: 0.5em auto;
-  max-width: 40rem;
+  max-width: 50rem;
 
   position: relative;
 
@@ -163,6 +167,21 @@ video.course-video {
   box-sizing: border-box;
 
   padding: 0.5em;
+}
+
+.course-information > .data > h2 {
+  font-size: 1em;
+}
+
+/**
+ * Sets the styles of the lists inside description and resources.
+ * Note: We don't use direct inheritance from .data to ul, because we
+ * want to catch sublists aswell.
+ */
+.course-information > .data ul {
+  font-family: inherit !important; /* Force list to use Global font-family */
+  font-size: 0.8rem !important; /* Force custom font-size, use Rem to keep the font-size uniform in different levels */
+  padding: 0 0.5em;
 }
 
 @media screen and (max-width: 40rem) {
