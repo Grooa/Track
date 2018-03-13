@@ -1,6 +1,6 @@
 <?= ipSlot('xBreadcrumb', [
     [
-        'uri' => "online-courses",
+        'uri' => "clear-master-class",
         'label' => 'Master Class'
     ],
     [
