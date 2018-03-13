@@ -1,7 +1,7 @@
 <?= ipSlot('xBreadcrumb', [
     [
         'uri' => $track['courseRootUri'],
-        'label' => 'Master Class'
+        'label' => $track['grooaCourse']['name']
     ],
     [
         'uri' => "online-courses/" . $track['trackId'],

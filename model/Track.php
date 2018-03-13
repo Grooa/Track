@@ -46,7 +46,8 @@ class Track {
             return null;
         }
 
-        $track['courseRootUri'] = self::getGrooaCourseById($track['grooaCourseId'])['label'];
+        $track['grooaCourse'] = self::getGrooaCourseById($track['grooaCourseId']);
+        $track['courseRootUri'] = $track['grooaCourse']['label'];
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
