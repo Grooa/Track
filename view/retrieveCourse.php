@@ -1,6 +1,6 @@
 <?= ipSlot('xBreadcrumb', [
     [
-        'uri' => "clear-master-class",
+        'uri' => $track['courseRootUri'],
         'label' => 'Master Class'
     ],
     [

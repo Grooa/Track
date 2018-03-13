@@ -46,6 +46,8 @@ class Track {
             return null;
         }
 
+        $track['courseRootUri'] = self::getGrooaCourseById($track['grooaCourseId'])['label'];
+
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
                 Course::TABLE,
@@ -73,6 +75,9 @@ class Track {
         return ipDb()->selectRow(self::GROOA_COURSE_TABLE, '*', ['label' => $label]);
     }
 
+    public static function getGrooaCourseById($id) {
+        return ipDb()->selectRow(self::GROOA_COURSE_TABLE, '*', ['id' => $id]);
+    }
 
     public static function getAllLastCreated($limit = 10) {
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC LIMIT " . esc($limit) . ";");
