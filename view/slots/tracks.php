@@ -1,8 +1,8 @@
 <?php if (empty($error)): ?>
 
-    <ul class="tiled shadowed">
+    <ul class="tiled">
         <?php foreach ($tracks as $track): ?>
-            <li>
+            <li class="course-module">
                 <div class="metadata">
                     <div class="thumbnail <?= !empty($hasPurchased) && $hasPurchased == false ? 'blurred' : '' ?>">
                         <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="<?=$track['title']?>">
@@ -17,7 +17,7 @@
                     <em>Added <time><?=$track['createdOn']?></time></em>
                 <?php endif; ?>
 
-                <a class="button colored" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
+                <a class="button colored see-course" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
                     Checkout module
                 </a>
             </li>

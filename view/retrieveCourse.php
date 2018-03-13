@@ -16,35 +16,33 @@
 ]) ?>
 
 <section>
-	<h1><?=$track['title']?></h1>
     <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' .
         (!empty($course['longDescription']) ? $course['longDescription'] : $track['longDescription'])
         . '</div>'
     ]) ?>
 </section>
 
-<section>
-    <?//= ipSlot('VideoJs_player', [
-//        'sources' => [
-//            'video/mp4' => $course['video']
-//        ]
-//    ]) ?>
+<div class="video-player-frame">
     <video
             id="courseVid"
-            class="object"
+            class="object course-video"
             width="500"
             height="200"
             data-track-content
             data-content-name="Track Video"
-            data-content-piece="<?=$track['title'] . '-' . $course['title']?>"
-            poster="<?= ipFileUrl('file/repository/' . (!empty($course['largeThumbnail']) ? $course['largeThumbnail'] : $track['largeThumbnail']))?>"
+            data-content-piece="<?= $track['title'] . '-' . $course['title'] ?>"
+            poster="<?= ipFileUrl('file/repository/' . (!empty($course['largeThumbnail']) ? $course['largeThumbnail'] : $track['largeThumbnail'])) ?>"
             controls
             controlsList="nodownload">
 
         <source src="<?= $course['video'] ?>" type="video/mp4">
         Your device do not support video playback
     </video>
-</section>
+
+    <section class="video-metadata">
+        <h1><?= $track['title'] ?></h1>
+    </section>
+</div>
 
 <section class="object" style="margin: 2em auto">
     <h2>Resources</h2>

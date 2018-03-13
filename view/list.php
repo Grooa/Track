@@ -13,7 +13,7 @@
 
 <!--TODO:ffl - Convert to Slot -->
 <section>
-    <ul class="tiled shadowed">
+    <ul class="tiled">
         <?php foreach ($tracks as $track): ?>
             <li>
                 <div class="metadata">

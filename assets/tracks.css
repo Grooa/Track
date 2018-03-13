@@ -1,48 +1,111 @@
 
 section > h2 {
-    padding: .5em;
-    text-align: center;
+  padding: .5em;
+  text-align: center;
 }
 
 .introduction > p {
-    margin: 1em 0;
-    padding: 0;
-
-    text-align: center;
+  margin: 1em 0;
+  padding: 0;
+  text-align: center;
 }
 
 video {
-    background-color: #FFF;
-
-    display: block;
-
-    height: auto;
-
-    margin: auto;
-    max-height: 25em;
-    max-width: 40em;
-
-    width: 100%;
+  background-color: #ffffff;
+  display: block;
+  height: auto;
+  margin: auto;
+  max-height: 25em;
+  max-width: 40em;
+  width: 100%;
 }
 
 .thumbnail > svg.play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    fill: #FFF;
-    opacity: 0.7;
-
-    transform: translate(-50%, -50%); /* top and left is centered in item */
-    transition: all .2s ease;
-
-    width: 5em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  fill: #ffffff;
+  opacity: 0.7;
+  transform: translate(-50%, -50%); /* top and left is centered in item */
+  transition: all .2s ease;
+  width: 5em;
 }
 
 .thumbnail > svg.play:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .thumbnail.blurred > svg.play {
-     opacity: 0.2;
+  opacity: 0.2;
+}
+
+/**
+ * Course module item
+ */
+.course-module {
+  border: #DDD solid 1px;
+}
+
+.course-module > .metadata {
+  overflow: hidden;
+}
+
+.course-module > .see-course {
+  box-shadow: none;
+}
+
+.course-module > .see-course:hover {
+  box-shadow: none;
+}
+
+.course-video > .metadata > .thumbnail {
+  padding: 0;
+}
+
+/**
+ * Styles for the video
+ * @todo:ffl - Migrate all video-specific styles for online courses, to this file
+ */
+.video-player-frame {
+  background-color: #FFF;
+
+  margin: auto;
+  max-width: 40rem;
+
+  width: 100%;
+}
+
+video.course-video {
+  background-color: #111111;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  padding: 0;
+}
+
+/**
+ * Metadata connected to
+ */
+.video-metadata {
+  background-color: #3F51B5; /* Color extracted from Theme/Grooa3 stylesheets */
+  box-sizing: border-box;
+
+  color: #FFF;
+
+  font-size: 1.0em;
+
+  padding: 0.5em;
+
+  text-align: left;
+}
+
+.video-metadata > h1 {
+  color: inherit;
+
+  font-size: inherit;
+
+  margin: 0;
+  text-align: left;
+  
 }
