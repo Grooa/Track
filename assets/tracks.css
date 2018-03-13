@@ -40,22 +40,135 @@ video {
 }
 
 /**
- * Course module item
+ * Listing of Course modules or videos
  */
-.course-module {
+.course-list {
+  display: -ms-grid;
+  display: grid;
+
+  grid-gap: 1em;
+  grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+
+  list-style-type: none;
+
+  margin: 0;
+
+  padding: 0;
+  position: relative;
+}
+
+
+/**
+ * Course module item
+ * todo:ffl - Remove props from Theme/Grooa3, s.t. we can remove some selector precedence
+ */
+li.course-module,
+li.course-module.clickable > a:not(.button) {
+  display: flex;
+
+  flex-direction: column;
+}
+
+li.course-module {
+  background-color: #ffffff;
   border: #DDD solid 1px;
+
+  height: 15em;
+
+  padding: 0;
+  position: relative;
 }
 
-.course-module > .metadata {
+li.course-module .metadata {
   overflow: hidden;
+
+  height: 5em;
 }
 
-.course-module > .see-course {
-  box-shadow: none;
+li.course-module .description {
+  box-sizing: border-box;
+
+  font-weight: 400;
+
+  padding: 0 0.5em;
 }
 
-.course-module > .see-course:hover {
+li.course-module .button,
+li.course-module button {
+  align-self: flex-start;
+
+  background-color: transparent;
+  border: #DDD solid 2px;
+  border-radius: 3px;
   box-shadow: none;
+
+  color: #3F51B5;
+
+  font-size: 0.9em;
+  font-weight: 800;
+
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
+  margin-top: auto;
+
+  padding: 0.5em 1em;
+}
+
+li.course-module .button:hover,
+li.course-module button:hover {
+  background-color: transparent;
+  border-color: #cccccc;
+
+  color: #3F51B5;
+
+  text-decoration: underline;
+}
+
+.course-module-metadata {
+  background-color: #3F51B5;
+  box-sizing: border-box;
+
+  color: #ffffff;
+
+  font-size: 0.8em;
+
+  padding: 0.5em;
+
+  text-align: left;
+}
+
+.course-module-metadata > .type {
+  font-weight: 300;
+}
+
+.course-module-metadata > .title {
+  color: inherit;
+
+  font-weight: 400;
+
+  text-align: inherit;
+}
+
+/**
+ * A clickable module has certain properties to
+ * give some affordance to the user
+ */
+li.course-module.clickable {
+  cursor: pointer;
+}
+
+li.course-module.clickable > a:not(.button) {
+  height: 100%;
+
+  text-decoration: none; /* Disable underline for container*/
+}
+
+li.course-module.clickable:hover .course-module-metadata {
+  background-color: #4357C2;
+}
+
+li.course-module.clickable:hover .course-module-metadata > .title {
+  text-decoration: underline;
 }
 
 .course-video > .metadata > .thumbnail {

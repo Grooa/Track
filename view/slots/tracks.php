@@ -1,29 +1,30 @@
 <?php if (empty($error)): ?>
 
-    <ul class="tiled">
-        <?php foreach ($tracks as $track): ?>
-            <li class="course-module">
-                <div class="metadata">
-                    <div class="thumbnail <?= !empty($hasPurchased) && $hasPurchased == false ? 'blurred' : '' ?>">
-                        <img src="<?= ipFileUrl('file/repository/' . $track['thumbnail']) ?>" alt="<?=$track['title']?>">
+    <ul class="course-list">
+        <?php $i = 1;
+        foreach ($tracks as $track): ?>
+            <li class="course-module clickable">
+                <a href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
+                    <div class="course-module-metadata">
+                        <? // @todo:ffl - type could be other values, s.t. introduction, segment, webinar?>
+                        <strong class="type">Module <?= $i ?></strong>
+                        <h3 class="title"><?= $track['title'] ?></h3>
                     </div>
 
-                </div>
+                    <div class="description"><?= !empty($track['shortDescription']) ? $track['shortDescription'] : '' ?></div>
 
-                <h3><?= $track['title'] ?></h3>
-                <div class="description"><?= !empty($track['shortDescription']) ? $track['shortDescription'] : '' ?></div>
+                    <?php if (!empty($showCreatedOn) && $showCreatedOn == true): ?>
+                        <em>Added
+                            <time><?= $track['createdOn'] ?></time>
+                        </em>
+                    <?php endif; ?>
 
-                <?php if (!empty($showCreatedOn) && $showCreatedOn == true): ?>
-                    <em>Added <time><?=$track['createdOn']?></time></em>
-                <?php endif; ?>
-
-                <a class="button colored see-course" href="<?= ipConfig()->baseUrl() . 'online-courses/' . $track['trackId'] ?>">
-                    Checkout module
+                    <button>Checkout</button>
                 </a>
             </li>
-        <?php endforeach; ?>
+            <?php $i += 1; endforeach; ?>
     </ul>
 
 <?php else: ?>
-    <p class="centered"><?=$error?></p>
+    <p class="centered"><?= $error ?></p>
 <?php endif; ?>
