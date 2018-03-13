@@ -15,13 +15,6 @@
 //    ]
 ]) ?>
 
-<section>
-    <?= ipRenderWidget('Text', ['text' => '<div class="introduction">' .
-        (!empty($course['longDescription']) ? $course['longDescription'] : $track['longDescription'])
-        . '</div>'
-    ]) ?>
-</section>
-
 <div class="video-player-frame">
     <video
             id="courseVid"
@@ -39,20 +32,32 @@
         Your device do not support video playback
     </video>
 
-    <section class="video-metadata">
+    <section class="video-titles">
         <h1><?= $track['title'] ?></h1>
     </section>
 </div>
 
-<section class="object" style="margin: 2em auto">
-    <h2>Resources</h2>
-    <p id="loader" class="centered">Loading ...</p>
-    <ul
-            id="courseResources"
-            class="course-resources dashed"
-            data-track-content
-            data-content-name="Track Resources"></ul>
-</section>
+<div class="video-metadata columns">
+    <section class="course-information most-important">
+        <h2>Description</h2>
+        <div class="data">
+            <?//todo:ffl - Change to longDescription on video when we will focus on shorter modules ?>
+            <?= !empty($track['longDescription']) ? $track['longDescription'] : ''?>
+        </div>
+    </section>
+
+    <section class="course-information">
+        <h2 class="colored">Resources</h2>
+        <div class="data">
+            <p id="loader" class="centered">Loading ...</p>
+            <ul
+                    id="courseResources"
+                    class="course-resources dashed"
+                    data-track-content
+                    data-content-name="Track Resources"></ul>
+        </div>
+    </section>
+</div>
 
 <script type="text/javascript">
     var trackId = '<?=$track['trackId']?>';

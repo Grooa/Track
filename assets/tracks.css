@@ -69,7 +69,7 @@ video {
 .video-player-frame {
   background-color: #FFF;
 
-  margin: auto;
+  margin: 0.5em auto;
   max-width: 40rem;
 
   width: 100%;
@@ -87,7 +87,7 @@ video.course-video {
 /**
  * Metadata connected to
  */
-.video-metadata {
+.video-titles {
   background-color: #3F51B5; /* Color extracted from Theme/Grooa3 stylesheets */
   box-sizing: border-box;
 
@@ -100,12 +100,82 @@ video.course-video {
   text-align: left;
 }
 
-.video-metadata > h1 {
+.video-titles > h1 {
   color: inherit;
 
   font-size: inherit;
 
   margin: 0;
   text-align: left;
-  
+}
+
+.video-metadata.columns {
+  align-items: flex-start;
+
+  display: flex;
+  flex-wrap: nowrap;
+
+  justify-content: space-between;
+
+  margin: 0.5em auto;
+  max-width: 40rem;
+
+  position: relative;
+
+  width: 100%;
+}
+
+.video-metadata > .course-information {
+  background-color: #ffffff;
+  border: #DDD solid 1px;
+  box-sizing: border-box;
+
+  flex: 1;
+  flex-basis: 10em;
+
+  width: 100%;
+}
+
+.video-metadata > .course-information > h2 {
+  background-color: #EEE;
+
+  color: #3F51B5;
+
+  font-size: 1.0em;
+  font-weight: 400;
+}
+
+.video-metadata > .course-information > h2.colored {
+  background-color: #3F51B5;
+
+  color: #ffffff;
+}
+
+.course-information~.course-information {
+  margin-left: 0.5em;
+}
+
+.course-information.most-important {
+  flex: 7;
+}
+
+.course-information > .data {
+  box-sizing: border-box;
+
+  padding: 0.5em;
+}
+
+@media screen and (max-width: 40rem) {
+  .video-metadata {
+    align-items: stretch;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+  }
+
+  .course-information~.course-information {
+    margin-left: 0;
+    margin-top: 0.5em;
+  }
 }
