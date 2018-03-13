@@ -3,7 +3,7 @@
         'Track_userTracks',
         [
             'userId' => ipUser()->userId(),
-            'grooaCourse' => 'the-clear-leadership-gym'
+            'grooaCourse' => 'the-mindful-leadership-gym'
         ]) ?>
 <?php else: ?>
     <?= ipAdminId() ? '[Track_MyMindfulLeadershipGymModules: User not logged in]' : '' ?>
