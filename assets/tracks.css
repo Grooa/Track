@@ -39,6 +39,21 @@ video {
   opacity: 0.2;
 }
 
+.course-actions {
+  margin: 1em 0;
+
+  width: 100%;
+}
+
+.course-actions > a.button {
+  align-self: stretch;
+
+  border-radius: 0;
+  box-shadow: none;
+
+  display: block;
+}
+
 /**
  * Listing of Course modules or videos
  */
@@ -227,13 +242,13 @@ video.course-video {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  margin: 0.5em auto;
+  margin: 1em auto;
   max-width: 50rem;
   position: relative;
   width: 100%;
 }
 
-.video-metadata > .course-information {
+.course-information {
   background-color: #ffffff;
   border: #dddddd solid 1px;
   box-sizing: border-box;
@@ -242,16 +257,30 @@ video.course-video {
   width: 100%;
 }
 
-.video-metadata > .course-information > h2 {
+.course-information.no-fill {
+  background-color: transparent;
+
+  border: 0;
+}
+
+.course-information > h2 {
   background-color: #eeeeee;
   color: #3f51b5;
   font-size: 1.0em;
   font-weight: 400;
 }
 
-.video-metadata > .course-information > h2.colored {
+.course-information > h2.colored {
   background-color: #3f51b5;
   color: #ffffff;
+}
+
+.course-information > h2.clean {
+  background-color: transparent;
+
+  font-weight: 800;
+
+  color: rgba(26, 26, 26, 0.7);
 }
 
 .course-information ~ .course-information {
