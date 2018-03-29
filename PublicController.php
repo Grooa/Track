@@ -10,16 +10,19 @@ use Plugin\Track\Model\ModuleVideo;
 use Plugin\Track\Model\TrackResource;
 use Plugin\Track\Service\CourseService;
 use Plugin\Track\Service\ModuleService;
+use Plugin\Track\Service\VideoService;
 
 class PublicController
 {
     private $courseService;
     private $moduleService;
+    private $videoService;
 
     public function __construct()
     {
         $this->courseService = new CourseService();
         $this->moduleService = new ModuleService();
+        $this->videoService = new VideoService();
     }
 
     public function findCourseByLabel($label)
@@ -56,6 +59,14 @@ class PublicController
                 return $m->serializeToArray();
             }, $course->getModules())
         ]);
+    }
+
+    /**
+     *
+     * @param int $moduleId
+     */
+    public function findModuleById(int $moduleId) {
+
     }
 
     public function contactSales()
@@ -183,13 +194,13 @@ class PublicController
             return new RestError('Not Authorized', 403);
         }
 
-        $trackId = ipRequest()->getQuery('trackId');
+        $moduleId = ipRequest()->getQuery('trackId');
 
-        if (empty($trackId) || $trackId < 0) {
+        if (empty($moduleId) || $moduleId < 0) {
             return new RestError('Missing query-param `trackId`', 400);
         }
 
-        $courses = ModuleVideo::getWithIdAndTitle($trackId);
+        $courses = $this->videoService->findByModuleIdWithIdAndTitle($moduleId);
 
         return new \Ip\Response\Json($courses);
     }

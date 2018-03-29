@@ -8,6 +8,8 @@ namespace Plugin\Track;
 use Plugin\Track\Model\ModuleVideo;
 use Plugin\Track\Model\Module;
 use Plugin\Track\Model\TrackResource;
+use Plugin\Track\Model\Video;
+use Plugin\Track\Repository\VideoRepository;
 
 
 class AdminController
@@ -195,7 +197,7 @@ class AdminController
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
             'title' => 'Course Resources',
-            'table' => ModuleVideo::TABLE,
+            'table' => VideoRepository::TABLE_NAME,
             'idField' => 'courseId',
             'fields' => [
                 [

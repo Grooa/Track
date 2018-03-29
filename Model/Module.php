@@ -3,6 +3,7 @@
 namespace Plugin\Track\Model;
 
 use Ip\Exception;
+use Plugin\Track\Repository\VideoRepository;
 
 class Module extends AbstractModel
 {
@@ -289,13 +290,13 @@ class Module extends AbstractModel
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
-                ModuleVideo::TABLE,
+                VideoRepository::TABLE_NAME,
                 '`courseId`, `title`, `shortDescription`, `thumbnail`',
                 ['trackId' => $trackId]
             );
         } else {
             $track['course'] = ipDb()->selectRow(
-                ModuleVideo::TABLE,
+                VideoRepository::TABLE_NAME,
                 '*',
                 ['trackId' => $trackId, 'courseId' => $courseId]
             );

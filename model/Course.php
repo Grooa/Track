@@ -13,6 +13,11 @@ class Course extends AbstractModel
 
     private $modules = [];
 
+    public function __construct()
+    {
+        $this->createdOn = date("Y-m-d H:i:s");
+    }
+
     /**
      * @return null|String
      */
