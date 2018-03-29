@@ -1,6 +1,6 @@
 <?php
 
-$routes['c/{courseId}'] = [
+$routes['c/{courseLabel}'] = [
     'name' => 'View_course',
     'controller' => 'SiteController',
     'action' => 'viewCoursePage'

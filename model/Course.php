@@ -2,51 +2,93 @@
 
 namespace Plugin\Track\Model;
 
-class Course
+class Course extends AbstractModel
 {
-    const TABLE = 'course';
+    const TABLE_NAME = 'grooa_course';
+
+    private $label = null;
+    private $name = null;
+    private $createdOn;
+    private $description = null;
+    private $cover = null;
 
     /**
-     * @deprecated Uses Amazon Web Services S3 instead (see Plugin\Track\Model\AwsS3)
+     * @return null|String
      */
-    public static function removeVideos($id, $root = 'file/secure')
+    public function getLabel(): String
     {
-        $video = ipDb()->selectRow(Course::TABLE, '`video`', ['courseId' => $id]);
-
-        if (!empty($video) && !empty($video['video']) && $video['video'] != false) {
-            return unlink("${root}/${video['video']}");
-        }
-
-        return true; // If no file exists, we've implicitly deleted the file
+        return $this->label;
     }
 
     /**
-     * @deprecated Uses Amazon Web Services S3 instead
+     * @param String $label
      */
-    public static function findVideo($id)
+    public function setLabel(String $label)
     {
-        $row = ipDb()->selectRow(Course::TABLE, '`video`', ['courseId' => $id]);
-
-        if (!empty($row) && !empty($row['video'])) {
-            return $row['video'];
-        }
-
-        return '';
+        $this->label = $label;
     }
 
     /**
-     * Will create a HTML-select-friendly list
+     * @return String
      */
-    public static function getWithIdAndTitle($trackId)
+    public function getName(): String
     {
-        $rows = ipDb()->selectAll(
-            Course::TABLE,
-            '`courseId`, `title`',
-            ['trackId' => $trackId],
-            "ORDER BY `createdOn` ASC");
+        return $this->name;
+    }
 
-        return array_map(function ($r) {
-            return [intval($r['courseId']), $r['title']];
-        }, $rows);
+    /**
+     * @param String $name
+     */
+    public function setName(String $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param false|string $createdOn
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+    }
+
+    /**
+     * @return null|String
+     */
+    public function getDescription(): String
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|String $description
+     */
+    public function setDescription(String $description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return null|String
+     */
+    public function getCover(): String
+    {
+        return $this->cover;
+    }
+
+    /**
+     * @param null|String $cover
+     */
+    public function setCover(String $cover)
+    {
+        $this->cover = $cover;
     }
 }

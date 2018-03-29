@@ -5,8 +5,8 @@
 
 namespace Plugin\Track;
 
-use Plugin\Track\Model\Course;
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\ModuleVideo;
+use Plugin\Track\Model\Module;
 use Plugin\Track\Model\TrackResource;
 
 
@@ -74,7 +74,7 @@ class AdminController
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
             'title' => 'Tracks',
-            'table' => Track::TABLE,
+            'table' => Module::TABLE,
             'idField' => 'trackId',
             'actions' => [
                 [
@@ -97,7 +97,7 @@ class AdminController
                     'label' => 'Grooa Course',
                     'validators' => ['Required'],
                     'type' => 'Select',
-                    'values' => Track::getGrooaCourseWithIdAndName()
+                    'values' => Module::getGrooaCourseWithIdAndName()
                 ],
                 [
                     'field' => 'state',
@@ -184,7 +184,7 @@ class AdminController
         // Docs: https://www.impresspages.org/docs/grid
         $config = [
             'title' => 'Course Resources',
-            'table' => Course::TABLE,
+            'table' => ModuleVideo::TABLE,
             'idField' => 'courseId',
             'fields' => [
                 [
@@ -207,7 +207,7 @@ class AdminController
                     'field' => 'trackId',
                     'label' => 'Track',
                     'type' => 'Select',
-                    'values' => Track::getWithIdAndTitle()
+                    'values' => Module::getWithIdAndTitle()
                 ],
                 [
                     'field' => 'shortDescription',
@@ -290,7 +290,7 @@ class AdminController
                     'attributes' => [
                         'required' => 'required'
                     ],
-                    'values' => Track::getWithIdAndTitle()
+                    'values' => Module::getWithIdAndTitle()
                 ],
                 [
                     'field' => 'courseId',
@@ -386,7 +386,7 @@ class AdminController
         $form->addField(new \Ip\Form\Field\Select([
             'name' => 'trackId',
             'label' => 'Course',
-            'values' => Track::getWithIdAndTitle(),
+            'values' => Module::getWithIdAndTitle(),
             'value' => !empty($widgetData['trackId']) ? $widgetData['trackId'] : null
         ]));
 

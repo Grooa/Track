@@ -3,7 +3,7 @@
 namespace Plugin\Track;
 
 use Plugin\GrooaPayment\Model\TrackOrder;
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Module;
 
 class Slot
 {
@@ -18,11 +18,11 @@ class Slot
         $courseId = null;
 
         if (!empty($params['course'])) {
-            $course = Track::getGrooaCourseByLabel($params['course']);
+            $course = Module::getGrooaCourseByLabel($params['course']);
             $courseId = !empty($course) ? $course['id'] : null;
         }
 
-        $params['tracks'] = Track::findAllPublished($courseId);
+        $params['tracks'] = Module::findAllPublished($courseId);
         return ipView('view/slots/tracks.php', $params)->render();
     }
 
@@ -36,7 +36,7 @@ class Slot
         $courseId = null;
 
         if (!empty($params['grooaCourse'])) {
-            $course = Track::getGrooaCourseByLabel($params['grooaCourse']);
+            $course = Module::getGrooaCourseByLabel($params['grooaCourse']);
             $courseId = !empty($course) ? $course['id'] : $courseId;
         }
 
@@ -54,7 +54,7 @@ class Slot
 
     public static function Track_newestTracks($params)
     {
-        $params['tracks'] = Track::getAllLastCreated(2);
+        $params['tracks'] = Module::getAllLastCreated(2);
 //        $params['showCreatedOn'] = true;
         return ipView('view/slots/tracks.php', $params)->render();
     }

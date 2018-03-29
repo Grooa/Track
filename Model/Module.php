@@ -4,7 +4,7 @@ namespace Plugin\Track\Model;
 
 use Ip\Exception;
 
-class Track {
+class Module {
 
     const TABLE = 'track';
     const GROOA_COURSE_TABLE = 'grooa_course';
@@ -51,13 +51,13 @@ class Track {
 
         if ($courseId == null) {
             $track['courses'] = ipDb()->selectAll(
-                Course::TABLE,
+                ModuleVideo::TABLE,
                 '`courseId`, `title`, `shortDescription`, `thumbnail`',
                 ['trackId' => $trackId]
             );
         } else {
             $track['course'] = ipDb()->selectRow(
-                Course::TABLE,
+                ModuleVideo::TABLE,
                 '*',
                 ['trackId' => $trackId, 'courseId' => $courseId]
             );

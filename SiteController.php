@@ -7,21 +7,35 @@ use Ip\Response\PageNotFound;
 use Ip\Response\Redirect;
 use Plugin\GrooaUser\Model\GrooaUser;
 use Plugin\Track\Model\AwsS3;
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Module;
 
 use Plugin\GrooaPayment\Model\TrackOrder;
+use Plugin\Track\Service\CourseService;
 
 class SiteController
 {
+    private $courseService;
+
     /**
      *
-     * @param string $courseId
+     * @param string $courseLabel
+     * @return \Ip\Response\Layout
      * @throws \Ip\Exception
      */
-    public function viewCoursePage($courseId) {
+    public function viewCoursePage(String $courseLabel)
+    {
+        if (!isset($this->courseService)) {
+            $this->courseService = new CourseService();
+        }
+
+        $course = $this->courseService->findByLabel($courseLabel);
+
+        if(is_null($course)) {
+            return new PageNotFound("We cannot find any course with label: $courseLabel");
+        }
 
         $layout = new \Ip\Response\Layout(
-          ipView('view/viewCoursePage.php', [])->render()
+            ipView('view/viewCoursePage.php', [ 'course' => $course ])->render()
         );
 
         $layout->setLayout('onlineCourse.php');
@@ -31,7 +45,7 @@ class SiteController
 
     public function listTracks()
     {
-        $tracks = Track::findAll();
+        $tracks = Module::findAll();
 
         $layout = new \Ip\Response\Layout(
             ipView('view/list.php', ['tracks' => $tracks])->render());
@@ -52,7 +66,7 @@ class SiteController
      */
     public function retrieveTrack($trackId)
     {
-        $track = Track::get($trackId);
+        $track = Module::get($trackId);
 
         if (!$track) {
             throw new Exception('No such Track ' . $trackId);
@@ -105,7 +119,7 @@ class SiteController
      */
     public function retrieveCourse($trackId, $courseId)
     {
-        $track = Track::get($trackId, $courseId);
+        $track = Module::get($trackId, $courseId);
 
         if (!$track || !$track['course']) {
             return new \Ip\Response\PageNotFound("Cannot find Track of course");
@@ -148,7 +162,8 @@ class SiteController
      *
      * Requires query param `course`, which is the trackId of the requested course
      */
-    public function contactSales () {
+    public function contactSales()
+    {
         if (!ipUser()->isLoggedIn()) {
             return new Redirect(ipConfig()->baseUrl() . 'home');
         }
@@ -162,7 +177,7 @@ class SiteController
         $user['email'] = ipUser()->data()['email'];
 
         $trackId = ipRequest()->getQuery('course');
-        $track = Track::get($trackId);
+        $track = Module::get($trackId);
 
         if (empty($trackId) || empty($track)) {
             return new PageNotFound("Cannot find the selected course");
@@ -180,7 +195,8 @@ class SiteController
         return $layout;
     }
 
-    public static function createContactSalesForm($user, $track) {
+    public static function createContactSalesForm($user, $track)
+    {
         $form = new \Ip\Form();
         $form->setMethod('post');
         $form->setAction(ipConfig()->baseUrl());

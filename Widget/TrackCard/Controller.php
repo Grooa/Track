@@ -2,7 +2,7 @@
 
 namespace Plugin\Track\Widget\TrackCard;
 
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Module;
 
 class Controller extends \Ip\WidgetController {
 
@@ -13,7 +13,7 @@ class Controller extends \Ip\WidgetController {
         }
 
         if (!empty($data['trackId'])) {
-            $data['track'] = Track::get($data['trackId']);
+            $data['track'] = Module::get($data['trackId']);
         }
 
         return parent::generateHtml($revisionId, $widgetId, $data, $skin);

@@ -5,7 +5,7 @@ namespace Plugin\Track;
 use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
-use Plugin\Track\Model\Course;
+use Plugin\Track\Model\ModuleVideo;
 use Plugin\Track\Model\TrackResource;
 
 class PublicController
@@ -141,7 +141,7 @@ class PublicController
             return new RestError('Missing query-param `trackId`', 400);
         }
 
-        $courses = Course::getWithIdAndTitle($trackId);
+        $courses = ModuleVideo::getWithIdAndTitle($trackId);
 
         return new \Ip\Response\Json($courses);
     }

@@ -2,7 +2,7 @@
 namespace Plugin\Track;
 
 use Plugin\GrooaPayment\Model\TrackOrder;
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Module;
 
 /**
  * Validates that the user has bought the selected track

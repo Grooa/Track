@@ -2,7 +2,7 @@
 
 namespace Plugin\Track;
 
-use Plugin\Track\Model\Track;
+use Plugin\Track\Model\Module;
 
 class Job
 {
@@ -46,7 +46,7 @@ class Job
      * @return bool
      */
     private static function trackExists($trackId) {
-        return !empty(Track::get($trackId));
+        return !empty(Module::get($trackId));
     }
 
     /**

@@ -1,1 +1,12 @@
-<h1>The C.L.E.A.R. Master Class</h1>
+<h1><?= $course->getName() ?></h1>
+
+<div class="columns">
+
+    <section class="modules">
+
+    </section>
+
+    <div class="description">
+        <?= $course->getDescription(); ?>
+    </div>
+</div>
