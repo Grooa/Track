@@ -1,5 +1,8 @@
+import { render } from 'react-dom';
 
 import { getUrlSegments } from './common/urlDecoder';
+
+import ViewCourse from './ViewCourse';
 
 /**
  * react-dom's `render` function give some cryptic error message
@@ -41,9 +44,14 @@ export function loadComponents(uri) {
   const firstSegment = segments[0];
 
   segments.shift(); // Remove the first URI segment
-
   switch (firstSegment) {
     case 'c':
+      requireDomElementExists('viewCoursePage');
+
+      render(
+        <ViewCourse />,
+        document.getElementById('viewCoursePage'),
+      );
       break;
 
     case 'kontakt':

@@ -24,12 +24,11 @@ export function getUrlSegments(url) {
   var parts = url.split('/'),
     n = parts.length;
 
-
-  if (url.slice(0,5) == "/ImpressPages") {
+  if (url.slice(0,13) === '/ImpressPages') {
     return parts.slice(2,n);
   }
 
-  if (url[0] == '/') {
+  if (url[0] === '/') {
     return parts.slice(1,n);
   }
 
