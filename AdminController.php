@@ -49,10 +49,21 @@ class AdminController
                 ],
                 [
                     'field' => 'description',
-                    'label' => 'Description',
+                    'label' => 'Short description',
                     'type' => 'Textarea',
                     'default' => null,
-                    'preview' => false
+                    'note' => '1 to 2 sentences only'
+                ],
+                [
+                    'field' => 'introduction',
+                    'label' => 'Introduction',
+                    'type' => 'Textarea',
+                    'default' => null,
+                    'preview' => false,
+                    'attributes' => [
+                        'rows' => '10'
+                    ],
+                    'note' => 'Longer descriptive text. Supports Markdown!'
                 ],
                 [
                     'field' => 'createdOn',

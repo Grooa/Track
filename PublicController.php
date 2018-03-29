@@ -47,6 +47,7 @@ class PublicController
             'label' => $course->getLabel(),
             'name' => $course->getName(),
             'description' => $course->getDescription(),
+            'introduction' => $course->getIntroduction(),
             'createdOn' => $course->getCreatedOn(),
             'cover' => !empty($course->getCover())
                 ? ipFileUrl('file/repository/' . $course->getCover())

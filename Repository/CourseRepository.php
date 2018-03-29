@@ -17,7 +17,7 @@ class CourseRepository
     {
         $row = ipDb()->selectRow(
             self::TABLE_NAME,
-            ['id', 'name', 'createdOn', 'label', 'description', 'cover'],
+            ['id', 'name', 'createdOn', 'label', 'description', 'introduction', 'cover'],
             ['label' => $label]
         );
 
@@ -30,6 +30,7 @@ class CourseRepository
         $course->setLabel($row['label']);
         $course->setName($row['name']);
         $course->setDescription($row['description']);
+        $course->setIntroduction($row['introduction']);
         $course->setCreatedOn($row['createdOn']);
         $course->setCover($row['cover']);
 

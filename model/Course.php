@@ -8,6 +8,7 @@ class Course extends AbstractModel
     private $name = null;
     private $createdOn;
     private $description = null;
+    private $introduction = null;
     private $cover = null;
 
     private $modules = [];
@@ -45,6 +46,22 @@ class Course extends AbstractModel
     }
 
     /**
+     * @return null|string
+     */
+    public function getDescription(): ?String
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     */
+    public function setDescription(?String $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
      * @return false|string
      */
     public function getCreatedOn()
@@ -53,9 +70,9 @@ class Course extends AbstractModel
     }
 
     /**
-     * @param false|string $createdOn
+     * @param null|string $createdOn
      */
-    public function setCreatedOn($createdOn)
+    public function setCreatedOn(?String $createdOn)
     {
         $this->createdOn = $createdOn;
     }
@@ -63,17 +80,17 @@ class Course extends AbstractModel
     /**
      * @return null|String
      */
-    public function getDescription(): ?String
+    public function getIntroduction(): ?String
     {
-        return $this->description;
+        return $this->introduction;
     }
 
     /**
-     * @param null|String $description
+     * @param null|String $introduction
      */
-    public function setDescription(?String $description)
+    public function setIntroduction(?String $introduction)
     {
-        $this->description = $description;
+        $this->introduction = $introduction;
     }
 
     /**
