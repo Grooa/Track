@@ -2,6 +2,7 @@
   "name": "grooa_online_courses",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "jest --config jest.config.js",
@@ -11,6 +12,8 @@
     "lint": "eslint \"assets/src/**/*\"",
     "build": "webpack-cli --config webpack.config.js --mode development",
     "build:prod": "webpack-cli --config webpack.config.prod.js --mode production",
+
+    "watch": "npm run build -- --watch",
 
     "precommit": "echo \"Running code-linters\" && npm run lint",
     "prepush": "npm run test",

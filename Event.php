@@ -17,6 +17,7 @@ class Event
         }
 
         ipAddJs('assets/tracks.js', ['async'=>'async', 'defer'=>'defer']);
+        ipAddJs('assets/dist/bundle.js', ['defer' => 'defer']);
     }
 
 
