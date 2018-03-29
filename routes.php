@@ -1,5 +1,11 @@
 <?php
 
+$routes['c/{courseId}'] = [
+    'name' => 'View_course',
+    'controller' => 'SiteController',
+    'action' => 'viewCoursePage'
+];
+
 $routes['online-courses/contact'] = [
     'name' => 'Contact_sales',
     'controller' => 'SiteController',

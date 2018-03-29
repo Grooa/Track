@@ -18,7 +18,8 @@ class AdminController
     /**
      * @ipSubmenu Grooa Courses
      */
-    public function index() {
+    public function index()
+    {
         $config = [
             'title' => '',
             'table' => 'grooa_course',
@@ -38,6 +39,20 @@ class AdminController
                 [
                     'field' => 'name',
                     'label' => 'Name'
+                ],
+                [
+                    'field' => 'cover',
+                    'label' => 'Cover image',
+                    'type' => 'RepositoryFile',
+                    'preview' => false,
+                    'default' => null
+                ],
+                [
+                    'field' => 'description',
+                    'label' => 'Description',
+                    'type' => 'RichText',
+                    'default' => null,
+                    'preview' => false
                 ],
                 [
                     'field' => 'createdOn',
@@ -64,11 +79,11 @@ class AdminController
             'actions' => [
                 [
                     'type' => 'Html',
-                    'html' => '<a class="button" style="margin: auto 1em;" href="'. ipConfig()->baseUrl(). 'online-courses">To Master Class</a>'
+                    'html' => '<a class="button" style="margin: auto 1em;" href="' . ipConfig()->baseUrl() . 'online-courses">To Master Class</a>'
                 ],
                 [
                     'type' => 'Html',
-                    'html' => '<a class="button" style="margin: auto 1em;" href="'. ipConfig()->baseUrl(). '?aa=GrooaPayment">To Payment Manager</a>'
+                    'html' => '<a class="button" style="margin: auto 1em;" href="' . ipConfig()->baseUrl() . '?aa=GrooaPayment">To Payment Manager</a>'
                 ]
             ],
             'fields' => [
@@ -283,7 +298,7 @@ class AdminController
                     'type' => 'Text',
                     'value' => '0',
                     'attributes' => [
-                      'required' => 'required'
+                        'required' => 'required'
                     ],
                     'default' => 0
                 ]

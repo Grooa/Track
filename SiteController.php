@@ -13,6 +13,22 @@ use Plugin\GrooaPayment\Model\TrackOrder;
 
 class SiteController
 {
+    /**
+     *
+     * @param string $courseId
+     * @throws \Ip\Exception
+     */
+    public function viewCoursePage($courseId) {
+
+        $layout = new \Ip\Response\Layout(
+          ipView('view/viewCoursePage.php', [])->render()
+        );
+
+        $layout->setLayout('onlineCourse.php');
+
+        return $layout;
+    }
+
     public function listTracks()
     {
         $tracks = Track::findAll();
