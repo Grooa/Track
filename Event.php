@@ -17,7 +17,13 @@ class Event
         }
 
         ipAddJs('assets/tracks.js', ['async'=>'async', 'defer'=>'defer']);
-        ipAddJs('assets/dist/bundle.js', ['defer' => 'defer']);
+
+        if (ipConfig()->isDevelopmentEnvironment()) {
+            ipAddJs('assets/dist/bundle.js', ['defer' => 'defer']);
+        } else {
+            ipAddJs('assets/dist/bundle.min.js', ['defer' => 'defer']);
+        }
+
     }
 
 
