@@ -45,15 +45,18 @@ export default class ViewCourse extends React.Component {
     }
 
     return <article>
-      <h1 className="centered">{this.state.course.name}</h1>
+      <header className="course-header">
+        <div className="cover-image" style={{ backgroundImage: `url(${this.state.course.cover})` }} />
+        <h1 className="centered">{this.state.course.name}</h1>
+      </header>
 
-      <div className="columns float-top">
+      <div className="course-metadata columns float-top spaced">
 
-        <section className="modules">
+        <section className="modules-section">
           <h2>Modules</h2>
 
           {this.state.course.modules.length > 0 && <ul className="course-list">
-            {this.state.course.modules.map(m => <li className="course-module">
+            {this.state.course.modules.map(m => <li key={`module-${m.id}`} className="course-module clickable">
               <a href={m.url}>
                 <div className="course-module-metadata">
                   <strong className="type">{m.type} {m.num}</strong>
@@ -69,7 +72,7 @@ export default class ViewCourse extends React.Component {
         </section>
 
 
-        <ReactMarkdown source={this.state.course.description} className="description" />
+        <ReactMarkdown source={this.state.course.description} className="course-description" />
       </div>
     </article>;
   }

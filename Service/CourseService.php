@@ -24,4 +24,7 @@ class CourseService
         return $this->courseRepository->findByLabel($label);
     }
 
+    public function existsByLabel(String $label): bool {
+        return $this->courseRepository->countByLabel($label) > 0;
+    }
 }

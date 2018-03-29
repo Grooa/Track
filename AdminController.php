@@ -67,7 +67,7 @@ class AdminController
     }
 
     /**
-     * @ipSubmenu All Course Modules
+     * @ipSubmenu Modules
      */
     public function masterClass()
     {
@@ -146,13 +146,13 @@ class AdminController
                     'field' => 'shortDescription',
                     'label' => 'Short Description',
                     'hint' => 'Used on listing',
-                    'type' => 'RichText',
+                    'type' => 'Textarea',
                     'preview' => false
                 ],
                 [
                     'field' => 'longDescription',
                     'label' => 'Long Description',
-                    'type' => 'RichText',
+                    'type' => 'Textarea',
                     'preview' => false,
                     'validators' => ['Required']
                 ],

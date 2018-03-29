@@ -222,6 +222,27 @@ class Module extends AbstractModel
         $this->courseId = $courseId;
     }
 
+    /**
+     * Converts the module to an associative array,
+     * which can be used converted to json
+     */
+    public function serializeToArray(): array {
+        return [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'shortDescription' => $this->getShortDescription(),
+            'longDescription' => $this->getLongDescription(),
+            'createdOn' => $this->getCreatedOn(),
+            'thumbnail' => $this->getThumbnail(),
+            'cover' => $this->getLargeThumbnail(),
+            'price' => $this->getPrice(),
+            'state' => $this->getState(),
+            'type' => $this->getType(),
+            'number' => $this->getNum(),
+            'url' => ipConfig()->baseUrl() . "online-courses/" . $this->getId()
+        ];
+    }
+
     public static function findAllPublished($courseId = null)
     {
         return self::findAll('published', $courseId);

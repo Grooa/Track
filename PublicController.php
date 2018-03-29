@@ -48,28 +48,13 @@ class PublicController
             'name' => $course->getName(),
             'description' => $course->getDescription(),
             'createdOn' => $course->getCreatedOn(),
-            'cover' => $course->getCover(),
-            'modules' => array_map(function($m) {
-                return self::serializeModule($m);
+            'cover' => !empty($course->getCover())
+                ? ipFileUrl('file/repository/' . $course->getCover())
+                : null,
+            'modules' => array_map(function(Module $m) {
+                return $m->serializeToArray();
             }, $course->getModules())
         ]);
-    }
-
-    private static function serializeModule(Module $module): array {
-        return [
-            'id' => $module->getId(),
-            'title' => $module->getTitle(),
-            'shortDescription' => $module->getShortDescription(),
-            'longDescription' => $module->getLongDescription(),
-            'createdOn' => $module->getCreatedOn(),
-            'thumbnail' => $module->getThumbnail(),
-            'cover' => $module->getLargeThumbnail(),
-            'price' => $module->getPrice(),
-            'state' => $module->getState(),
-            'type' => $module->getType(),
-            'number' => $module->getNum(),
-            'url' => ipConfig()->baseUrl() . "online-courses/" . $module->getId()
-        ];
     }
 
     public function contactSales()

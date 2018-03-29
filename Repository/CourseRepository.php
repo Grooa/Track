@@ -35,4 +35,12 @@ class CourseRepository
 
         return $course;
     }
+
+    public function countByLabel(String $label): int {
+        $row = ipDb()->fetchRow("SELECT COUNT(*) AS c FROM " . ipTable(self::TABLE_NAME) . " WHERE `label`=?", [
+            $label
+        ]);
+
+        return (int)$row['c'];
+    }
 }

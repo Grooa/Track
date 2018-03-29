@@ -39,6 +39,9 @@ class SiteController
         );
 
         $layout->setLayout('onlineCourse.php');
+        $layout->setTitle($course->getName() . ' | Grooa');
+        $layout->setDescription('Checkout our online courses on The CLEAR Mindset and The Mindful leadership gym');
+        $layout->setLayoutVariable('ogImage', $course->getCover() ?? null);
 
         return $layout;
     }

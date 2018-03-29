@@ -15,7 +15,7 @@ class Course extends AbstractModel
     /**
      * @return null|String
      */
-    public function getLabel(): String
+    public function getLabel(): ?String
     {
         return $this->label;
     }
@@ -23,7 +23,7 @@ class Course extends AbstractModel
     /**
      * @param String $label
      */
-    public function setLabel(String $label)
+    public function setLabel(?String $label)
     {
         $this->label = $label;
     }
@@ -31,7 +31,7 @@ class Course extends AbstractModel
     /**
      * @return String
      */
-    public function getName(): String
+    public function getName(): ?String
     {
         return $this->name;
     }
@@ -39,7 +39,7 @@ class Course extends AbstractModel
     /**
      * @param String $name
      */
-    public function setName(String $name)
+    public function setName(?String $name)
     {
         $this->name = $name;
     }
@@ -63,7 +63,7 @@ class Course extends AbstractModel
     /**
      * @return null|String
      */
-    public function getDescription(): String
+    public function getDescription(): ?String
     {
         return $this->description;
     }
@@ -71,7 +71,7 @@ class Course extends AbstractModel
     /**
      * @param null|String $description
      */
-    public function setDescription(String $description)
+    public function setDescription(?String $description)
     {
         $this->description = $description;
     }
@@ -79,7 +79,7 @@ class Course extends AbstractModel
     /**
      * @return null|String
      */
-    public function getCover(): String
+    public function getCover(): ?String
     {
         return $this->cover;
     }
@@ -87,7 +87,7 @@ class Course extends AbstractModel
     /**
      * @param null|String $cover
      */
-    public function setCover(String $cover)
+    public function setCover(?String $cover): void
     {
         $this->cover = $cover;
     }
@@ -103,7 +103,7 @@ class Course extends AbstractModel
     /**
      * @param array $modules
      */
-    public function setModules(array $modules): void
+    public function setModules(?array $modules): void
     {
         $this->modules = $modules;
     }
