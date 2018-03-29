@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config jest.config.js",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
 
     "lint": "eslint \"assets/src/**/*\"",
-
     "build": "webpack-cli --config webpack.config.js --mode development",
     "build:prod": "webpack-cli --config webpack.config.prod.js --mode production",
+
+    "precommit": "echo \"Running code-linters\" && npm run lint",
+    "prepush": "npm run test",
+
     "deploy": "npm run build:prod"
   },
   "repository": {
@@ -34,12 +39,17 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13"
   }
