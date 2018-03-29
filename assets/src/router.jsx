@@ -44,12 +44,13 @@ export function loadComponents(uri) {
   const firstSegment = segments[0];
 
   segments.shift(); // Remove the first URI segment
+
   switch (firstSegment) {
     case 'c':
       requireDomElementExists('viewCoursePage');
 
       render(
-        <ViewCourse />,
+        <ViewCourse courseLabel={segments[0]}/>,
         document.getElementById('viewCoursePage'),
       );
       break;

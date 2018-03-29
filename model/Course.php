@@ -4,13 +4,13 @@ namespace Plugin\Track\Model;
 
 class Course extends AbstractModel
 {
-    const TABLE_NAME = 'grooa_course';
-
     private $label = null;
     private $name = null;
     private $createdOn;
     private $description = null;
     private $cover = null;
+
+    private $modules = [];
 
     /**
      * @return null|String
@@ -90,5 +90,21 @@ class Course extends AbstractModel
     public function setCover(String $cover)
     {
         $this->cover = $cover;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModules(): array
+    {
+        return $this->modules;
+    }
+
+    /**
+     * @param array $modules
+     */
+    public function setModules(array $modules): void
+    {
+        $this->modules = $modules;
     }
 }

@@ -61,4 +61,11 @@ $routes['online-courses/{trackId}/v/{courseId}/resources'] = [
     'action' => 'retrieveCourseResources'
 ];
 
-
+/**
+ * REST-endpoints
+ */
+$routes['api/v1/courses/{label}'] = [
+    'name' => 'Course_findByLabel',
+    'controller' => 'PublicController',
+    'action' => 'findCourseByLabel'
+];

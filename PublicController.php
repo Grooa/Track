@@ -5,11 +5,72 @@ namespace Plugin\Track;
 use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
+use Plugin\Track\Model\Module;
 use Plugin\Track\Model\ModuleVideo;
 use Plugin\Track\Model\TrackResource;
+use Plugin\Track\Service\CourseService;
+use Plugin\Track\Service\ModuleService;
 
 class PublicController
 {
+    private $courseService;
+    private $moduleService;
+
+    public function __construct()
+    {
+        $this->courseService = new CourseService();
+        $this->moduleService = new ModuleService();
+    }
+
+    public function findCourseByLabel($label)
+    {
+        if (!isset($this->courseService)) {
+            $this->courseService = new CourseService();
+        }
+
+        if (!ipRequest()->isGet()) {
+           return new RestError("Method not allowed", 405);
+        }
+
+        $course = $this->courseService->findByLabel($label);
+
+        if (empty($course)) {
+            return new RestError("Cannot find course with label: $label", 404);
+        }
+
+        $course->setModules(
+            $this->moduleService->findAllPublishedByCourseId($course->getId())
+        );
+
+        return new \Ip\Response\Json([
+            'id' => $course->getId(),
+            'label' => $course->getLabel(),
+            'name' => $course->getName(),
+            'description' => $course->getDescription(),
+            'createdOn' => $course->getCreatedOn(),
+            'cover' => $course->getCover(),
+            'modules' => array_map(function($m) {
+                return self::serializeModule($m);
+            }, $course->getModules())
+        ]);
+    }
+
+    private static function serializeModule(Module $module): array {
+        return [
+            'id' => $module->getId(),
+            'title' => $module->getTitle(),
+            'shortDescription' => $module->getShortDescription(),
+            'longDescription' => $module->getLongDescription(),
+            'createdOn' => $module->getCreatedOn(),
+            'thumbnail' => $module->getThumbnail(),
+            'cover' => $module->getLargeThumbnail(),
+            'price' => $module->getPrice(),
+            'state' => $module->getState(),
+            'type' => $module->getType(),
+            'number' => $module->getNum(),
+            'url' => ipConfig()->baseUrl() . "online-courses/" . $module->getId()
+        ];
+    }
 
     public function contactSales()
     {
@@ -96,7 +157,8 @@ class PublicController
      * @rest
      * Will fetch all the courses-video resources in JSON format
      */
-    public function retrieveCourseResources($trackId, $courseId) {
+    public function retrieveCourseResources($trackId, $courseId)
+    {
         if (!ipRequest()->isGet()) {
             return new RestError("Method Not Allowed", 405);
         }
@@ -113,7 +175,7 @@ class PublicController
 
         // Create valid presigned urls
         if (!empty($resources)) {
-            $resources = array_map(function($r) {
+            $resources = array_map(function ($r) {
                 $r['url'] = AwsS3::getPresignedUri($r['filename']);
                 return $r;
             }, $resources);

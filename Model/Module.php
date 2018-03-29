@@ -4,16 +4,231 @@ namespace Plugin\Track\Model;
 
 use Ip\Exception;
 
-class Module {
-
+class Module extends AbstractModel
+{
     const TABLE = 'track';
     const GROOA_COURSE_TABLE = 'grooa_course';
 
-    public static function findAllPublished ($courseId = null) {
+    private $title;
+    private $shortDescription = null;
+    private $longDescription = null;
+    private $createdOn;
+    private $thumbnail = null;
+    private $largeThumbnail = null;
+    private $price = 0;
+    private $isFree = false;
+    private $state = 'draft';
+    private $order = 0;
+
+    private $type = 'module';
+    private $num = null; // The course-number
+
+    private $courseId = null;
+
+    public function __construct()
+    {
+        $this->createdOn = date("Y-m-d H:i:s");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * @param mixed $shortDescription
+     */
+    public function setShortDescription($shortDescription): void
+    {
+        $this->shortDescription = $shortDescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongDescription()
+    {
+        return $this->longDescription;
+    }
+
+    /**
+     * @param mixed $longDescription
+     */
+    public function setLongDescription($longDescription): void
+    {
+        $this->longDescription = $longDescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param mixed $createdOn
+     */
+    public function setCreatedOn($createdOn): void
+    {
+        $this->createdOn = $createdOn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * @param mixed $thumbnail
+     */
+    public function setThumbnail($thumbnail): void
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLargeThumbnail()
+    {
+        return $this->largeThumbnail;
+    }
+
+    /**
+     * @param mixed $largeThumbnail
+     */
+    public function setLargeThumbnail($largeThumbnail): void
+    {
+        $this->largeThumbnail = $largeThumbnail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrice(): int
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int $price
+     */
+    public function setPrice(int $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFree(): bool
+    {
+        return $this->isFree;
+    }
+
+    /**
+     * @param bool $isFree
+     */
+    public function setIsFree(bool $isFree): void
+    {
+        $this->isFree = $isFree;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return null
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * @param null $num
+     */
+    public function setNum($num): void
+    {
+        $this->num = $num;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCourseId()
+    {
+        return $this->courseId;
+    }
+
+    /**
+     * @param null $courseId
+     */
+    public function setCourseId($courseId): void
+    {
+        $this->courseId = $courseId;
+    }
+
+    public static function findAllPublished($courseId = null)
+    {
         return self::findAll('published', $courseId);
     }
 
-    public static function findAll($state = null, $courseId = null) {
+    public static function findAll($state = null, $courseId = null)
+    {
         $were = [];
 
         if (!empty($state)) {
@@ -31,11 +246,13 @@ class Module {
         return ipDb()->selectAll(self::TABLE, '*', $were, 'ORDER BY `num` ASC');
     }
 
-    public static function isFree($trackId) {
+    public static function isModuleFree($trackId)
+    {
         return !empty(ipDb()->selectRow(self::TABLE, 'trackId', ['trackId' => $trackId, 'isFree' => true]));
     }
 
-    public static function get($trackId, $courseId = null) {
+    public static function get($trackId, $courseId = null)
+    {
         if (empty($trackId)) {
             return null;
         }
@@ -66,21 +283,25 @@ class Module {
         return $track;
     }
 
-    public static function getGrooaCourseIdByTrackId($trackId) {
+    public static function getGrooaCourseIdByTrackId($trackId)
+    {
         $row = ipDb()->selectRow(self::TABLE, ['grooaCourseId'], ['trackId' => $trackId]);
 
         return !empty($row) && !empty($row['grooaCourseId']) ? $row['grooaCourseId'] : null;
     }
 
-    public static function getGrooaCourseByLabel($label) {
+    public static function getGrooaCourseByLabel($label)
+    {
         return ipDb()->selectRow(self::GROOA_COURSE_TABLE, '*', ['label' => $label]);
     }
 
-    public static function getGrooaCourseById($id) {
+    public static function getGrooaCourseById($id)
+    {
         return ipDb()->selectRow(self::GROOA_COURSE_TABLE, '*', ['id' => $id]);
     }
 
-    public static function getAllLastCreated($limit = 10) {
+    public static function getAllLastCreated($limit = 10)
+    {
         return ipDb()->selectAll(self::TABLE, '*', [], "ORDER BY `createdOn` DESC LIMIT " . esc($limit) . ";");
     }
 
@@ -93,18 +314,20 @@ class Module {
      *
      * Where 0 is `track_id` and 'Some Title' is `title`
      */
-    public static function getWithIdAndTitle() {
+    public static function getWithIdAndTitle()
+    {
         $tracks = ipDb()->selectAll('track', '`trackId`, `title`', [], "ORDER BY `createdOn` DESC");
 
-        return array_map(function($t) {
+        return array_map(function ($t) {
             return [$t['trackId'], $t['title']];
         }, $tracks);
     }
 
-    public static function getGrooaCourseWithIdAndName() {
+    public static function getGrooaCourseWithIdAndName()
+    {
         $courses = ipDb()->selectAll(self::GROOA_COURSE_TABLE, ['id', 'name'], [], 'ORDER BY `name` DESC');
 
-        return array_map(function($t) {
+        return array_map(function ($t) {
             return [$t['id'], $t['name']];
         }, $courses);
     }
@@ -113,7 +336,10 @@ class Module {
      * Will get the full track data, for
      * a track the user has bought
      */
-    public static function getByUser($user) {
-        if (!user) { return null; }
+    public static function getByUser($user)
+    {
+        if (!user) {
+            return null;
+        }
     }
 }

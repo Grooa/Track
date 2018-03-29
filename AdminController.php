@@ -50,7 +50,7 @@ class AdminController
                 [
                     'field' => 'description',
                     'label' => 'Description',
-                    'type' => 'RichText',
+                    'type' => 'Textarea',
                     'default' => null,
                     'preview' => false
                 ],

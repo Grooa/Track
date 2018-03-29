@@ -20,6 +20,10 @@ video {
   width: 100%;
 }
 
+.columns.float-top {
+  align-items: flex-start;
+}
+
 .thumbnail > svg.play {
   position: absolute;
   top: 50%;

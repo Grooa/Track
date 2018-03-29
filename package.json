@@ -8,16 +8,12 @@
     "test": "jest --config jest.config.js",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-
     "lint": "eslint \"assets/src/**/*\"",
     "build": "webpack-cli --config webpack.config.js --mode development",
     "build:prod": "webpack-cli --config webpack.config.prod.js --mode production",
-
     "watch": "npm run build -- --watch",
-
     "precommit": "echo \"Running code-linters\" && npm run lint",
     "prepush": "npm run test",
-
     "deploy": "npm run build:prod"
   },
   "repository": {
@@ -34,7 +30,8 @@
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-markdown": "^3.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
