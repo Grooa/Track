@@ -13,6 +13,29 @@ class CourseRepository
         return $course;
     }
 
+    public function findById(int $id): ?Course
+    {
+        $row = ipDb()->selectRow(
+            self::TABLE_NAME,
+            [
+                'id',
+                'name',
+                'createdOn',
+                'label',
+                'description',
+                'introduction',
+                'cover'
+            ],
+            ['id' => $id]
+        );
+
+        if (empty($row)) {
+            return null;
+        }
+
+        return Course::deserialize($row);
+    }
+
     public function findByLabel(String $label): ?Course
     {
         $row = ipDb()->selectRow(
@@ -25,19 +48,11 @@ class CourseRepository
             return null;
         }
 
-        $course = new Course();
-        $course->setId($row['id']);
-        $course->setLabel($row['label']);
-        $course->setName($row['name']);
-        $course->setDescription($row['description']);
-        $course->setIntroduction($row['introduction']);
-        $course->setCreatedOn($row['createdOn']);
-        $course->setCover($row['cover']);
-
-        return $course;
+        return Course::deserialize($row);
     }
 
-    public function countByLabel(String $label): int {
+    public function countByLabel(String $label): int
+    {
         $row = ipDb()->fetchRow("SELECT COUNT(*) AS c FROM " . ipTable(self::TABLE_NAME) . " WHERE `label`=?", [
             $label
         ]);

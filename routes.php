@@ -75,15 +75,3 @@ $routes['api/v1/modules/{id}'] = [
     'controller' => 'PublicController',
     'action' => 'findModuleById'
 ];
-
-$routes['api/v1/modules/{id}/resources'] = [
-    'name' => 'Module_findResourcesByModuleId',
-    'controller' => 'PublicController',
-    'action' => 'findResourcesByModuleId'
-];
-
-$routes['api/v1/videos/{id}/resources'] = [
-    'name' => 'Video_findResourcesByVideoId',
-    'controller' => 'PublicController',
-    'action' => 'findResourcesByVideoId'
-];

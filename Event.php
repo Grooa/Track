@@ -13,7 +13,7 @@ class Event
         ipAddCss('assets/tracks.css');
 
         if ($data['action'] == 'retrieveCourse' && $data['plugin'] == 'Track') {
-            ipAddJs('assets/courseResources.js');
+//            ipAddJs('assets/courseResources.js');
         }
 
         ipAddJs('assets/tracks.js', ['async'=>'async', 'defer'=>'defer']);

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VideoResources /> should render empty list properly 1`] = `
+<section
+  class=""
+>
+  <h2
+    class="colored"
+  >
+    Resourecs
+  </h2>
+  <div
+    class="data"
+  />
+</section>
+`;
+
+exports[`<VideoResources /> should render list properly 1`] = `
+<section
+  class=""
+>
+  <h2
+    class="colored"
+  >
+    Resourecs
+  </h2>
+  <div
+    class="data"
+  >
+    <ul
+      class="course-resources"
+    >
+      <li>
+        <a
+          href="https://test.com/test.pdf"
+          target="_blank"
+          title="Some pdf resource"
+        >
+          Some pdf resource
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://test.com/test2.pptx"
+          target="_blank"
+          title="Some PowerPoint resource"
+        >
+          Some PowerPoint resource
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://test.com/testTest"
+          target="_blank"
+          title="Some Website"
+        >
+          Some Website
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+`;

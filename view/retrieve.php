@@ -1,12 +1,13 @@
-<?= ipSlot('xBreadcrumb', [
-    ['uri' => $track['courseRootUri'], 'label' => $track['grooaCourse']['name']],
-    ['uri' => "online-courses/" . $track['trackId'], 'label' => $track['title'], 'active' => true]
-]) ?>
+<article>
+    <?= ipSlot('xBreadcrumb', [
+        ['uri' => $track['courseRootUri'], 'label' => $track['grooaCourse']['name']],
+        ['uri' => "online-courses/" . $track['trackId'], 'label' => $track['title'], 'active' => true]
+    ]) ?>
 
-<?php
-$isBusinessUser = ipUser()->isLoggedIn() ?
-    \Plugin\GrooaUser\Model\GrooaUser::isBusinessUser(ipUser()->userId()) : false;
-?>
+    <?php
+    $isBusinessUser = ipUser()->isLoggedIn() ?
+        \Plugin\GrooaUser\Model\GrooaUser::isBusinessUser(ipUser()->userId()) : false;
+    ?>
 
     <h1><?= $track['title'] ?></h1>
 
@@ -26,10 +27,10 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
 
         <?php if (ipUser()->isLoggedIn() && !$hasPurchased): ?>
             <a
-                    class="button btn-business"
-                    href="<?= ipConfig()->baseUrl() ?>online-courses/contact/?course=<?= $track['trackId'] ?>"
-                    data-track-content
-                    data-content-name="Master Class sales contact">
+                class="button btn-business"
+                href="<?= ipConfig()->baseUrl() ?>online-courses/contact/?course=<?= $track['trackId'] ?>"
+                data-track-content
+                data-content-name="Master Class sales contact">
                 Contact us to acquire module</a>
         <?php endif; ?>
     </section>
@@ -53,3 +54,4 @@ $isBusinessUser = ipUser()->isLoggedIn() ?
             <div class="data"><?= $track['longDescription'] ?></div>
         </section>
     </div>
+</article>

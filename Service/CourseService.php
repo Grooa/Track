@@ -19,12 +19,18 @@ class CourseService
         return $course;
     }
 
+    public function findById(int $id): ?Course
+    {
+        return $this->courseRepository->findById($id);
+    }
+
     public function findByLabel(String $label): ?Course
     {
         return $this->courseRepository->findByLabel($label);
     }
 
-    public function existsByLabel(String $label): bool {
+    public function existsByLabel(String $label): bool
+    {
         return $this->courseRepository->countByLabel($label) > 0;
     }
 }

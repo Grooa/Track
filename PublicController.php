@@ -76,6 +76,10 @@ class PublicController
      */
     public function findModuleById(int $id): Response
     {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
         $authenticated = ipUser()->isLoggedIn();
         $hasFullAccess = TrackProtector::canAccess(ipUser(), $id);
 
@@ -121,6 +125,16 @@ class PublicController
                 $presignedUrl = $this->awsService->createPresignedUrl($v->getUrl());
 
                 $v->setUrl($presignedUrl);
+
+                $resources = $v->getResources();
+
+                if (!empty($resources)) {
+                    $v->setResources(array_map(function(Resource $r) {
+                        $r->setUrl($this->awsService->createPresignedUrl($r->getFilename()));
+
+                        return $r;
+                    }, $resources));
+                }
 
                 return $v;
             }, $videos);
@@ -206,68 +220,6 @@ class PublicController
         }
 
         return new \Ip\Response\Json($res);
-    }
-
-    public function findResourcesByModuleId(int $id)
-    {
-        if (!ipRequest()->isGet()) {
-            return new RestError("Method Not Allowed", 405);
-        }
-
-        if (!ipUser()->isLoggedIn()) {
-            return new RestError("Request requires authenticated user", 403);
-        }
-        // TODO:ffl - Function not implemented yet
-        return new RestError("Method Not Allowed", 405);
-
-//        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
-//            return new RestError("You must purchase this module ($trackId) first", 403);
-//        }
-
-//        $resources = $this->resourceService->findByVideoId($id);
-
-        if (empty($resources)) {
-            return new Response\Json([]);
-        }
-
-        $resources = array_map(function (Resource $r) {
-            $r->setUrl(AwsS3::getPresignedUri($r['filename']));
-            return $r->serialize();
-        }, $resources);
-
-        return new Response\Json($resources);
-    }
-
-    public function findResourcesByVideoId(int $id)
-    {
-        if (!ipRequest()->isGet()) {
-            return new RestError("Method Not Allowed", 405);
-        }
-
-        if (!ipUser()->isLoggedIn()) {
-            return new RestError("Request requires authenticated user", 403);
-        }
-
-        // TODO:ffl - Function not implemented yet
-        return new RestError("Method Not Allowed", 405);
-//
-//        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
-//            return new RestError("You must purchase this module ($trackId) first", 403);
-//        }
-
-        $resources = $this->resourceService->findByVideoId($id);
-
-        if (empty($resources)) {
-            return new Response\Json([]);
-        }
-
-        // Create valid presigned urls, and convert to JSON friendly format
-        $resources = array_map(function (Resource $r) {
-            $r->setUrl(AwsS3::getPresignedUri($r['filename']));
-            return $r->serialize();
-        }, $resources);
-
-        return new Response\Json($resources);
     }
 
     /**

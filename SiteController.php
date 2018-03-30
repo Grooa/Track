@@ -3,6 +3,9 @@
 namespace Plugin\Track;
 
 use Ip\Exception;
+use Ip\Page;
+use Ip\Response;
+use Ip\Response\Layout;
 use Ip\Response\PageNotFound;
 use Ip\Response\Redirect;
 use Plugin\GrooaUser\Model\GrooaUser;
@@ -10,16 +13,25 @@ use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Module;
 
 use Plugin\GrooaPayment\Model\TrackOrder;
+use Plugin\Track\Model\Video;
 use Plugin\Track\Service\CourseService;
+use Plugin\Track\Service\ModuleService;
 
 class SiteController
 {
     private $courseService;
+    private $moduleService;
+
+    function __construct()
+    {
+        $this->courseService = new CourseService();
+        $this->moduleService = new ModuleService();
+    }
 
     /**
      *
      * @param string $courseLabel
-     * @return \Ip\Response\Layout
+     * @return Layout
      * @throws \Ip\Exception
      */
     public function viewCoursePage(String $courseLabel)
@@ -30,12 +42,12 @@ class SiteController
 
         $course = $this->courseService->findByLabel($courseLabel);
 
-        if(is_null($course)) {
+        if (is_null($course)) {
             return new PageNotFound("We cannot find any course with label: $courseLabel");
         }
 
-        $layout = new \Ip\Response\Layout(
-            ipView('view/viewCoursePage.php', [ 'course' => $course ])->render()
+        $layout = new Layout(
+            ipView('view/viewCoursePage.php', ['course' => $course])->render()
         );
 
         $layout->setLayout('onlineCourse.php');
@@ -50,7 +62,7 @@ class SiteController
     {
         $tracks = Module::findAll();
 
-        $layout = new \Ip\Response\Layout(
+        $layout = new Layout(
             ipView('view/list.php', ['tracks' => $tracks])->render());
         $layout->setLayout('track.php');
         //$layout->setLayoutVariable('coverImage', $track['large_thumbnail']);
@@ -64,7 +76,7 @@ class SiteController
      * and allows users and businesses to purchase it.
      *
      * @param $trackId
-     * @return \Ip\Response\Layout | \Ip\Response\Redirect
+     * @return Layout | \Ip\Response\Redirect
      * @throws Exception
      */
     public function retrieveTrack($trackId)
@@ -91,7 +103,9 @@ class SiteController
             );
         }
 
-        $layout = new \Ip\Response\Layout(
+        $track['courseRootUri'] = 'c/' . $track['courseRootUri'];
+
+        $layout = new Layout(
             ipView('view/retrieve.php', [
                 'track' => $track,
                 'purchasedOn' => !empty($order) && $hasPurchased ?
@@ -99,7 +113,7 @@ class SiteController
                     null,
                 'hasPurchased' => $hasPurchased
             ])->render());
-        $layout->setLayout('track.php');
+        $layout->setLayout('onlineCourse.php');
 
         $layout->setTitle("${track['title']} | Grooa");
         $layout->setDescription($track['shortDescription']);
@@ -118,39 +132,55 @@ class SiteController
      *
      * @param $trackId
      * @param $courseId
-     * @return \Ip\Response\Layout|\Ip\Response\PageNotFound
+     * @return Layout
+     * @throws \Ip\Exception
      */
-    public function retrieveCourse($trackId, $courseId)
+    public function retrieveCourse(int $trackId, int $courseId): Layout
     {
-        $track = Module::get($trackId, $courseId);
+        $module = $this->moduleService->findById($trackId);
 
-        if (!$track || !$track['course']) {
-            return new \Ip\Response\PageNotFound("Cannot find Track of course");
+        if (empty($module)) {
+            return new PageNotFound("Cannot find any module with id: $trackId");
         }
 
-        $uri = null;
-        if (!empty($track['course']['video'])) {
-            $uri = AwsS3::getPresignedUri($track['course']['video']);
+        $videos = array_filter($module->getVideos(), function (Video $v) use ($courseId) {
+            return $v->getId() === $courseId;
+        });
+
+        if (empty($videos)) {
+            return new PageNotFound(
+                "Cannot find any video with id: $courseId, corresponding to module: " . $module->getTitle()
+            );
         }
 
-        $track['course']['video'] = $uri; // Replace the saved url, with the actual AWS S3 url
+        /**
+         * @var \Plugin\Track\Model\Video
+         */
+        $currentVideo = $videos[0]; // After filter, should the first video be the correct item
 
-        ipAddJsVariable('track', $track);
+        $course = $this->courseService->findById($module->getCourseId());
 
-        $layout = new \Ip\Response\Layout(ipView('view/retrieveCourse.php',
-            [
-                'track' => $track,
-                'course' => $track['course']
-            ])->render()
+        $layout = new Layout(ipView('view/videoPage.php', [
+            'breadcrumbs' => [
+                [
+                    'uri' => ('c/' . $course->getLabel()),
+                    'label' => $course->getName()
+                ],
+                [
+                    'uri' => 'online-courses/' . $module->getId() . '/v/' . $currentVideo->getId() . '/',
+                    'label' => $module->getTitle(),
+                    'active' => true
+                ]
+            ]
+        ])->render());
+        $layout->setLayout('onlineCourse.php');
+
+        $layout->setTitle($module->getTitle() . " | Grooa");
+        $layout->setDescription(
+            !empty($currentVideo->getShortDescription())
+                ? $currentVideo->getShortDescription()
+                : $module->getShortDescription()
         );
-        $layout->setLayout('track.php');
-
-        $layout->setTitle("${track['title']} | Grooa");
-        $layout->setDescription(!empty($track['course']['shortDescription']) ?
-            $track['course']['shortDescription'] : $track['shortDescription']);
-
-        //$layout->setLayoutVariable('coverImage', ipFileUrl('file/repository/' . $track['course']['largeThumbnail']));
-        //$layout->setLayoutVariable('coverTitle', $track['title']);
 
         return $layout;
     }
@@ -186,7 +216,7 @@ class SiteController
             return new PageNotFound("Cannot find the selected course");
         }
 
-        $layout = new \Ip\Response\Layout(ipView('view/contactSales.php',
+        $layout = new Layout(ipView('view/contactSales.php',
             [
                 'track' => $track,
                 'user' => $user,

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { getUrlSegments } from './common/urlDecoder';
 
 import ViewCourse from './ViewCourse';
+import DisplayVideo from './DisplayVideo';
 
 /**
  * react-dom's `render` function give some cryptic error message
@@ -45,21 +46,47 @@ export function loadComponents(uri) {
 
   segments.shift(); // Remove the first URI segment
 
-  switch (firstSegment) {
-    case 'c':
-      requireDomElementExists('viewCoursePage');
+  if (firstSegment === 'c') {
+    requireDomElementExists('viewCoursePage');
 
-      render(
-        <ViewCourse courseLabel={segments[0]}/>,
-        document.getElementById('viewCoursePage'),
-      );
+    render(
+      <ViewCourse courseLabel={segments[0]} />,
+      document.getElementById('viewCoursePage'),
+    );
+    // eslint-disable-next-line no-restricted-globals
+  } else if (firstSegment === 'online-courses' && !isNaN(segments[0]) && segments[1] === 'v') {
+    requireDomElementExists('displayVideo');
+
+    render(
+      <DisplayVideo
+        moduleId={parseInt(segments[0], 10)}
+        videoId={parseInt(segments[2], 10)} />,
+      document.getElementById('displayVideo'),
+    );
+  }
+}
+
+/**
+ * Expects an ordered list of routes,
+ * where each element is structured as follows.
+ *
+ * {
+ *   matcher: (uriSegments: String[]) => boolean, // Predicate
+ *   handler: (uriSegments: String[]) => void // The route handler
+ * }
+ *
+ * @param {object[]} routes
+ * */
+// eslint-disable-next-line no-unused-vars
+function routeMatch(routes) {
+  const segments = [];
+
+  for (let i = 0; i < routes.length; i += 1) {
+    const route = routes[i];
+
+    if (route.matcher(segments)) {
+      route.handler(segments);
       break;
-
-    case 'kontakt':
-
-      break;
-
-    default:
-    // Add action for route '' here
+    }
   }
 }

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VideoPlayer /> should render placeholder properly 1`] = `
+<div
+  class="placeholder"
+  style="background-color:#212121;height:20em;width:100%"
+/>
+`;
+
+exports[`<VideoPlayer /> should render video-container properly 1`] = `
+<video
+  class="object course-video"
+  controls=""
+  controlslist="nodownload"
+  poster="somepath/some-poster.jpg"
+>
+  <source
+    src="/somepath/some-video.mp4"
+    type="video/mp4"
+  />
+  <p>
+    Your browser do not support the HTML5 videoplayer
+  </p>
+</video>
+`;

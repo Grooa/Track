@@ -59,7 +59,8 @@ class Resource extends AbstractModel implements Deserializable, Serializable
             'label' => $this->getLabel(),
             'description' => $this->getDescription(),
             'filename' => $this->getFilename(),
-            'videoId' => $this->getVideoId()
+            'videoId' => $this->getVideoId(),
+            'url' => $this->getUrl()
             // Note we ignore moduleId, as it is redundant
         ];
 

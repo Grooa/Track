@@ -2,7 +2,7 @@
 
 namespace Plugin\Track\Model;
 
-class Course extends AbstractModel
+class Course extends AbstractModel implements Deserializable
 {
     private $label = null;
     private $name = null;
@@ -16,6 +16,49 @@ class Course extends AbstractModel
     public function __construct()
     {
         $this->createdOn = date("Y-m-d H:i:s");
+    }
+
+    public static function deserialize(array $serialized): ?Course
+    {
+        $course = new Course();
+
+        if (isset($serialized['id'])) {
+            $course->setId($serialized['id']);
+        }
+
+        if (isset($serialized['name'])) {
+            $course->setName($serialized['name']);
+        }
+
+        if (isset($serialized['label'])) {
+            $course->setLabel($serialized['label']);
+        }
+
+        if (isset($serialized['createdOn'])) {
+            $course->setCreatedOn($serialized['createdOn']);
+        }
+
+        if (isset($serialized['description'])) {
+            $course->setDescription($serialized['description']);
+        }
+
+        if (isset($serialized['introduction'])) {
+            $course->setIntroduction($serialized['introduction']);
+        }
+
+        if (isset($serialized['cover'])) {
+            $course->setCover($serialized['cover']);
+        }
+
+        if (isset($serialized['modules']) && is_array($serialized['modules'])) {
+            if (Module::IS_DESERIALIZABLE) {
+                $course->setModules(array_map(function(array $m) {
+                    return Module::deserialize($m);
+                }, $serialized['modules']));
+            }
+        }
+
+        return $course;
     }
 
     /**

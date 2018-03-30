@@ -109,9 +109,15 @@ video {
 }
 
 .course-actions {
+  display: flex;
+
   margin: 1em 0;
 
   width: 100%;
+}
+
+.course-actions > * {
+  flex: 1;
 }
 
 .course-actions > a.button {
@@ -272,6 +278,12 @@ video {
  * Styles for the video
  * @todo:ffl - Migrate all video-specific styles for online courses, to this file
  */
+.video-page {
+  box-sizing: border-box;
+
+  padding: 1em;
+}
+
 .video-player-frame {
   background-color: #ffffff;
   margin: 0.5em auto;
@@ -369,6 +381,10 @@ video.course-video {
 
 .course-information > .data > h2 {
   font-size: 1em;
+}
+
+.course-resources li a {
+  cursor: pointer;
 }
 
 /**

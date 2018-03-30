@@ -31,7 +31,8 @@ class ModuleRepository
                 'order',
                 'type',
                 'num',
-                'state'
+                'state',
+                'grooaCourseId'
             ],
             ['trackId' => $id]);
 
