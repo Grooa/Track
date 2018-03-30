@@ -33,7 +33,8 @@ class Video extends AbstractModel implements Deserializable, Serializable
             'cover' => $this->getCover(),
             'price' => $this->getPrice(),
             'url' => $this->getUrl(),
-            'moduleId' => $this->getModuleId()
+            'moduleId' => $this->getModuleId(),
+            'resources' => []
         ];
 
         if (!empty($this->getResources())) {
@@ -41,7 +42,11 @@ class Video extends AbstractModel implements Deserializable, Serializable
 
             if ($resources[0] instanceof Serializable) {
                 $serialized['resources'] = array_map(function(Resource $r) {
-                    return $r->serialize();
+                    $serializedResource = $r->serialize();
+
+                    unset($serializedResource['videoId']); // Field is reduntant in this context
+
+                    return $serializedResource;
                 }, $resources);
             }
         }

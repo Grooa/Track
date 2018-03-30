@@ -7,12 +7,12 @@ use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Module;
-use Plugin\Track\Model\ModuleVideo;
-use Plugin\Track\Model\Serializable;
-use Plugin\Track\Model\TrackResource;
+use Plugin\Track\Model\Resource;
 use Plugin\Track\Model\Video;
+use Plugin\Track\Service\AwsService;
 use Plugin\Track\Service\CourseService;
 use Plugin\Track\Service\ModuleService;
+use Plugin\Track\Service\ResourceService;
 use Plugin\Track\Service\VideoService;
 
 class PublicController
@@ -20,12 +20,16 @@ class PublicController
     private $courseService;
     private $moduleService;
     private $videoService;
+    private $resourceService;
+    private $awsService;
 
     public function __construct()
     {
         $this->courseService = new CourseService();
         $this->moduleService = new ModuleService();
         $this->videoService = new VideoService();
+        $this->resourceService = new ResourceService();
+        $this->awsService = new AwsService();
     }
 
     public function findCourseByLabel($label)
@@ -81,17 +85,48 @@ class PublicController
             return new RestError("Cannot find module with id: $id", 404);
         }
 
-        if (!$authenticated || !$hasFullAccess) {
-            // Clear data which shouldn't be shared to non-authenticated users
-            $module->setVideos(array_map(function(Video $r) {
-                $r->setLongDescription(null);
-                $r->setUrl(null);
-                $r->setResources([]);
-                return $r;
-            }, $module->getVideos()));
-        }
+        $module->setVideos($this->setVideosByAccessRights(
+            $module->getVideos(),
+            $authenticated,
+            $hasFullAccess
+        ));
 
         return new Response\Json($module->serialize());
+    }
+
+    /**
+     * Modifies the videos to display what the client has access to
+     * 
+     * @param array $videos List of Videos
+     * @param bool $authenticated Whether the client is authenticated
+     * @param bool $hasFullAccess Whether the client has actuall access to this module
+     * @return array
+     */
+    private function setVideosByAccessRights(array $videos, $authenticated, $hasFullAccess): array
+    {
+        if (empty($videos)) {
+            return [];
+        }
+
+        if (!$authenticated || !$hasFullAccess) {
+            // Clear data which shouldn't be shared to non-authenticated users
+            $videos = array_map(function (Video $v) {
+                $v->setLongDescription(null);
+                $v->setUrl(null);
+                $v->setResources([]);
+                return $v;
+            }, $videos);
+        } else {
+            $videos = array_map(function (Video $v) {
+                $presignedUrl = $this->awsService->createPresignedUrl($v->getUrl());
+
+                $v->setUrl($presignedUrl);
+
+                return $v;
+            }, $videos);
+        }
+
+        return $videos;
     }
 
     public function contactSales()
@@ -173,6 +208,67 @@ class PublicController
         return new \Ip\Response\Json($res);
     }
 
+    public function findResourcesByModuleId(int $id)
+    {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
+        if (!ipUser()->isLoggedIn()) {
+            return new RestError("Request requires authenticated user", 403);
+        }
+        // TODO:ffl - Function not implemented yet
+        return new RestError("Method Not Allowed", 405);
+
+//        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
+//            return new RestError("You must purchase this module ($trackId) first", 403);
+//        }
+
+//        $resources = $this->resourceService->findByVideoId($id);
+
+        if (empty($resources)) {
+            return new Response\Json([]);
+        }
+
+        $resources = array_map(function (Resource $r) {
+            $r->setUrl(AwsS3::getPresignedUri($r['filename']));
+            return $r->serialize();
+        }, $resources);
+
+        return new Response\Json($resources);
+    }
+
+    public function findResourcesByVideoId(int $id)
+    {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
+        if (!ipUser()->isLoggedIn()) {
+            return new RestError("Request requires authenticated user", 403);
+        }
+
+        // TODO:ffl - Function not implemented yet
+        return new RestError("Method Not Allowed", 405);
+//
+//        if (!TrackProtector::canAccess(ipUser(), $trackId)) {
+//            return new RestError("You must purchase this module ($trackId) first", 403);
+//        }
+
+        $resources = $this->resourceService->findByVideoId($id);
+
+        if (empty($resources)) {
+            return new Response\Json([]);
+        }
+
+        // Create valid presigned urls, and convert to JSON friendly format
+        $resources = array_map(function (Resource $r) {
+            $r->setUrl(AwsS3::getPresignedUri($r['filename']));
+            return $r->serialize();
+        }, $resources);
+
+        return new Response\Json($resources);
+    }
 
     /**
      * @controller
@@ -193,13 +289,13 @@ class PublicController
             return new RestError("You must purchase this module ($trackId) first", 403);
         }
 
-        $resources = TrackResource::getAll($trackId, $courseId);
+        $resources = $this->resourceService->findByVideoId($courseId);
 
-        // Create valid presigned urls
+        // Create valid presigned urls, and convert to JSON friendly format
         if (!empty($resources)) {
-            $resources = array_map(function ($r) {
-                $r['url'] = AwsS3::getPresignedUri($r['filename']);
-                return $r;
+            $resources = array_map(function (Resource $r) {
+                $r->setUrl(AwsS3::getPresignedUri($r['filename']));
+                return $r->serialize();
             }, $resources);
         }
 

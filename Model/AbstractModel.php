@@ -4,7 +4,7 @@ namespace Plugin\Track\Model;
 
 abstract class AbstractModel
 {
-    protected $id;
+    protected $id = -1;
 
     /**
      * @return mixed
