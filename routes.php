@@ -69,3 +69,9 @@ $routes['api/v1/courses/{label}'] = [
     'controller' => 'PublicController',
     'action' => 'findCourseByLabel'
 ];
+
+$routes['api/v1/modules/{id}'] = [
+    'name' => 'Module_findById',
+    'controller' => 'PublicController',
+    'action' => 'findModuleById'
+];

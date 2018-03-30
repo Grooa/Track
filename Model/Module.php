@@ -5,7 +5,7 @@ namespace Plugin\Track\Model;
 use Ip\Exception;
 use Plugin\Track\Repository\VideoRepository;
 
-class Module extends AbstractModel
+class Module extends AbstractModel implements Deserializable, Serializable
 {
     const TABLE = 'track';
     const GROOA_COURSE_TABLE = 'grooa_course';
@@ -26,10 +26,115 @@ class Module extends AbstractModel
 
     private $courseId = null;
 
+    private $videos = [];
+
     public function __construct()
     {
         $this->createdOn = date("Y-m-d H:i:s");
     }
+
+    public static function deserialize(array $serialized): ?Module
+    {
+        $module = new Module();
+
+        if (isset($serialized['trackId'])) {
+            $module->setId($serialized['trackId']);
+        }
+
+        if (isset($serialized['title'])) {
+            $module->setTitle($serialized['title']);
+        }
+
+        if (isset($serialized['shortDescription'])) {
+            $module->setShortDescription($serialized['shortDescription']);
+        }
+
+        if (isset($serialized['longDescription'])) {
+            $module->setLongDescription($serialized['longDescription']);
+        }
+
+        if (isset($serialized['createdOn'])) {
+            $module->setCreatedOn($serialized['createdOn']);
+        }
+
+        if (isset($serialized['thumbnail'])) {
+            $module->setThumbnail($serialized['thumbnail']);
+        }
+
+        if (isset($serialized['largeThumbnail'])) {
+            $module->setLargeThumbnail($serialized['largeThumbnail']);
+        }
+
+        if (isset($serialized['price'])) {
+            $module->setPrice($serialized['price']);
+        }
+
+        if (isset($serialized['isFree'])) {
+            $module->setIsFree($serialized['isFree']);
+        }
+
+        if (isset($serialized['state'])) {
+            $module->setState($serialized['state']);
+        }
+
+        if (isset($serialized['order'])) {
+            $module->setOrder($serialized['order']);
+        }
+
+        if (isset($serialized['type'])) {
+            $module->setType($serialized['type']);
+        }
+
+        if (isset($serialized['grooaCourseId'])) {
+            $module->setCourseId($serialized['grooaCourseId']);
+        }
+
+        if (isset($serialized['videos'])) {
+            $module->setVideos($serialized['videos']);
+        }
+
+        return $module;
+    }
+
+    /**
+     * Serialized to a print-friendly assoc array
+     *
+     * NOTE. This is not directly mappable to the database-attributes
+     */
+    public function serialize(): array
+    {
+        $serialized = [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'shortDescription' => $this->getShortDescription(),
+            'longDescription' => $this->getLongDescription(),
+            'createdOn' => $this->getCreatedOn(),
+            'thumbnail' => $this->getThumbnail(),
+            'cover' => $this->getLargeThumbnail(),
+            'price' => $this->getPrice(),
+            'state' => $this->getState(),
+            'type' => $this->getType(),
+            'number' => $this->getNum(),
+            'url' => ipConfig()->baseUrl() . "online-courses/" . $this->getId(),
+            'videos' => []
+        ];
+
+        if (!empty($this->getVideos())) {
+            $videos = $this->getVideos();
+
+            // Prope the first element to ensure that
+            // the elements are serializable
+            if ($videos[0] instanceof Serializable) {
+                // Inject videos
+                $serialized['videos'] = array_map(function (Video $v) {
+                    return $v->serialize();
+                }, $videos);
+            }
+        }
+
+        return $serialized;
+    }
+
 
     /**
      * @return mixed
@@ -176,6 +281,22 @@ class Module extends AbstractModel
     }
 
     /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     */
+    public function setOrder(int $order): void
+    {
+        $this->order = $order;
+    }
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -221,6 +342,30 @@ class Module extends AbstractModel
     public function setCourseId($courseId): void
     {
         $this->courseId = $courseId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVideos(): array
+    {
+        return $this->videos;
+    }
+
+    /**
+     * @param array $videos
+     */
+    public function setVideos(array $videos): void
+    {
+        $this->videos = $videos;
+    }
+
+    /**
+     * Checks whether the module has been set to published
+     * @return bool
+     */
+    public function isPublished(): bool {
+        return $this->state === 'published';
     }
 
     /**

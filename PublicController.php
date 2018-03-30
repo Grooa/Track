@@ -2,12 +2,15 @@
 
 namespace Plugin\Track;
 
+use Ip\Response;
 use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Module;
 use Plugin\Track\Model\ModuleVideo;
+use Plugin\Track\Model\Serializable;
 use Plugin\Track\Model\TrackResource;
+use Plugin\Track\Model\Video;
 use Plugin\Track\Service\CourseService;
 use Plugin\Track\Service\ModuleService;
 use Plugin\Track\Service\VideoService;
@@ -32,7 +35,7 @@ class PublicController
         }
 
         if (!ipRequest()->isGet()) {
-           return new RestError("Method not allowed", 405);
+            return new RestError("Method not allowed", 405);
         }
 
         $course = $this->courseService->findByLabel($label);
@@ -55,18 +58,40 @@ class PublicController
             'cover' => !empty($course->getCover())
                 ? ipFileUrl('file/repository/' . $course->getCover())
                 : null,
-            'modules' => array_map(function(Module $m) {
+            'modules' => array_map(function (Module $m) {
                 return $m->serializeToArray();
             }, $course->getModules())
         ]);
     }
 
     /**
-     *
-     * @param int $moduleId
+     * Finds the module by the id,
+     * and attempts to join relevant data.
+     * @param int $id
+     * @return Response
      */
-    public function findModuleById(int $moduleId) {
+    public function findModuleById(int $id): Response
+    {
+        $authenticated = ipUser()->isLoggedIn();
+        $hasFullAccess = TrackProtector::canAccess(ipUser(), $id);
 
+        $module = $this->moduleService->findById($id);
+
+        if (empty($module) || !$module->isPublished()) {
+            return new RestError("Cannot find module with id: $id", 404);
+        }
+
+        if (!$authenticated || !$hasFullAccess) {
+            // Clear data which shouldn't be shared to non-authenticated users
+            $module->setVideos(array_map(function(Video $r) {
+                $r->setLongDescription(null);
+                $r->setUrl(null);
+                $r->setResources([]);
+                return $r;
+            }, $module->getVideos()));
+        }
+
+        return new Response\Json($module->serialize());
     }
 
     public function contactSales()

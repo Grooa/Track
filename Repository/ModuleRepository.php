@@ -4,9 +4,43 @@ namespace Plugin\Track\Repository;
 
 use Plugin\Track\Model\Module;
 
-class ModuleRepository {
+class ModuleRepository
+{
 
     const TABLE_NAME = 'track';
+
+    public function findById(int $id): ?Module
+    {
+        // TODO:ffl - We should rather shout at the user instead
+        if ($id == null) {
+            return null;
+        }
+
+        $row = ipDb()->selectRow(
+            self::TABLE_NAME,
+            [
+                'trackId',
+                'title',
+                'shortDescription',
+                'longDescription',
+                'createdOn',
+                'thumbnail',
+                'largeThumbnail',
+                'price',
+                'isFree',
+                'order',
+                'type',
+                'num',
+                'state'
+            ],
+            ['trackId' => $id]);
+
+        if (empty($row)) {
+            return null;
+        }
+
+        return Module::deserialize($row);
+    }
 
     /**
      * Finds only the published modules by the one-to-many identifier
@@ -15,7 +49,8 @@ class ModuleRepository {
      * @param int $courseId
      * @return array
      */
-    public function findAllPublishedByCourseId(int $courseId): array {
+    public function findAllPublishedByCourseId(int $courseId): array
+    {
         $rows = ipDb()->selectAll(
             self::TABLE_NAME,
             [
@@ -41,14 +76,15 @@ class ModuleRepository {
             return [];
         }
 
-        $modules = array_map(function($row) {
+        $modules = array_map(function ($row) {
             return self::deserializeModule($row);
         }, $rows);
 
         return $modules;
     }
 
-    private static function deserializeModule($row) {
+    private static function deserializeModule($row)
+    {
         $m = new Module();
 
         $m->setId($row['trackId']);
