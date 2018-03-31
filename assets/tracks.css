@@ -116,14 +116,10 @@ video {
   width: 100%;
 }
 
-.course-actions > * {
-  flex: 1;
-}
-
-.course-actions > a.button {
+.course-actions .button {
   align-self: stretch;
 
-  border-radius: 0;
+
   box-shadow: none;
 
   display: block;
@@ -147,6 +143,21 @@ video {
  * Course module item
  * todo:ffl - Remove props from Theme/Grooa3, s.t. we can remove some selector precedence
  */
+.course-module-page {
+  box-sizing: border-box;
+
+  margin: 0 auto;
+  max-width: 70rem;
+
+  padding: 0 1em;
+
+  width: 100%;
+}
+
+.title-area .type {
+  text-transform: capitalize;
+}
+
 .course-module,
 .course-module.clickable > a:not(.button) {
   display: flex;
@@ -409,4 +420,61 @@ video.course-video {
     margin-left: 0;
     margin-top: 0.5em;
   }
+}
+
+/**
+ * Feedback
+ *
+ */
+.feedback {
+  box-sizing: border-box;
+
+  margin: 0 auto;
+  max-width: 30em;
+
+  padding: 0.5em;
+  position: relative;
+
+  width: 100%;
+}
+
+.feedback h2 {
+
+}
+
+.feedback p {
+  text-align: center;
+}
+
+.feedback .button,
+.feedback button {
+  box-shadow: none;
+
+  display: block;
+
+  width: 100%;
+}
+
+.feedback .button:hover,
+.feedback button:hover {
+  box-shadow: none;
+}
+
+.button.pill,
+.button.pill:visited {
+  background-color: #ffffff;
+  border: #dddddd solid 1px;
+  border-radius: 2em;
+
+  color: #3f51b5;
+
+  margin: auto;
+  max-width: 25rem;
+}
+
+.button.pill:hover {
+  background-color: #ffffff;
+  border-color: #aaaaaa;
+
+  color: #3f51b5;
 }

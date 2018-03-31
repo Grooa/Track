@@ -11,7 +11,7 @@
 
     <h1><?= $track['title'] ?></h1>
 
-    <section class="metadata course-actions">
+    <div class="metadata course-actions">
         <?php if (!$hasPurchased): ?>
             <strong class="price"><?= !empty($track['price']) ? $track['price'] : 0.0 ?> €</strong>
         <?php endif; ?>
@@ -33,7 +33,7 @@
                 data-content-name="Master Class sales contact">
                 Contact us to acquire module</a>
         <?php endif; ?>
-    </section>
+    </div>
 
     <div class="video-metadata columns">
         <section class="course-information no-fill">

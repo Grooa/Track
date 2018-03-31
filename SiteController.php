@@ -106,11 +106,8 @@ class SiteController
         $track['courseRootUri'] = 'c/' . $track['courseRootUri'];
 
         $layout = new Layout(
-            ipView('view/retrieve.php', [
+            ipView('view/viewModule.php', [
                 'track' => $track,
-                'purchasedOn' => !empty($order) && $hasPurchased ?
-                    $order['paymentExecuted'] :
-                    null,
                 'hasPurchased' => $hasPurchased
             ])->render());
         $layout->setLayout('onlineCourse.php');

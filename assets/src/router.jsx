@@ -4,6 +4,7 @@ import { getUrlSegments } from './common/urlDecoder';
 
 import ViewCourse from './ViewCourse';
 import DisplayVideo from './DisplayVideo';
+import ViewModule from './ViewModule';
 
 /**
  * react-dom's `render` function give some cryptic error message
@@ -62,6 +63,14 @@ export function loadComponents(uri) {
         moduleId={parseInt(segments[0], 10)}
         videoId={parseInt(segments[2], 10)} />,
       document.getElementById('displayVideo'),
+    );
+    // eslint-disable-next-line no-restricted-globals
+  } else if (firstSegment === 'online-courses' && !isNaN(segments[0])) {
+    requireDomElementExists('viewModule');
+
+    render(
+      <ViewModule moduleId={parseInt(segments[0], 10)} />,
+      document.getElementById('viewModule'),
     );
   }
 }
