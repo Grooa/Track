@@ -159,9 +159,12 @@ video {
 }
 
 .course-module,
-.course-module.clickable > a:not(.button) {
+.course-module.clickable {
   display: flex;
+
   flex-direction: column;
+
+  text-decoration: none;
 }
 
 .course-module {

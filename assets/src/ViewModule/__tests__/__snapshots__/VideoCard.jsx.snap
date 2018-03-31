@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VideoCard /> should render disabled properly 1`] = `
+<div
+  class="course-module inactive"
+>
+  <div
+    class="course-module-metadata"
+  >
+    <strong
+      class="type"
+    >
+      Video 1
+    </strong>
+    <h3
+      class="title"
+    >
+      Test title
+    </h3>
+  </div>
+  <div
+    class="description"
+  >
+    <p>
+      hello world
+    </p>
+  </div>
+  <button>
+    You don't have access
+  </button>
+</div>
+`;
+
+exports[`<VideoCard /> should render properly 1`] = `
+<a
+  class="course-module clickable"
+  href="https://test.com/test"
+>
+  <div
+    class="course-module-metadata"
+  >
+    <strong
+      class="type"
+    >
+      Video 1
+    </strong>
+    <h3
+      class="title"
+    >
+      Test title
+    </h3>
+  </div>
+  <div
+    class="description"
+  >
+    <p>
+      hello world
+    </p>
+  </div>
+  <button>
+    Checkout
+  </button>
+</a>
+`;

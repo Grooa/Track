@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VideoList /> should render list properly 1`] = `
+<ul
+  class="course-list"
+>
+  <li>
+    <a
+      class="course-module clickable"
+      href="https://test.com/test"
+    >
+      <div
+        class="course-module-metadata"
+      >
+        <strong
+          class="type"
+        >
+          Video 1
+        </strong>
+        <h3
+          class="title"
+        >
+          Test title
+        </h3>
+      </div>
+      <div
+        class="description"
+      >
+        <p>
+          hello world
+        </p>
+      </div>
+      <button>
+        Checkout
+      </button>
+    </a>
+  </li>
+  <li>
+    <a
+      class="course-module clickable"
+      href="https://test.com/test2"
+    >
+      <div
+        class="course-module-metadata"
+      >
+        <strong
+          class="type"
+        >
+          Video 2
+        </strong>
+        <h3
+          class="title"
+        >
+          Test title 2
+        </h3>
+      </div>
+      <div
+        class="description"
+      >
+        <p>
+          Lorem lipsum dolor sit amed
+        </p>
+      </div>
+      <button>
+        Checkout
+      </button>
+    </a>
+  </li>
+</ul>
+`;

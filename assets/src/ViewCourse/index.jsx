@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
 import CourseApi from './courseApi';
+import ModuleCard from './ModuleCard';
 
 export default class ViewCourse extends React.Component {
   constructor() {
@@ -56,17 +57,8 @@ export default class ViewCourse extends React.Component {
           <h2>Modules</h2>
 
           {this.state.course.modules.length > 0 && <ul className="course-list">
-            {this.state.course.modules.map(m => <li key={`module-${m.id}`} className="course-module clickable">
-              <a href={m.url}>
-                <div className="course-module-metadata">
-                  <strong className="type">{m.type} {m.num}</strong>
-                  <h3 className="title">{m.title}</h3>
-                </div>
-
-                <ReactMarkdown className="description" source={m.shortDescription}/>
-
-                <button>Checkout</button>
-              </a>
+            {this.state.course.modules.map(m => <li key={`module-${m.id}`}>
+              <ModuleCard module={m} hasAccess={true}/>
             </li>)}
           </ul>}
         </section>

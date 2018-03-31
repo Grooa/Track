@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 
 import ModuleApi from '../DisplayVideo/moduleApi';
 import FeedbackSection from '../common/FeedbackSection';
+import VideoList from './VideoList';
 
 import { fetchConfigProps } from '../common/config';
 
@@ -17,6 +19,7 @@ export default class ViewModule extends React.Component {
 
     this.hasLoaded = this.hasLoaded.bind(this);
     this.hasModule = this.hasModule.bind(this);
+    this.hasVideos = this.hasVideos.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +39,10 @@ export default class ViewModule extends React.Component {
     return Object.keys(this.state.module).length > 0;
   }
 
+  hasVideos() {
+    return this.state.module.videos.length > 0;
+  }
+
   render() {
     if (!this.hasLoaded()) {
       return <FeedbackSection
@@ -49,6 +56,8 @@ export default class ViewModule extends React.Component {
         text="No such module for this course" />;
     }
 
+    // TODO:ffl - The course-metadata is almost identical to ViewCourse,
+    // TODO:ffl - consider converting it to a pure component
     return <article className="course-module-page">
       <header className="title-area">
         <strong className="type">{this.state.module.type}</strong>
@@ -61,8 +70,19 @@ export default class ViewModule extends React.Component {
         text="You will need to be logged into you account, before accessing this module"
         link={{ url: `${fetchConfigProps().baseUrl}login`, label: 'Login to user' }} />
 
-      <div className="columns">
+      <div className="course-metadata columns float-top spaced">
+        <section className="modules-section no-fill">
+          <h2 className="clean">Videos</h2>
+          {this.hasVideos()
+            ? <VideoList videos={this.state.module.videos} />
+            : <FeedbackSection text="No videos has been published yet" />}
+        </section>
 
+        <section className="course-description">
+          <h2 className="clean">About this module</h2>
+
+          <ReactMarkdown className="data" source={this.state.module.longDescription} />
+        </section>
       </div>
     </article>;
   }
