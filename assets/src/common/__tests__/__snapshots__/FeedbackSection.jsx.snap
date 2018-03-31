@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FeedbackSection /> should render empty block properly 1`] = `
+<div
+  class="feedback"
+/>
+`;
+
+exports[`<FeedbackSection /> should render full block properly 1`] = `
+<section
+  class="feedback feedback-error"
+>
+  <h2>
+    Hello world
+  </h2>
+  <p>
+    Lorem lipsum dolor sit amed
+  </p>
+  <a
+    class="button pill"
+    href="https://test.com/test"
+  >
+    Test button
+  </a>
+</section>
+`;
+
+exports[`<FeedbackSection /> should render with only prop \`title\` properly 1`] = `
+<section
+  class="feedback"
+>
+  <h2>
+    Hello world
+  </h2>
+</section>
+`;
+
+exports[`<FeedbackSection /> should render with only prop link properly 1`] = `
+<div
+  class="feedback"
+>
+  <a
+    class="button pill"
+    href="https://test.com/test"
+  >
+    Test button
+  </a>
+</div>
+`;
+
+exports[`<FeedbackSection /> should render with only prop text properly 1`] = `
+<div
+  class="feedback"
+>
+  <p>
+    Lorem lipsum dolor sit amed
+  </p>
+</div>
+`;
