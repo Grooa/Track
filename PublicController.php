@@ -5,7 +5,7 @@ namespace Plugin\Track;
 use Ip\Response;
 use Plugin\GrooaUser\Model\GrooaUser;
 use Plugin\Mailgun\Model as Mailgun;
-use Plugin\GrooaPayment\Response\RestError;
+use Plugin\Track\Response\RestError;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Module;
 use Plugin\Track\Model\Resource;
