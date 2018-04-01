@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 const VideoDescription = ({ description = '', className = '' }) => <section className={className}>
   <h2>Description</h2>
 
-  {!!description && <ReactMarkdown className="data" source={description} />}
+  {!!description && <ReactMarkdown className="data" source={description} escapeHtml={false} />}
 </section>;
 
 VideoDescription.propTypes = {

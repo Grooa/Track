@@ -26,7 +26,7 @@ const CommonCard = (props) => {
   </div>;
 
   const body = description
-    ? <ReactMarkdown className="description" source={description} />
+    ? <ReactMarkdown className="description" source={description} escapeHtml={false} />
     : '';
 
   let cssClasses = 'course-module';
