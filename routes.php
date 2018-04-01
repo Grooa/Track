@@ -75,3 +75,9 @@ $routes['api/v1/modules/{id}'] = [
     'controller' => 'PublicController',
     'action' => 'findModuleById'
 ];
+
+$routes['api/v1/users/me'] = [
+    'name' => 'User_findUserByCurrentSession',
+    'controller' => 'PublicController',
+    'action' => 'findUserByCurrentSession'
+];

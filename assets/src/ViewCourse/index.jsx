@@ -63,7 +63,6 @@ export default class ViewCourse extends React.Component {
           </ul>}
         </section>
 
-
         <ReactMarkdown source={this.state.course.introduction} className="course-description" escapeHtml={false} />
       </div>
     </article>;

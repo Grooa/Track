@@ -3,11 +3,13 @@
 namespace Plugin\Track;
 
 use Ip\Response;
+use Plugin\GrooaUser\Model\GrooaUser;
 use Plugin\Mailgun\Model as Mailgun;
 use Plugin\GrooaPayment\Response\RestError;
 use Plugin\Track\Model\AwsS3;
 use Plugin\Track\Model\Module;
 use Plugin\Track\Model\Resource;
+use Plugin\Track\Model\User;
 use Plugin\Track\Model\Video;
 use Plugin\Track\Service\AwsService;
 use Plugin\Track\Service\CourseService;
@@ -141,6 +143,32 @@ class PublicController
         }
 
         return $videos;
+    }
+
+    public function findUserByCurrentSession() {
+        if (!ipRequest()->isGet()) {
+            return new RestError("Method Not Allowed", 405);
+        }
+
+        if (!ipUser()->isLoggedIn()) {
+            return new RestError("You must be logged in to access this data", 401);
+        }
+
+        $userId = ipUser()->userId();
+
+        $user = User::deserialize(ipUser()->data($userId));
+
+        $grooaUser = GrooaUser::getByUserId($user->getId());
+
+        if (!empty($grooaUser)) {
+            $user->setFirstName($grooaUser['firstName']);
+            $user->setLastName($grooaUser['lastName']);
+            $user->setGrooaUid($grooaUser['id']);
+            $user->setIsBusinessAccount($grooaUser['businessAccount']);
+            $user->setCompanyName($grooaUser['companyName']);
+        }
+
+        return new Response\Json($user->serialize());
     }
 
     public function contactSales()
