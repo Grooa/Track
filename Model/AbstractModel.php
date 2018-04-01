@@ -21,4 +21,12 @@ abstract class AbstractModel
     {
         $this->id = $id;
     }
+
+    protected static function createFileUrl(?String $filename): ?String {
+        if (empty($filename)) {
+            return null;
+        }
+
+        return ipFileUrl("file/repository/$filename");
+    }
 }

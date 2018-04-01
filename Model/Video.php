@@ -29,8 +29,10 @@ class Video extends AbstractModel implements Deserializable, Serializable
             'shortDescription' => $this->getShortDescription(),
             'longDescription' => $this->getLongDescription(),
             'createdOn' => $this->getCreatedOn(),
-            'thumbnail' => $this->getThumbnail(),
-            'cover' => $this->getCover(),
+            // These are typically stored locally
+            // TODO:ffl - create test to check whether the url is static, such that we can call ipFileUrl when actually neccessary
+            'thumbnail' => self::createFileUrl($this->getThumbnail()),
+            'cover' => self::createFileUrl($this->getCover()),
             'price' => $this->getPrice(),
             'url' => $this->getUrl(),
             'moduleId' => $this->getModuleId(),
