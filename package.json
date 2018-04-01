@@ -14,7 +14,7 @@
     "watch": "npm run build -- --watch",
     "precommit": "echo \"Running code-linters\" && npm run lint",
     "prepush": "npm run test",
-    "deploy": "npm run build:prod"
+    "deploy": "npm run build:prod || true"
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS ip_grooa_course (
-    `id`           INT(11)      NOT NULL AUTO_INCREMENT,
+    `id`           INT(11)      NOT NULL         AUTO_INCREMENT,
     `label`        VARCHAR(255) NOT NULL,
     `name`         VARCHAR(255) NOT NULL,
-    `createdOn`    DATETIME              DEFAULT CURRENT_TIMESTAMP,
-    `description`  VARCHAR(255)          DEFAULT NULL,
-    `introduction` TEXT                  DEFAULT NULL,
-    `cover`        VARCHAR(255)          DEFAULT NULL,
+    `createdOn`    DATETIME     NOT NULL         DEFAULT CURRENT_TIMESTAMP,
+    `description`  VARCHAR(255)                  DEFAULT NULL,
+    `introduction` TEXT                          DEFAULT NULL,
+    `cover`        VARCHAR(255)                  DEFAULT NULL,
 
     PRIMARY KEY (`id`)
 )
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS ip_track (
     `title`            VARCHAR(255)                               NULL,
     `shortDescription` VARCHAR(255)                               NULL,
     `longDescription`  TEXT                                       NULL,
-    `createdOn`        DATETIME                                                               DEFAULT CURRENT_TIMESTAMP,
+    `createdOn`        DATETIME                                   NOT NULL                    DEFAULT CURRENT_TIMESTAMP,
     `thumbnail`        VARCHAR(255)                               NULL,
     `largeThumbnail`   VARCHAR(255)                               NULL,
     `price`            FLOAT                                      NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS ip_course (
     `title`            VARCHAR(255) NOT NULL,
     `shortDescription` VARCHAR(255) NULL,
     `longDescription`  TEXT         NULL,
-    `createdOn`        DATETIME              DEFAULT CURRENT_TIMESTAMP,
+    `createdOn`        DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `thumbnail`        VARCHAR(255) NULL,
     `largeThumbnail`   VARCHAR(255) NULL,
     `price`            FLOAT        NULL,
