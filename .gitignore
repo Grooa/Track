@@ -9,7 +9,7 @@
 !*/cache/.htaccess
 
 _config.php
-
+coverage/
 node_modules
 
 .idea

@@ -71,8 +71,4 @@ scp -r view/ ${SCP_DIR}/
 printf "\n\tWidget/ --> Server/ \n\n"
 scp -r Widget/ ${SCP_DIR}/
 
-printf "\n\nRemoving .git in remote\n\n"
-
-ssh ${SSH} "rm -rf ${PLUGIN_DIR}/.git/"
-
 printf "\n\nDeployment complete!\n"

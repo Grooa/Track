@@ -7,7 +7,8 @@
   "scripts": {
     "test": "jest --config jest.config.js",
     "test:watch": "npm run test -- --watch",
-    "test:coverage": "npm run test -- --coverage",
+    "test:coverage": "jest --config jest.config.js --coverage",
+    "test:coverage-generate": "jest --coverage && cat ./coverage/lcov.info | codacy-coverage --username Fr3dric0",
     "lint": "eslint \"assets/src/**/*\"",
     "build": "webpack-cli --config webpack.config.js --mode development",
     "build:prod": "webpack-cli --config webpack.config.prod.js --mode production",
@@ -39,6 +40,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "codacy-coverage": "^2.1.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
