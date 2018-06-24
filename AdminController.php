@@ -5,10 +5,13 @@
 
 namespace Plugin\Track;
 
+use Ip\Form;
+use Plugin\Track\Model\Course;
 use Plugin\Track\Model\ModuleVideo;
 use Plugin\Track\Model\Module;
 use Plugin\Track\Model\TrackResource;
 use Plugin\Track\Model\Video;
+use Plugin\Track\Repository\CourseRepository;
 use Plugin\Track\Repository\VideoRepository;
 
 
@@ -333,8 +336,13 @@ class AdminController
         $widgetRecord = \Ip\Internal\Content\Model::getWidgetRecord($widgetId);
         $widgetData = $widgetRecord['data'];
 
-        //create form prepopulated with current widget data
-        $form = $this->managementForm($widgetData);
+        switch ($widgetRecord['name']) {
+            case 'CoursePreview':
+                $form = $this->coursePreviewManagementForm($widgetData);
+                break;
+            default:
+                $form = $this->managementForm($widgetData);
+        }
 
         //Render form and popup HTML
         $viewData = array(
@@ -347,7 +355,6 @@ class AdminController
         //Return rendered widget management popup HTML in JSON format
         return new \Ip\Response\Json($data);
     }
-
 
     /**
      * Check widget's posted data and return data to be stored or errors to be displayed
@@ -378,11 +385,62 @@ class AdminController
         return new \Ip\Response\Json($data);
     }
 
+    public function checkCoursePreviewForm()
+    {
+        $data = ipRequest()->getPost();
+        $form = $this->coursePreviewManagementForm();
+        $data = $form->filterValues($data); //filter post data to remove any non form specific items
+        $errors = $form->validate($data); //http://www.impresspages.org/docs/form-validation-in-php-3
+        if ($errors) {
+            //error
+            $data = array(
+                'status' => 'error',
+                'errors' => $errors
+            );
+        } else {
+            //success
+            unset($data['aa']);
+            unset($data['securityToken']);
+            unset($data['antispam']);
+            $data = array(
+                'status' => 'ok',
+                'data' => $data
+
+            );
+        }
+
+        return new \Ip\Response\Json($data);
+    }
+
+    protected function coursePreviewManagementForm(array $widgetData = array()): Form
+    {
+        $courseRepository = new CourseRepository();
+
+        $form = new Form();
+        $form->setEnvironment(Form::ENVIRONMENT_ADMIN);
+
+        $form->addField(new \Ip\Form\Field\Hidden([
+            'name' => 'aa',
+            'value' => 'Track.checkCoursePreviewForm'
+        ]));
+
+        $form->addField(new Form\Field\Select([
+            'name' => 'courseId',
+            'label' => 'Course',
+            'values' => array_map(function ($course) {
+                return $this->transformToIdAndLabel($course);
+            }, $courseRepository->findAll()),
+            'value' => !empty($widgetData['courseId']) ? $widgetData['courseId'] : null
+        ]));
+
+        return $form;
+    }
+
     protected function managementForm($widgetData = array())
     {
-        $form = new \Ip\Form();
+        $form = new Form();
 
-        $form->setEnvironment(\Ip\Form::ENVIRONMENT_ADMIN);
+        $form->setEnvironment(Form::ENVIRONMENT_ADMIN);
 
         //setting hidden input field so that this form would be submitted to 'errorCheck' method of this controller. (http://www.impresspages.org/docs/controller)
         $field = new \Ip\Form\Field\Hidden(
@@ -404,5 +462,10 @@ class AdminController
         ]));
 
         return $form;
+    }
+
+    private function transformToIdAndLabel(Course $course): array
+    {
+        return [$course->getId(), $course->getName()];
     }
 }

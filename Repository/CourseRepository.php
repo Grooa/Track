@@ -13,6 +13,26 @@ class CourseRepository
         return $course;
     }
 
+    public function findAll(): array
+    {
+        $courses = ipDb()->selectAll(
+            self::TABLE_NAME,
+            [
+                'id',
+                'name',
+                'createdOn',
+                'label',
+                'description',
+                'introduction',
+                'cover'
+            ]
+        );
+
+        return array_map(function (array $course) {
+            return Course::deserialize($course);
+        }, $courses);
+    }
+
     public function findById(int $id): ?Course
     {
         $row = ipDb()->selectRow(

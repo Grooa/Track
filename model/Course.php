@@ -2,7 +2,7 @@
 
 namespace Plugin\Track\Model;
 
-class Course extends AbstractModel implements Deserializable
+class Course extends AbstractModel implements Deserializable, Serializable
 {
     private $label = null;
     private $name = null;
@@ -52,13 +52,43 @@ class Course extends AbstractModel implements Deserializable
 
         if (isset($serialized['modules']) && is_array($serialized['modules'])) {
             if (Module::IS_DESERIALIZABLE) {
-                $course->setModules(array_map(function(array $m) {
+                $course->setModules(array_map(function (array $m) {
                     return Module::deserialize($m);
                 }, $serialized['modules']));
             }
         }
 
         return $course;
+    }
+
+    public function serialize(): array
+    {
+        $serialized = [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'label' => $this->getLabel(),
+            'description' => $this->getDescription(),
+            'introduction' => $this->getIntroduction(),
+            'cover' => self::createFileUrl($this->getCover()),
+            'createdOn' => $this->getCreatedOn(),
+            'url' => $this->getUrl()
+        ];
+
+        $modules = $this->getModules();
+        if (!empty($modules)) {
+            if ($modules[0] instanceof Serializable) {
+                $serialized['modules'] = array_map(function (Module $module) {
+                    return $module->serialize();
+                }, $modules);
+            }
+        }
+
+        return $serialized;
+    }
+
+    public function getUrl()
+    {
+        return ipConfig()->baseUrl() . 'c/' . $this->getLabel();
     }
 
     /**

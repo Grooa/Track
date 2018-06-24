@@ -1,4 +1,71 @@
 
+.gc-course-preview {
+  display: block;
+
+  min-width: 15em;
+
+  position: relative;
+}
+
+.gc-course-preview > a {
+  align-items: stretch;
+
+  display: flex;
+
+  position: relative;
+
+  text-align: left;
+  text-decoration: none;
+}
+
+.gc-course-preview > a:hover {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.gc-course-preview > a:hover .gc-course-preview-name {
+  text-decoration: underline;
+}
+
+.gc-course-preview-name {
+  font-size: 1.2em;
+
+  text-align: left;
+}
+
+.gc-course-preview-description {
+  padding: 0.5em;
+}
+
+.gc-course-preview-thumbnail-cover {
+  border: #dddddd solid 1px;
+  border-radius: 7em;
+
+  flex-shrink: 0;
+
+  height: 7em;
+
+  overflow: hidden;
+
+  position: relative;
+
+  width: 7em;
+}
+
+.gc-course-preview-thumbnail-cover > img {
+  display: block;
+
+  height: 105%;
+
+  left: 50%;
+
+  position: relative;
+
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 section > h2 {
   padding: .5em;
   text-align: center;
@@ -45,13 +112,9 @@ video {
 
 .course-header {
   box-shadow: none;
-
   height: 20rem;
-
   overflow: hidden;
-
   position: relative;
-
   width: 100%;
 }
 
@@ -59,33 +122,23 @@ video {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
-
   height: 100%;
-
   position: absolute;
-
   width: 100%;
-
   z-index: 0;
 }
 
 .course-header > h1 {
   bottom: 0;
   box-sizing: border-box;
-
   color: #ffffff;
-
   font-size: 3.5em;
-
   left: 0;
-
   margin: 0.2em;
-
   padding: 0;
   position: absolute;
-
   text-align: left;
-  text-shadow: 1px 1px 3px rgba(0,0,0, .4);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
 }
 
 .modules-section > h2 {
@@ -97,31 +150,24 @@ video {
   border: #dddddd solid 1px;
   border-radius: 2px;
   box-sizing: border-box;
-
   padding: 1em;
 }
 
 .course-metadata {
   margin: 0 auto;
   max-width: 60em;
-
   width: 100%;
 }
 
 .course-actions {
   display: flex;
-
   margin: 1em 0;
-
   width: 100%;
 }
 
 .course-actions .button {
   align-self: stretch;
-
-
   box-shadow: none;
-
   display: block;
 }
 
@@ -145,12 +191,9 @@ video {
  */
 .course-module-page {
   box-sizing: border-box;
-
   margin: 0 auto;
   max-width: 70rem;
-
   padding: 0 1em;
-
   width: 100%;
 }
 
@@ -161,9 +204,7 @@ video {
 .course-module,
 .course-module.clickable {
   display: flex;
-
   flex-direction: column;
-
   text-decoration: none;
 }
 
@@ -207,9 +248,7 @@ video {
   background-color: transparent;
   border-color: #cccccc;
   box-shadow: none;
-
   color: #3f51b5;
-
   text-decoration: underline;
 }
 
@@ -224,7 +263,6 @@ video {
 
 .course-module-metadata > .type {
   font-weight: 300;
-
   text-transform: capitalize;
 }
 
@@ -244,7 +282,6 @@ video {
 
 .course-module.clickable > a:not(.button) {
   color: rgba(26, 26, 26, 0.7);
-
   height: 100%;
   text-decoration: none; /* Disable underline for container*/
 }
@@ -277,10 +314,8 @@ video {
 .course-module.inactive button:hover {
   background-color: transparent;
   border-color: #eeeeee;
-
   color: #555555;
   cursor: default;
-
   text-decoration: none;
 }
 
@@ -294,7 +329,6 @@ video {
  */
 .video-page {
   box-sizing: border-box;
-
   padding: 1em;
 }
 
@@ -356,7 +390,6 @@ video.course-video {
 
 .course-information.no-fill {
   background-color: transparent;
-
   border: 0;
 }
 
@@ -374,9 +407,7 @@ video.course-video {
 
 .course-information > h2.clean {
   background-color: transparent;
-
   font-weight: 800;
-
   color: rgba(26, 26, 26, 0.7);
 }
 
@@ -431,18 +462,14 @@ video.course-video {
  */
 .feedback {
   box-sizing: border-box;
-
   margin: 0 auto;
   max-width: 30em;
-
   padding: 0.5em;
   position: relative;
-
   width: 100%;
 }
 
 .feedback h2 {
-
 }
 
 .feedback p {
@@ -452,9 +479,7 @@ video.course-video {
 .feedback .button,
 .feedback button {
   box-shadow: none;
-
   display: block;
-
   width: 100%;
 }
 
@@ -468,9 +493,7 @@ video.course-video {
   background-color: #ffffff;
   border: #dddddd solid 1px;
   border-radius: 2em;
-
   color: #3f51b5;
-
   margin: auto;
   max-width: 25rem;
 }
@@ -478,6 +501,5 @@ video.course-video {
 .button.pill:hover {
   background-color: #ffffff;
   border-color: #aaaaaa;
-
   color: #3f51b5;
 }
