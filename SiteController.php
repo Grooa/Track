@@ -64,7 +64,7 @@ class SiteController
 
         $layout = new Layout(
             ipView('view/list.php', ['tracks' => $tracks])->render());
-        $layout->setLayout('track.php');
+        $layout->setLayout('plain.php');
         //$layout->setLayoutVariable('coverImage', $track['large_thumbnail']);
 
         return $layout;
@@ -220,7 +220,7 @@ class SiteController
                 'form' => self::createContactSalesForm($user, $track)
             ])->render()
         );
-        $layout->setLayout('contact.php');
+        $layout->setLayout('plain.php');
 
         return $layout;
     }

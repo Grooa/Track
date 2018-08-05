@@ -197,6 +197,19 @@ video {
   width: 100%;
 }
 
+.title-area {
+  box-sizing: border-box;
+
+  padding: 0.5em 0;
+
+  text-align: left;
+}
+
+.title-area > * {
+  padding: 0;
+  text-align: left;
+}
+
 .title-area .type {
   text-transform: capitalize;
 }
@@ -424,7 +437,8 @@ video.course-video {
   padding: 0.5em;
 }
 
-.course-information > .data > h2 {
+.course-information > .data > h2,
+.course-description > .data > h2 {
   font-size: 1em;
 }
 
@@ -470,6 +484,9 @@ video.course-video {
 }
 
 .feedback h2 {
+  font-size: 1.5em;
+
+  padding: 0.2em;
 }
 
 .feedback p {
